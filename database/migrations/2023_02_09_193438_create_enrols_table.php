@@ -21,21 +21,23 @@ class CreateEnrolsTable extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
 
             $table->string('grade_level')->nullable();
-            $table->tinyInteger('is_returnee')->nullable();
+            $table->string('learner_status')->nullable();
 
             $table->unsignedBigInteger('learner_id');
             $table->foreign('learner_id')->references('learner_id')->on('learners')
                 ->onUpdate('cascade')->onDelete('cascade');
 
+            $table->string('scholarship')->nullable();
 
-            $table->unsignedBigInteger('semester_id')->default(0);
-            $table->unsignedBigInteger('track_id')->default(0);
-            $table->unsignedBigInteger('strand_id')->default(0);
+            //$table->unsignedBigInteger('semester_id')->default(0);
+            //$table->unsignedBigInteger('track_id')->default(0);
+            //$table->unsignedBigInteger('strand_id')->default(0);
 
             $table->date('date_enroled')->nullable();
 
-            $table->unsignedBigInteger('section_id');
-            $table->string('section')->nullable();
+            //$table->unsignedBigInteger('section_id');
+            //$table->string('section')->nullable();
+            $table->string('administer_by')->nullable();
 
             $table->timestamps();
 

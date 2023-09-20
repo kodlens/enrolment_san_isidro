@@ -17,9 +17,9 @@ class CreateLearnersTable extends Migration
             $table->id('learner_id');
  
             $table->string('grade_level')->nullable();
-            $table->tinyInteger('is_returnee')->default(0);
+            //$table->tinyInteger('is_returnee')->nullable(0);
 
-            $table->string('psa_cert')->nullable();
+            //$table->string('psa_cert')->nullable();
             $table->string('lrn', 30)->nullable();
             $table->string('lname', 50)->nullable();
             $table->string('fname', 50)->nullable();
@@ -30,11 +30,7 @@ class CreateLearnersTable extends Migration
             $table->string('birthplace', 100)->nullable();
             $table->string('age', 3)->nullable();
             
-            $table->string('mother_tongue', 100)->nullable();
-            $table->tinyInteger('is_indigenous')->default(0);
-            $table->string('if_yes_indigenous')->nullable();
-            $table->string('is_4ps')->nullable();
-            $table->string('household_4ps_id_no')->nullable();
+            $table->string('scholarship', 100)->nullable();
 
             $table->string('current_country')->nullable();
             $table->string('current_province')->nullable();
@@ -43,15 +39,16 @@ class CreateLearnersTable extends Migration
             $table->string('current_street')->nullable();
             $table->string('current_zipcode')->nullable();
 
-            $table->string('permanent_country')->nullable();
-            $table->string('permanent_province')->nullable();
-            $table->string('permanent_city')->nullable();
-            $table->string('permanent_barangay')->nullable();
-            $table->string('permanent_street')->nullable();
-            $table->string('permanent_zipcode')->nullable();
+            // $table->string('permanent_country')->nullable();
+            // $table->string('permanent_province')->nullable();
+            // $table->string('permanent_city')->nullable();
+            // $table->string('permanent_barangay')->nullable();
+            // $table->string('permanent_street')->nullable();
+            // $table->string('permanent_zipcode')->nullable();
 
-            $table->string('email')->nullable();
+            //$table->string('email')->nullable();
             $table->string('contact_no')->nullable();
+            $table->string('religion')->nullable();
 
             //father
             $table->string('father_lname')->nullable();
@@ -59,30 +56,28 @@ class CreateLearnersTable extends Migration
             $table->string('father_mname')->nullable();
             $table->string('father_extension')->nullable();
             $table->string('father_contact_no')->nullable();
+            $table->string('father_religion')->nullable();
+            $table->string('father_education')->nullable();
 
             //mother
             $table->string('mother_maiden_lname')->nullable();
             $table->string('mother_maiden_fname')->nullable();
             $table->string('mother_maiden_mname')->nullable();
             $table->string('mother_maiden_contact_no')->nullable();
+            $table->string('mother_religion')->nullable();
+            $table->string('mother_education')->nullable();
 
-            $table->string('guardian_lname')->nullable();
-            $table->string('guardian_fname')->nullable();
-            $table->string('guardian_mname')->nullable();
-            $table->string('guardian_extension')->nullable();
-            $table->string('guardian_contact_no')->nullable();
-
-
-            $table->string('last_grade_level_completed', 30)->nullable();
-            $table->string('last_school_year_completed', 30)->nullable();
+            //$table->string('last_grade_level_completed', 30)->nullable();
+            //$table->string('last_school_year_completed', 30)->nullable();
             $table->string('last_school_attended', 100)->nullable();
-            $table->string('last_schoold_id', 30)->nullable();
+            //$table->string('last_schoold_id', 30)->nullable();
 
-            $table->unsignedBigInteger('semester_id')->default(0);
-            $table->string('senior_high_school_id', 30)->nullable();
+            // $table->unsignedBigInteger('semester_id')->default(0);
+            // $table->string('senior_high_school_id', 30)->nullable();
 
-            $table->unsignedBigInteger('track_id')->default(0);
-            $table->unsignedBigInteger('strand_id')->default(0);
+            // $table->unsignedBigInteger('track_id')->default(0);
+            // $table->unsignedBigInteger('strand_id')->default(0);
+            $table->string('administer_by')->nullable();
 
             $table->timestamps();
         });
