@@ -1,140 +1,61 @@
 <template>
     <section class="section">
         <div class="columns is-centered">
-            <div class="column is-6-widescreen is-8-desktop is-8-tablet">
+            <div class="column is-6 is-8-tablet">
                 <form @submit.prevent="submit">
 
                     <div class="box">
-                        <div class="box-title mb-2">
-                            ENROLLMENT FORM
+                        <div class="box-title">
+                            ENROLMENT FORM
                         </div>
 
                         <div class="panel-body">
 
-                            <!-- <div class="divider">ACCOUNT</div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Username"
-                                             :type="this.errors.username ? 'is-danger':''"
-                                             :message="this.errors.username ? this.errors.username[0] : ''">
-                                        <b-input type="text" v-model="fields.username" placeholder="Username"
-                                            icon="account" required></b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Password"
-                                             :type="this.errors.password ? 'is-danger':''"
-                                             :message="this.errors.password ? this.errors.password[0] : ''">
-                                        <b-input type="password"  v-model="fields.password"
-                                            placeholder="Password" icon="lock" password-reveal
-                                                required></b-input>
-                                    </b-field>
-                                </div>
-                                <div class="column">
-                                    <b-field label="Re-type Password">
-                                        <b-input type="password" icon="lock" v-model="fields.password_confirmation"
-                                            placeholder="Re-type Password" password-reveal
-                                                required></b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="E-mail"
-                                             :type="this.errors.email ? 'is-danger':''"
-                                             :message="this.errors.email ? this.errors.email[0] : ''">
-                                        <b-input type="email" v-model="fields.email"
-                                            placeholder="E-mail" icon="email"
-                                                required></b-input>
-                                    </b-field>
-                                </div>
-                                <div class="column">
-                                    <b-field label="Contact No."
-                                             :type="this.errors.contact_no ? 'is-danger':''"
-                                             :message="this.errors.contact_no ? this.errors.contact_no[0] : ''">
-                                        <b-input type="tel"
-                                            v-model="fields.contact_no"
-                                            pattern="^(09|\+639)\d{9}$"
-                                            placeholder="Format: 09191112222" icon=""></b-input>
-                                    </b-field>
-                                </div>
-                            </div> -->
-
                             <div class="divider">LEARNER INFORMATION</div>
-
+                            
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Grade Level"
-                                             expanded
-                                             :type="this.errors.grade_level ? 'is-danger':''"
-                                             :message="this.errors.grade_level ? this.errors.grade_level[0] : ''" >
+                                        expanded
+                                            :type="this.errors.grade_level ? 'is-danger':''"
+                                            :message="this.errors.grade_level ? this.errors.grade_level[0] : ''" >
                                         <b-select
                                             expanded
-                                            icon="account"
-                                            placeholder="Grade Level"
-                                            v-model="fields.grade_level"
+                                            icon="account" 
+                                            placeholder="Grade Level" 
+                                            v-model="fields.grade_level" 
                                             required>
-                                            <option :value="item.grade_level"
-                                                    v-for="(item, ix) in gradeLevels" :key="`g${ix}`">
+                                            <option :value="item.grade_level" 
+                                                v-for="(item, ix) in gradeLevels" :key="`g${ix}`">
                                                 {{ item.grade_level }}
                                             </option>
-                                        </b-select >
-                                    </b-field>
-                                </div>
-                                <div class="column">
-                                    <b-field label="Learner Status"
-                                             expanded
-                                             :type="this.errors.learner_status ? 'is-danger':''"
-                                             :message="this.errors.learner_status ? this.errors.learner_status[0] : ''">
-                                        <b-select expanded
-                                                  required
-                                                  icon="account"
-                                                  placeholder="Learner Status"
-                                                  v-model="fields.learner_status">
-                                            <option :value="1">NEW</option>
-                                            <option :value="0">OLD</option>
                                         </b-select>
                                     </b-field>
                                 </div>
+                              <div class="column">
+                                <b-field label="Learner Status"
+                                         :type="this.errors.learner_status ? 'is-danger':''"
+                                         :message="this.errors.learner_status ? this.errors.learner_status[0] : ''" >
+                                  <b-select icon="account" placeholder="learner_status" v-model="fields.learner_status" required></b-select>
+                                </b-field>
+                              </div>
                             </div>
-                            <div class="columns">
-                                <div class="column" v-if="fields.learner_status === 0">
-                                    <b-field label="School Id"
-                                             :type="this.errors.school_id ? 'is-danger':''"
-                                             :message="this.errors.school_id ? this.errors.school_id[0] : ''" >
-                                        <b-input icon="account" placeholder="School Id"
-                                                 v-model="fields.school_id"
-                                                 type="text"></b-input>
-                                    </b-field>
-                                </div>
-
-                                <div class="column">
-                                    <b-field label="LRN"
-                                             :type="this.errors.lrn ? 'is-danger':''"
-                                             :message="this.errors.lrn ? this.errors.lrn[0] : ''" >
-                                        <b-input icon="account" placeholder="LRN" v-model="fields.lrn" type="text"></b-input>
-                                    </b-field>
-                                </div>
-                            </div>
+                            
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Last Name"
-                                             :type="this.errors.lname ? 'is-danger':''"
-                                             :message="this.errors.lname ? this.errors.lname[0] : ''" >
-                                        <b-input icon="account" placeholder="Last Name" v-model="fields.lname"
-                                                 type="text" required></b-input>
+                                            :type="this.errors.lname ? 'is-danger':''"
+                                            :message="this.errors.lname ? this.errors.lname[0] : ''" >
+                                        <b-input icon="account" placeholder="Last Name" v-model="fields.lname" 
+                                            type="text" required></b-input>
                                     </b-field>
                                 </div>
                                 <div class="column">
                                     <b-field label="First Name"
                                              :type="this.errors.fname ? 'is-danger':''"
                                              :message="this.errors.fname ? this.errors.fname[0] : ''">
-                                        <b-input icon="account" v-model="fields.fname" placeholder="First Name"
-                                                 type="text" required></b-input>
+                                        <b-input icon="account" v-model="fields.fname" placeholder="First Name" 
+                                            type="text" required></b-input>
                                     </b-field>
                                 </div>
                             </div>
@@ -155,10 +76,10 @@
 
                                 <div class="column">
                                     <b-field label="Sex" expanded
-                                             :type="this.errors.sex ? 'is-danger':''"
-                                             :message="this.errors.sex ? this.errors.sex[0] : ''">
-                                        <b-select placeholder="Sex" v-model="fields.sex" icon="account"
-                                                  required expanded>
+                                            :type="this.errors.sex ? 'is-danger':''"
+                                            :message="this.errors.sex ? this.errors.sex[0] : ''">
+                                        <b-select placeholder="Sex" v-model="fields.sex" icon="account" 
+                                            required expanded>
                                             <option value="MALE">MALE</option>
                                             <option value="FEMALE">FEMALE</option>
                                         </b-select>
@@ -167,32 +88,34 @@
                             </div>
 
                             <div class="columns">
-                                <div class="column">
-                                    <b-field label="Birthdate"
-                                             :type="this.errors.birthdate ? 'is-danger':''"
-                                             :message="this.errors.birthdate ? this.errors.birthdate[0] : ''">
-                                        <b-datepicker v-model="fields.birthdate" placeholder="Birthdate"
-                                                      required></b-datepicker>
-                                    </b-field>
-                                </div>
-                                <div class="column">
-                                    <b-field label="Birthplace"
-                                             :type="this.errors.birthplace ? 'is-danger':''"
-                                             :message="this.errors.birthplace ? this.errors.birthplace[0] : ''">
-                                        <b-input type="text" v-model="fields.birthplace" placeholder="Birthplace"></b-input>
-                                    </b-field>
-                                </div>
                                 <div class="column is-2">
                                     <b-field label="Age"
-                                             :type="this.errors.age ? 'is-danger':''"
-                                             :message="this.errors.age ? this.errors.age[0] : ''">
+                                        :type="this.errors.age ? 'is-danger':''"
+                                        :message="this.errors.age ? this.errors.age[0] : ''">
                                         <b-input type="number" v-model="fields.age"
-                                                 max="120"
-                                                 placeholder="Age"></b-input>
+                                            max="120"
+                                            placeholder="Age"></b-input>
+                                    </b-field>
+                                </div>
+
+                                <div class="column">
+                                    <b-field label="Religion" expanded
+                                            :type="this.errors.religion ? 'is-danger':''"
+                                            :message="this.errors.religion ? this.errors.religion[0] : ''" >
+                                        <b-select
+                                            expanded
+                                            icon="church"
+                                            placeholder="Religion"
+                                            v-model="fields.religion" 
+                                            required>
+                                            <option :value="item.religion" 
+                                                v-for="(item, ix) in religions" :key="`g${ix}`">
+                                                {{ item.religion }}
+                                            </option>
+                                        </b-select>
                                     </b-field>
                                 </div>
                             </div>
-
 
 
                             <!-- Current Address -->
@@ -200,7 +123,7 @@
                             <div class="mb-2">
                                 <h2><span>Current Address</span></h2>
                             </div>
-
+                            
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Province" expanded
@@ -234,30 +157,27 @@
                                 </div>
                                 <div class="column">
                                     <b-field label="House #. Street">
-                                        <b-input type="text"
-                                                 v-model="fields.current_street"
-                                                 placeholder="House #. Street"></b-input>
+                                        <b-input type="text" 
+                                            v-model="fields.current_street" 
+                                            placeholder="House #. Street"></b-input>
                                     </b-field>
                                 </div>
 
                                 <div class="column">
                                     <b-field label="Zip Code"
-                                             :type="this.errors.current_zipcode ? 'is-danger':''"
-                                             :message="this.errors.current_zipcode ? this.errors.current_zipcode[0] : ''">
-                                        <b-input type="text"
-                                                 v-model="fields.current_zipcode"
-                                                 placeholder="Zip Code"></b-input>
+                                        :type="this.errors.current_zipcode ? 'is-danger':''"
+                                        :message="this.errors.current_zipcode ? this.errors.current_zipcode[0] : ''">
+                                        <b-input type="text" 
+                                            v-model="fields.current_zipcode" 
+                                            placeholder="Zip Code"></b-input>
                                     </b-field>
                                 </div>
                             </div>
 
-                            <!-- Current Address -->
-
-
 
                             <!-- Parents/Guardians Information -->
                             <div class="divider">PARENTS/GUARDIANS INFORMATION</div>
-
+                         
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Father Last Name"
@@ -279,34 +199,26 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Father Middle Name">
-                                        <b-input v-model="fields.father_mname" icon="account" type="text" placeholder="Father Middle Name"></b-input>
+                                        <b-input v-model="fields.father_mname" 
+                                            icon="account" type="text" placeholder="Father Middle Name"></b-input>
                                     </b-field>
                                 </div>
 
                                 <div class="column">
                                     <b-field label="Father Extension">
-                                        <b-input v-model="fields.father_extension"
-                                                 icon="account" type="text" placeholder="Father Extension"></b-input>
+                                        <b-input v-model="fields.father_extension" 
+                                            icon="account" type="text" placeholder="Father Extension"></b-input>
                                     </b-field>
                                 </div>
                                 <div class="column">
                                     <b-field label="Father Contact No."
-                                             :type="this.errors.father_contact_no ? 'is-danger':''"
-                                             :message="this.errors.father_contact_no ? this.errors.father_contact_no[0] : ''" >
-                                        <b-input type="tel"
-                                                 v-model="fields.father_contact_no"
-                                                 icon="cellphone"
-                                                 pattern="^(09|\+639)\d{9}$"
-                                                 placeholder="Format: 09101112222"></b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Father Educ'l Attn">
-                                        <b-input v-model="fields.father_education"
-                                                 icon="account" type="text" placeholder="Father Educ'l Attn"></b-input>
+                                        :type="this.errors.father_contact_no ? 'is-danger':''"
+                                        :message="this.errors.father_contact_no ? this.errors.father_contact_no[0] : ''" >
+                                        <b-input type="tel" 
+                                            v-model="fields.father_contact_no" 
+                                            icon="cellphone"
+                                            pattern="^(09|\+639)\d{9}$"
+                                            placeholder="Format: 09101112222"></b-input>
                                     </b-field>
                                 </div>
                             </div>
@@ -318,18 +230,18 @@
                                     <b-field label="Mother Maiden Last Name"
                                              :type="this.errors.mother_maiden_lname ? 'is-danger':''"
                                              :message="this.errors.mother_maiden_lname ? this.errors.mother_maiden_lname[0] : ''" >
-                                        <b-input icon="account"
-                                                 placeholder="Mother Maiden Last Name"
-                                                 v-model="fields.mother_maiden_lname" type="text"></b-input>
+                                        <b-input icon="account" 
+                                            placeholder="Mother Maiden Last Name"
+                                            v-model="fields.mother_maiden_lname" type="text"></b-input>
                                     </b-field>
                                 </div>
                                 <div class="column">
                                     <b-field label="Mother Maiden First Name"
-                                             :type="this.errors.mother_maiden_fname ? 'is-danger':''"
-                                             :message="this.errors.mother_maiden_fname ? this.errors.mother_maiden_fname[0] : ''">
-                                        <b-input icon="account"
-                                                 v-model="fields.mother_maiden_fname"
-                                                 placeholder="Mother Maiden First Name" type="text"></b-input>
+                                            :type="this.errors.mother_maiden_fname ? 'is-danger':''"
+                                            :message="this.errors.mother_maiden_fname ? this.errors.mother_maiden_fname[0] : ''">
+                                        <b-input icon="account" 
+                                            v-model="fields.mother_maiden_fname" 
+                                            placeholder="Mother Maiden First Name" type="text"></b-input>
                                     </b-field>
                                 </div>
                             </div>
@@ -338,29 +250,20 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Mother Maiden Middle Name"
-                                             :type="this.errors.mother_maiden_mname ? 'is-danger':''"
-                                             :message="this.errors.mother_maiden_mname ? this.errors.mother_maiden_mname[0] : ''">
-                                        <b-input v-model="fields.mother_maiden_mname"
-                                                 type="text"
-                                                 icon="account"
-                                                 placeholder="Mother Maiden Middle Name"></b-input>
+                                        :type="this.errors.mother_maiden_mname ? 'is-danger':''"
+                                        :message="this.errors.mother_maiden_mname ? this.errors.mother_maiden_mname[0] : ''">
+                                        <b-input v-model="fields.mother_maiden_mname" 
+                                            type="text" 
+                                            icon="account"
+                                            placeholder="Mother Maiden Middle Name"></b-input>
                                     </b-field>
                                 </div>
 
                                 <div class="column">
                                     <b-field label="Mother Maiden Contact No.">
-                                        <b-input type="tel" v-model="fields.mother_maiden_contact_no"
-                                                 pattern="^(09|\+639)\d{9}$"
-                                                 placeholder="Format: 09101112222"></b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Mother Educ'l Attn">
-                                        <b-input v-model="fields.mother_education"
-                                             icon="account" type="text" placeholder="Mother Educ'l Attn"></b-input>
+                                        <b-input type="tel" v-model="fields.mother_maiden_contact_no" 
+                                            pattern="^(09|\+639)\d{9}$"
+                                            placeholder="Format: 09101112222"></b-input>
                                     </b-field>
                                 </div>
                             </div>
@@ -371,15 +274,15 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Guardian Last Name"
-                                             :type="this.errors.guardian_lname ? 'is-danger':''"
-                                             :message="this.errors.guardian_lname ? this.errors.guardian_lname[0] : ''" >
+                                            :type="this.errors.guardian_lname ? 'is-danger':''"
+                                            :message="this.errors.guardian_lname ? this.errors.guardian_lname[0] : ''" >
                                         <b-input icon="account" placeholder="Guardian Last Name" v-model="fields.guardian_lname" type="text"></b-input>
                                     </b-field>
                                 </div>
                                 <div class="column">
                                     <b-field label="Guardian First Name"
-                                             :type="this.errors.guardian_fname ? 'is-danger':''"
-                                             :message="this.errors.guardian_fname ? this.errors.guardian_fname[0] : ''">
+                                            :type="this.errors.guardian_fname ? 'is-danger':''"
+                                            :message="this.errors.guardian_fname ? this.errors.guardian_fname[0] : ''">
                                         <b-input icon="account" v-model="fields.guardian_fname" placeholder="Guardian First Name" type="text"></b-input>
                                     </b-field>
                                 </div>
@@ -389,46 +292,90 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Guardian Middle Name">
-                                        <b-input v-model="fields.guardian_mname"
-                                                 icon="account"
-                                                 type="text" placeholder="Guardian Middle Name"></b-input>
+                                        <b-input v-model="fields.guardian_mname" 
+                                            icon="account"
+                                            type="text" placeholder="Guardian Middle Name"></b-input>
                                     </b-field>
                                 </div>
 
                                 <div class="column">
                                     <b-field label="Guardian Extension">
-                                        <b-input v-model="fields.guardian_extension"
-                                                 icon="account" type="text" placeholder="Guardian Extension"></b-input>
+                                        <b-input v-model="fields.guardian_extension" 
+                                            icon="account" type="text" placeholder="Guardian Extension"></b-input>
                                     </b-field>
                                 </div>
 
-
+                                
 
                                 <div class="column">
                                     <b-field label="Guardian Contact No."
-                                             :type="this.errors.guardian_contact_no ? 'is-danger':''"
-                                             :message="this.errors.guardian_contact_no ? this.errors.guardian_contact_no[0] : ''">
-                                        <b-input type="text" v-model="fields.guardian_contact_no"
-                                                 icon="cellphone"
-                                                 required
-                                                 placeholder="Guardian Contact No."></b-input>
+                                        :type="this.errors.guardian_contact_no ? 'is-danger':''"
+                                        :message="this.errors.guardian_contact_no ? this.errors.guardian_contact_no[0] : ''">
+                                        <b-input type="text" v-model="fields.guardian_contact_no" 
+                                            icon="cellphone" 
+                                            required
+                                            placeholder="Guardian Contact No."></b-input>
                                     </b-field>
                                 </div>
                             </div>
 
 
+                            <div class="divider">RETURNING LEARNER (BALIK-ARAL) / TRANSFER / MOVE IN</div>
+                  
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Last Grade Level Completed"
+                                        :type="this.errors.last_grade_level_completed ? 'is-danger':''"
+                                        :message="this.errors.last_grade_level_completed ? this.errors.last_grade_level_completed[0] : ''">
+                                        <b-input v-model="fields.last_grade_level_completed" 
+                                            icon="account"
+                                            type="text" placeholder="Last Grade Level Completed"></b-input>
+                                    </b-field>
+                                </div>
 
-                            <!-- LEARNER IN SHS -->
+                                <div class="column">
+                                    <b-field label="Last School Year Completed"
+                                        :type="this.errors.last_school_year_completed ? 'is-danger':''"
+                                        :message="this.errors.last_school_year_completed ? this.errors.last_school_year_completed[0] : ''">
+                                        <b-input v-model="fields.last_school_year_completed" 
+                                            icon="calendar"
+                                            type="text" placeholder="Last School Year Completed"></b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Last School Attended"
+                                        :type="this.errors.last_school_attended ? 'is-danger':''"
+                                        :message="this.errors.last_school_attended ? this.errors.last_school_attended[0] : ''">
+                                        <b-input v-model="fields.last_school_attended" 
+                                            icon="account"
+                                            type="text" placeholder="Last School Attended"></b-input>
+                                    </b-field>
+                                </div>
+
+                                <div class="column">
+                                    <b-field label="School Id"
+                                        :type="this.errors.last_schoold_id ? 'is-danger':''"
+                                        :message="this.errors.last_schoold_id ? this.errors.last_schoold_id[0] : ''">
+                                        <b-input v-model="fields.last_schoold_id" 
+                                            icon="account"
+                                            type="text" placeholder="School Id"></b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+
                             <div class="divider">FOR LEARNERS IN SENIOR HIGH SCHOOL</div>
 
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Semester" expanded
-                                             :type="this.errors.semester_id ? 'is-danger':''"
-                                             :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
+                                        :type="this.errors.semester_id ? 'is-danger':''"
+                                        :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
                                         <b-select v-model="fields.semester_id" expanded
-                                                  icon="account"
-                                                  placeholder="Semester">
+                                            icon="account"
+                                            placeholder="Semester">
                                             <option :value="item.semester_id" v-for="(item, ix) in semesters" :key="ix">
                                                 {{  item.semester }}
                                             </option>
@@ -438,11 +385,11 @@
 
                                 <div class="column">
                                     <b-field label="School Id"
-                                             :type="this.errors.senior_high_school_id ? 'is-danger':''"
-                                             :message="this.errors.senior_high_school_id ? this.errors.senior_high_school_id[0] : ''">
-                                        <b-input v-model="fields.senior_high_school_id"
-                                                 icon="account"
-                                                 type="text" placeholder="School Id"></b-input>
+                                        :type="this.errors.senior_high_school_id ? 'is-danger':''"
+                                        :message="this.errors.senior_high_school_id ? this.errors.senior_high_school_id[0] : ''">
+                                        <b-input v-model="fields.senior_high_school_id" 
+                                            icon="account"
+                                            type="text" placeholder="School Id"></b-input>
                                     </b-field>
                                 </div>
                             </div>
@@ -451,12 +398,12 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Track"
-                                             :type="this.errors.track_id ? 'is-danger':''"
-                                             :message="this.errors.track_id ? this.errors.track_id[0] : ''">
+                                        :type="this.errors.track_id ? 'is-danger':''"
+                                        :message="this.errors.track_id ? this.errors.track_id[0] : ''">
                                         <b-select v-model="fields.track_id" expanded
-                                                  icon="account"
-                                                  placeholder="Track"
-                                                  @input="loadStrands">
+                                            icon="account"
+                                            placeholder="Track"
+                                            @input="loadStrands">
                                             <option :value="item.track_id" v-for="(item, ix) in tracks" :key="`track${ix}`">
                                                 {{  item.track }}
                                             </option>
@@ -466,11 +413,11 @@
 
                                 <div class="column">
                                     <b-field label="Strand"
-                                             :type="this.errors.strand_id ? 'is-danger':''"
-                                             :message="this.errors.strand_id ? this.errors.strand_id[0] : ''">
+                                        :type="this.errors.strand_id ? 'is-danger':''"
+                                        :message="this.errors.strand_id ? this.errors.strand_id[0] : ''">
                                         <b-select v-model="fields.strand_id" expanded
-                                                  icon="account"
-                                                  placeholder="Strand">
+                                            icon="account"
+                                            placeholder="Strand">
                                             <option :value="item.strand_id" v-for="(item, ix) in strands" :key="`strand${ix}`">
                                                 {{  item.strand }}
                                             </option>
@@ -481,8 +428,8 @@
 
                             <hr>
                             <div class="buttons is-right">
-                                <!--                                <b-button class="button is-info is-outlined"-->
-                                <!--                                    @click="debug">DEBUG</b-button>-->
+<!--                                <b-button class="button is-info is-outlined"-->
+<!--                                    @click="debug">DEBUG</b-button>-->
                                 <button :class="btnClass">Register</button>
                             </div>
 
@@ -553,6 +500,7 @@ export default {
             semesters: [],
             tracks: [],
             strands: [],
+            religions: [],
 
             btnClass: {
                 'is-loading': false,
@@ -616,6 +564,12 @@ export default {
         loadGradeLevels(){
             axios.get('/load-grade-levels').then(res=>{
                 this.gradeLevels = res.data;
+            })
+        },
+
+        loadReligions(){
+            axios.get('/load-religions').then(res=>{
+                this.religions = res.data;
             })
         },
 
@@ -698,11 +652,11 @@ export default {
                     }
                 });
             }
-
+            
         },
 
         initData(){
-
+           
 
             this.loadCurrentProvince();
             this.loadPermanentProvince();
@@ -710,11 +664,12 @@ export default {
             this.loadSemesters()
             this.loadTracks()
             this.loadGradeLevels()
+            this.loadReligions()
 
             if(this.propDataId > 0){
                 this.setData();
             }
-
+            
         },
 
         setData(){
@@ -856,11 +811,11 @@ export default {
 <style scoped>
 
 
-.box-title{
-    font-weight: bold;
-    font-size: 1.5rem;
-    text-align: center;
-}
+    .box-title{
+        font-weight: bold;
+        font-size: 1.5rem;
+        text-align: center;
+    }
 
 /*    dere lang kubia ang panel color*/
 </style>

@@ -28,7 +28,7 @@
         <b-navbar>
             <template #brand>
                 <b-navbar-item>
-                    <img src="/img/tcnhs_logo.png" />
+                    <img src="/img/tudela_logo.png" />
                     @auth()
                         {{ Auth::user()->role }}
                     @else
@@ -63,8 +63,30 @@
                     <b-navbar-item href="/sections">
                         Sections
                     </b-navbar-item>
+                    <b-navbar-item href="/subjects">
+                        Subjects
+                    </b-navbar-item>
 
                 </b-navbar-dropdown>
+
+                <b-navbar-dropdown label="Cashier">
+
+                    <b-navbar-item href="/cashier-page">
+                        Academic Years
+                    </b-navbar-item>
+
+                    <b-navbar-item href="/tracks">
+                        Tracks
+                    </b-navbar-item>
+                    <b-navbar-item href="/strands">
+                        Strands
+                    </b-navbar-item>
+                    <b-navbar-item href="/sections">
+                        Sections
+                    </b-navbar-item>
+
+                </b-navbar-dropdown>
+
 
                 <b-navbar-item href="/manage-learners">
                     Learners

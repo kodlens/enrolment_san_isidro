@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barangay;
 use App\Models\City;
 use App\Models\Province;
+use App\Models\Religion;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
@@ -36,4 +37,12 @@ class AddressController extends Controller
             ->get();
         return $barangays;
     }
+
+    public function loadReligions(Request $req){
+        $data = Religion::orderBy('religion', 'asc')
+            ->get();
+        return $data;
+    }
+
+
 }

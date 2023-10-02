@@ -45,10 +45,12 @@ export default {
     methods: {
         submit: function(){
             axios.post('/login', this.fields).then(res=>{
-                console.log(res.data)
-                if(res.data.role === 'ADMINISTRATOR' || res.data.role === 'STAFF'){
-                    window.location = '/admin-home';
+                //console.log(res.data)
+
+                if(res.data){
+                    window.location = '/login'
                 }
+              
 
                //window.location = '/dashboard';
             }).catch(err=>{

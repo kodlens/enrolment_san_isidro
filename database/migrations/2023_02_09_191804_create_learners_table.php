@@ -21,6 +21,7 @@ class CreateLearnersTable extends Migration
 
             //$table->string('psa_cert')->nullable();
             $table->string('lrn', 30)->nullable();
+            $table->string('school_id',30)->nullable();
             $table->string('lname', 50)->nullable();
             $table->string('fname', 50)->nullable();
             $table->string('mname', 50)->nullable();
@@ -58,6 +59,7 @@ class CreateLearnersTable extends Migration
             $table->string('father_contact_no')->nullable();
             $table->string('father_religion')->nullable();
             $table->string('father_education')->nullable();
+
 
             //mother
             $table->string('mother_maiden_lname')->nullable();

@@ -237,7 +237,7 @@ button{
 @import "~bulma/sass/utilities/_all";
 //
 ////Set your colors
-$primary: #0A4D68;
+$primary: #307402;
 $primary-light: findLightColor($primary);
 $primary-dark: findDarkColor($primary);
 $primary-invert: findColorInvert($primary);
@@ -297,7 +297,7 @@ h2 span {
 
 .divider{
     //border: 2px solid rgb(194, 194, 194);
-    background-color: #7a7a7a;
+    background-color: #288b01;
     padding: 5px;
     color: white;
     font-weight: bold;

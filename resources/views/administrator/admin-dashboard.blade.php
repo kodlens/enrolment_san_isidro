@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-    <admin-home></admin-home>
+    <admin-dashboard></admin-dashboard>
 @endsection
 

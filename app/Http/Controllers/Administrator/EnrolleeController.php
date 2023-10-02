@@ -25,5 +25,10 @@ class EnrolleeController extends Controller
         return $data;
     }
 
+    public function create(){
+        return view('administrator.enrollee.enrollee-create-edit')
+            ->with('id', 0);
+    }
+
 
 }

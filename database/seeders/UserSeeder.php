@@ -18,14 +18,34 @@ class UserSeeder extends Seeder
         $data = [
             [
                 'username' => 'admin',
-                'lname' => 'ABAPO',
-                'fname' => 'JADE MARK',
+                'lname' => 'LABAJO',
+                'fname' => 'MAYISEL',
                 'mname' => 'P',
-                'suffix' => '',
-                'sex' => 'MALE',
-                'email' => 'jademark@dev.com',
-                'contact_no' => '1234',
+                'sex' => 'FEMALE',
+                //'email' => 'mayesel@dev.com',
                 'role' => 'ADMINISTRATOR',
+                'password' => Hash::make('aa')
+            ],
+
+            [
+                'username' => 'ana',
+                'lname' => 'TALO',
+                'fname' => 'ANA MARIE',
+                'mname' => 'P',
+                'sex' => 'FEMALE',
+                //'email' => 'ana@dev.com',
+                'role' => 'REGISTRAR',
+                'password' => Hash::make('aa')
+            ],
+
+            [
+                'username' => 'angele',
+                'lname' => 'MUTIA',
+                'fname' => 'ANGELE',
+                'mname' => 'P',
+                'sex' => 'FEMALE',
+                //'email' => 'angele@dev.com',
+                'role' => 'CASHIER',
                 'password' => Hash::make('aa')
             ],
         ];

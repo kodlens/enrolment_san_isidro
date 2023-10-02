@@ -6,12 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 
-class AdminHomeController extends Controller
+class AdminDashboardController extends Controller
 {
     //
 
     public function index(){
-        return view('administrator.admin-home');
+        return view('administrator.admin-dashboard');
     }
 
 

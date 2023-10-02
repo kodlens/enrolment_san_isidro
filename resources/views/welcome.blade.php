@@ -2,34 +2,17 @@
 
 @section('content')
 
+	<div class="bg-image"></div>
 
-<div class="container is-max-desktop">
-    <section class="section">
-        <div class="is-flex justify-content-center is-flex-direction-column">
-            <div class="welcome-text mb-2">
-                <p class="title">
-                    EnSys
-                </p>
-                <p class="subtitle">
-                    Tangub City National High School - Senior High School Enrollment System
-                </p>
-            </div>
+	<div class="bg-text">
 
-            <div class="model-img" style="margin: auto;">
-                <img src="/img/front.jpg" />
-            </div>
+		<h1 style="font-size:50px">San Isidro Academy of Tudela. Inc</h1>
+		<p>Tudela, Misamis Occidental</p>
+	</div>
 
 
-        </div>
-        <div class="buttons is-centered">
-            <b-button class="is-info"
-                  label="REGISTER HERE"
-                  icon-right="home"
-                tag="a"
-                href="/registration"></b-button>
-        </div>
 
-    </section>
-</div>
+
+  </div>
     
 @endsection

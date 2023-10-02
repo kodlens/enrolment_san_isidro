@@ -7,19 +7,19 @@
                         <div class="has-text-weight-bold subtitle is-4">USERS</div>
                         <b-field label="Search">
                             <b-input type="text"
-                                        v-model="search.lname" placeholder="Search Lastname"
-                                        @keyup.native.enter="loadAsyncData"/>
+                                v-model="search.lname" placeholder="Search Lastname"
+                                @keyup.native.enter="loadAsyncData"/>
                             <p class="control">
-                                    <b-tooltip label="Search" type="is-success">
-                                <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
-                                    </b-tooltip>
+                                <b-tooltip label="Search" type="is-success">
+                                    <b-button type="is-primary" icon-right="magnify" @click="loadAsyncData"/>
+                                </b-tooltip>
                             </p>
                         </b-field>
 
                         <div class="buttons is-right mt-3">
                             <b-button @click="openModal" icon-left="plus" class="is-primary is-small">NEW</b-button>
                         </div>
-
+                        
                         <b-table
                             :data="data"
                             :loading="loading"

@@ -19,6 +19,53 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <style>
+
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .bg-image {
+            /* The image used */
+            background-image: url('/img/bg.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+
+            /* Add the blur effect */
+            filter: blur(8px);
+            -webkit-filter: blur(8px);
+
+            /* Full height */
+            height: 100vh;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+        }
+
+
+        /* Position text in the middle of the page/image */
+        .bg-text {
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+            color: white;
+            font-weight: bold;
+            border: 3px solid #f1f1f1;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            width: 80%;
+            padding: 20px;
+            text-align: center;
+        }
+
+
+    </style>
 </head>
 
 <body>
@@ -28,7 +75,7 @@
         <b-navbar>
             <template #brand>
                 <b-navbar-item>
-                    <img src="/img/tcnhs_logo.png" />
+                    <img src="/img/tudela_logo.png" />
                     ENSYS
                 </b-navbar-item>
             </template>
@@ -74,9 +121,6 @@
         
     </div>
 
-    <script>
-        
-    </script>
 
 </body>
 
