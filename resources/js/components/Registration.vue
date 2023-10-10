@@ -6,18 +6,25 @@
 
                     <div class="box">
                         <div class="box-title">
-                            ENHANCED BASIC EDUCATION ENROLLMENT FORM
+                            <span class="mb-4">
+                                EDUCATION ENROLLMENT FORM
+                            </span>
                         </div>
 
                         <div class="panel-body">
 
-                            <!-- <div class="divider">ACCOUNT</div>
+                            <div class="divider">
+                                <div class="divider-text">
+                                    ACCOUNT
+                                </div>
+                                
+                            </div>
 
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Username"
-                                             :type="this.errors.username ? 'is-danger':''"
-                                             :message="this.errors.username ? this.errors.username[0] : ''">
+                                        :type="this.errors.username ? 'is-danger':''"
+                                        :message="this.errors.username ? this.errors.username[0] : ''">
                                         <b-input type="text" v-model="fields.username" placeholder="Username" 
                                             icon="account" required></b-input>
                                     </b-field>
@@ -42,29 +49,13 @@
                                     </b-field>
                                 </div>
                             </div>
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="E-mail"
-                                             :type="this.errors.email ? 'is-danger':''"
-                                             :message="this.errors.email ? this.errors.email[0] : ''">
-                                        <b-input type="email" v-model="fields.email" 
-                                            placeholder="E-mail" icon="email"
-                                                required></b-input>
-                                    </b-field>
-                                </div>
-                                <div class="column">
-                                    <b-field label="Contact No."
-                                             :type="this.errors.contact_no ? 'is-danger':''"
-                                             :message="this.errors.contact_no ? this.errors.contact_no[0] : ''">
-                                        <b-input type="tel" 
-                                            v-model="fields.contact_no" 
-                                            pattern="^(09|\+639)\d{9}$"
-                                            placeholder="Format: 09191112222" icon=""></b-input>
-                                    </b-field>
-                                </div>
-                            </div> -->
+                            
 
-                            <div class="divider">LEARNER INFORMATION</div>
+                            <div class="divider">
+                                <div class="divider-text">
+                                    LEARNER INFORMATION
+                                </div>
+                            </div>
                             
                             <div class="columns">
                                 <div class="column">
@@ -102,7 +93,7 @@
                                 </div>
                             </div>
                             <div class="columns">
-                                <div class="column">
+                                <!-- <div class="column">
                                     <b-field label="PSA Birth Certificate No."
                                             :type="this.errors.psa_birth_no ? 'is-danger':''"
                                             :message="this.errors.psa_birth_no ? this.errors.psa_birth_no[0] : ''" >
@@ -110,7 +101,7 @@
                                             v-model="fields.psa_birth_no" 
                                             type="text"></b-input>
                                     </b-field>
-                                </div>
+                                </div> -->
 
                                 <div class="column">
                                     <b-field label="LRN"
@@ -194,6 +185,28 @@
                             </div>
 
                             <div class="columns">
+                                <!-- <div class="column">
+                                    <b-field label="E-mail"
+                                             :type="this.errors.email ? 'is-danger':''"
+                                             :message="this.errors.email ? this.errors.email[0] : ''">
+                                        <b-input type="email" v-model="fields.email" 
+                                            placeholder="E-mail" icon="email"
+                                                required></b-input>
+                                    </b-field>
+                                </div> -->
+                                <div class="column">
+                                    <b-field label="Contact No."
+                                             :type="this.errors.contact_no ? 'is-danger':''"
+                                             :message="this.errors.contact_no ? this.errors.contact_no[0] : ''">
+                                        <b-input type="tel" 
+                                            v-model="fields.contact_no" 
+                                            pattern="^(09|\+639)\d{9}$"
+                                            placeholder="Format: 09191112222" icon=""></b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+
+                            <!-- <div class="columns">
                                 <div class="column">
                                     <b-field label="Mother Tongue"
                                         :type="this.errors.mother_tongue ? 'is-danger':''"
@@ -245,7 +258,7 @@
                                         <b-input type="text" v-model="fields.household_4ps_id_no" placeholder="4Ps Household Id No."></b-input>
                                     </b-field>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Current Address -->
 
@@ -361,8 +374,10 @@
 
 
                             <!-- Parents/Guardians Information -->
-                            <div class="divider">PARENTS/GUARDIANS INFORMATION</div>
-                         
+                            <div class="divider-text">
+                                PARENTS/GUARDIANS INFORMATION
+                            </div>
+                            
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Father Last Name"
@@ -408,6 +423,19 @@
                                 </div>
                             </div>
 
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Father Religion"
+                                        :type="this.errors.father_religion ? 'is-danger':''"
+                                        :message="this.errors.father_religion ? this.errors.father_religion[0] : ''" >
+                                        <b-input type="tel" 
+                                            v-model="fields.father_religion" 
+                                            icon="cellphone"
+                                            placeholder="Father Religion"></b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+
                             <hr>
 
                             <div class="columns">
@@ -449,6 +477,19 @@
                                         <b-input type="tel" v-model="fields.mother_maiden_contact_no" 
                                             pattern="^(09|\+639)\d{9}$"
                                             placeholder="Format: 09101112222"></b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Mother Religion"
+                                        :type="this.errors.mother_religion ? 'is-danger':''"
+                                        :message="this.errors.mother_religion ? this.errors.mother_religion[0] : ''" >
+                                        <b-input type="tel" 
+                                            v-model="fields.mother_religion" 
+                                            icon="cellphone"
+                                            placeholder="Mother Religion"></b-input>
                                     </b-field>
                                 </div>
                             </div>
@@ -505,7 +546,12 @@
                             </div>
 
 
-                            <div class="divider">RETURNING LEARNER (BALIK-ARAL) / TRANSFER / MOVE IN</div>
+                            <div class="divider">
+                                <div class="divider-text">
+                                    RETURNING LEARNER (BALIK-ARAL) / TRANSFER / MOVE IN
+                                </div>
+                            </div>
+                                
                   
                             <div class="columns">
                                 <div class="column">
@@ -551,7 +597,11 @@
                                 </div>
                             </div>
 
-                            <div class="divider">FOR LEARNERS IN SENIOR HIGH SCHOOL</div>
+                            <div class="divider">
+                                <div class="divider-text">
+                                    FOR LEARNERS IN SENIOR HIGH SCHOOL
+                                </div>
+                            </div>
 
                             <div class="columns">
                                 <div class="column">
@@ -615,7 +665,7 @@
 
                                 <p style="text-indent: 50px;">
                                     I hereby certify that the above information given are true and correct to the best of my knowledge and I allow
-                                    Department of Education to use my child's details to create and/or update his/her learner profile in the Learner Information Sysmte.    
+                                    the school to use my information/child's details to create and/or update his/her learner profile in the Learner Information Sysmte.    
                                     The information herein shall be treated as confidential in compliance with the Data Privacy Act of 2012.
                                 </p>
                                 <b-checkbox class="mt-2" 
@@ -780,6 +830,7 @@ export default {
 
 
         submit(){
+            
             this.errors = {}; //clear all errors, to refresh errors
             this.btnClass['is-loading'] = true;
 

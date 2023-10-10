@@ -17,7 +17,7 @@ class CreateLearnersTable extends Migration
             $table->id('learner_id');
  
             $table->string('grade_level')->nullable();
-            //$table->tinyInteger('is_returnee')->nullable(0);
+            $table->tinyInteger('is_returnee')->nullable(0);
 
             //$table->string('psa_cert')->nullable();
             $table->string('lrn', 30)->nullable();
@@ -69,16 +69,16 @@ class CreateLearnersTable extends Migration
             $table->string('mother_religion')->nullable();
             $table->string('mother_education')->nullable();
 
-            //$table->string('last_grade_level_completed', 30)->nullable();
-            //$table->string('last_school_year_completed', 30)->nullable();
+            $table->string('last_grade_level_completed', 30)->nullable();
+            $table->string('last_school_year_completed', 30)->nullable();
             $table->string('last_school_attended', 100)->nullable();
-            //$table->string('last_schoold_id', 30)->nullable();
+            $table->string('last_schoold_id', 30)->nullable();
 
-            // $table->unsignedBigInteger('semester_id')->default(0);
-            // $table->string('senior_high_school_id', 30)->nullable();
+            $table->unsignedBigInteger('semester_id')->default(0);
+            $table->string('senior_high_school_id', 30)->nullable();
 
-            // $table->unsignedBigInteger('track_id')->default(0);
-            // $table->unsignedBigInteger('strand_id')->default(0);
+            $table->unsignedBigInteger('track_id')->default(0);
+            $table->unsignedBigInteger('strand_id')->default(0);
             $table->string('administer_by')->nullable();
 
             $table->timestamps();
