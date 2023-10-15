@@ -66,6 +66,9 @@
                     <b-navbar-item href="/subjects">
                         Subjects
                     </b-navbar-item>
+                    <b-navbar-item href="/blocks">
+                        Blocks
+                    </b-navbar-item>
 
                 </b-navbar-dropdown>
 

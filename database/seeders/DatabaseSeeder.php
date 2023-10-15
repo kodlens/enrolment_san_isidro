@@ -19,10 +19,12 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             AcademicYearSeeder::class,
             TrackSeeder::class,
-            //SemesterSeeder::class,
-            //StrandSeeder::class,
+            SemesterSeeder::class,
+            StrandSeeder::class,
             GradeLevelSeeder::class,
-            ReligionSeeder::class
+            ReligionSeeder::class,
+            SubjectSeeder::class,
+            
         ]);
     }
 }

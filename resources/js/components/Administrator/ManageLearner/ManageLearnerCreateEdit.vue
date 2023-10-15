@@ -306,7 +306,13 @@
                                 <div class="column">
                                     <b-field label="Father Educ'l Attn">
                                         <b-input v-model="fields.father_education"
-                                                 icon="account" type="text" placeholder="Father Educ'l Attn"></b-input>
+                                            icon="account" type="text" placeholder="Father Educ'l Attn"></b-input>
+                                    </b-field>
+                                </div>
+                                <div class="column">
+                                    <b-field label="Father Religion">
+                                        <b-input v-model="fields.father_religion"
+                                            icon="account" type="text" placeholder="Father Religion"></b-input>
                                     </b-field>
                                 </div>
                             </div>
@@ -363,6 +369,12 @@
                                              icon="account" type="text" placeholder="Mother Educ'l Attn"></b-input>
                                     </b-field>
                                 </div>
+                                <div class="column">
+                                    <b-field label="Mother Religion">
+                                        <b-input v-model="fields.mother_religion"
+                                            icon="account" type="text" placeholder="Mother Religion"></b-input>
+                                    </b-field>
+                                </div>
                             </div>
 
 
@@ -390,15 +402,15 @@
                                 <div class="column">
                                     <b-field label="Guardian Middle Name">
                                         <b-input v-model="fields.guardian_mname"
-                                                 icon="account"
-                                                 type="text" placeholder="Guardian Middle Name"></b-input>
+                                            icon="account"
+                                            type="text" placeholder="Guardian Middle Name"></b-input>
                                     </b-field>
                                 </div>
 
                                 <div class="column">
                                     <b-field label="Guardian Extension">
                                         <b-input v-model="fields.guardian_extension"
-                                                 icon="account" type="text" placeholder="Guardian Extension"></b-input>
+                                            icon="account" type="text" placeholder="Guardian Extension"></b-input>
                                     </b-field>
                                 </div>
 
@@ -406,12 +418,12 @@
 
                                 <div class="column">
                                     <b-field label="Guardian Contact No."
-                                             :type="this.errors.guardian_contact_no ? 'is-danger':''"
-                                             :message="this.errors.guardian_contact_no ? this.errors.guardian_contact_no[0] : ''">
+                                        :type="this.errors.guardian_contact_no ? 'is-danger':''"
+                                        :message="this.errors.guardian_contact_no ? this.errors.guardian_contact_no[0] : ''">
                                         <b-input type="text" v-model="fields.guardian_contact_no"
-                                                 icon="cellphone"
-                                                 required
-                                                 placeholder="Guardian Contact No."></b-input>
+                                            icon="cellphone"
+                                            required
+                                            placeholder="Guardian Contact No."></b-input>
                                     </b-field>
                                 </div>
                             </div>
@@ -424,11 +436,11 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Semester" expanded
-                                             :type="this.errors.semester_id ? 'is-danger':''"
-                                             :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
+                                        :type="this.errors.semester_id ? 'is-danger':''"
+                                        :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
                                         <b-select v-model="fields.semester_id" expanded
-                                                  icon="account"
-                                                  placeholder="Semester">
+                                            icon="account"
+                                            placeholder="Semester">
                                             <option :value="item.semester_id" v-for="(item, ix) in semesters" :key="ix">
                                                 {{  item.semester }}
                                             </option>

@@ -76,7 +76,7 @@
             <template #brand>
                 <b-navbar-item>
                     <img src="/img/tudela_logo.png" />
-                    ENSYS
+                    ENROLMENT SYSTEM
                 </b-navbar-item>
             </template>
     
@@ -97,9 +97,9 @@
                         </div>
                     </b-navbar-item>
                 @else
-                    <b-navbar-item href="/registration">
+                    <!-- <b-navbar-item href="/registration">
                         Register
-                    </b-navbar-item>
+                    </b-navbar-item> -->
                     
                     <b-navbar-item tag="div">
                         <div class="buttons">
