@@ -450,8 +450,8 @@
 
                                 <div class="column">
                                     <b-field label="School Id"
-                                             :type="this.errors.senior_high_school_id ? 'is-danger':''"
-                                             :message="this.errors.senior_high_school_id ? this.errors.senior_high_school_id[0] : ''">
+                                             :type="errors.senior_high_school_id ? 'is-danger':''"
+                                             :message="errors.senior_high_school_id ? errors.senior_high_school_id[0] : ''">
                                         <b-input v-model="fields.senior_high_school_id"
                                                  icon="account"
                                                  type="text" placeholder="School Id"></b-input>
