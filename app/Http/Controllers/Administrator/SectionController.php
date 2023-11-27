@@ -36,14 +36,10 @@ class SectionController extends Controller
     public function store(Request $req){
 
         $req->validate([
-            'track_id' => ['required'],
-            'strand_id' => ['required'],
             'section' => ['required', 'unique:sections']
         ]);
 
         Section::create([
-            'track_id' => $req->track_id,
-            'strand_id' => $req->strand_id,
             'section' => strtoupper($req->section),
             'max' => $req->max,
         ]);
@@ -57,15 +53,11 @@ class SectionController extends Controller
     public function update(Request $req, $id){
 
         $req->validate([
-            'track_id' => ['required'],
-            'strand_id' => ['required'],
             'section' => ['required', 'unique:sections,section,' . $id . ',section_id'],
         ]);
 
         Section::where('section_id', $id)
             ->update([
-                'track_id' => $req->track_id,
-                'strand_id' => $req->strand_id,
                 'section' => strtoupper($req->section),
                 'max' => $req->max
             ]);

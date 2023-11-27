@@ -94,7 +94,7 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/get-sections', [App\Http\Controllers\Administrator\SectionController::class, 'getSections']);
 
     Route::resource('/enrollee', App\Http\Controllers\Administrator\EnrolleeController::class);
-    Route::get('/get-enrollee', [App\Http\Controllers\Administrator\EnrolleeController::class, 'getEnrollee']);
+    Route::get('/get-enrollees', [App\Http\Controllers\Administrator\EnrolleeController::class, 'getEnrollees']);
 
     Route::resource('/enrollment', App\Http\Controllers\Administrator\EnrollmentController::class);
   

@@ -19,6 +19,24 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Manrope:wght@200;300;400;700&family=Roboto+Condensed:wght@300;400;500;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        html body{
+            font-family: 'Josefin Sans', sans-serif;
+            font-family: 'Manrope', sans-serif;
+            font-family: 'Roboto', sans-serif;
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+
+        input[type='text'], input[type='password'], select, button{
+            font-family: 'Josefin Sans', sans-serif;
+            font-family: 'Manrope', sans-serif;
+            font-family: 'Roboto', sans-serif;
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+    </style>
 </head>
 
 <body>
@@ -44,7 +62,7 @@
     
             <template #end>
                 
-                <b-navbar-item href="/admin-home">
+                <b-navbar-item href="/admin-dashboard">
                     Home
                 </b-navbar-item>
 
@@ -72,9 +90,9 @@
 
                 </b-navbar-dropdown>
 
-                <b-navbar-dropdown label="Cashier">
+                 <!--<b-navbar-dropdown label="Cashier">
 
-                    <!-- <b-navbar-item href="/cashier-page">
+                    <b-navbar-item href="/cashier-page">
                         Academic Years
                     </b-navbar-item>
 
@@ -86,9 +104,9 @@
                     </b-navbar-item>
                     <b-navbar-item href="/sections">
                         Sections
-                    </b-navbar-item> -->
+                    </b-navbar-item> 
 
-                </b-navbar-dropdown>
+                </b-navbar-dropdown>-->
 
 
                 <b-navbar-item href="/manage-learners">
@@ -97,15 +115,14 @@
 
                 <b-navbar-dropdown label="Enrollee">
 
-                    <!-- <b-navbar-item href="/enrollee">
-                        Enrollee
-                    </b-navbar-item> -->
-
                     <b-navbar-item href="/enrollment">
                         Enrollment
                     </b-navbar-item>
                   
-
+                    <b-navbar-item href="/enrollee">
+                        Enrollee
+                    </b-navbar-item>
+                    
                 </b-navbar-dropdown>
 
 
@@ -115,7 +132,10 @@
                 <b-navbar-item tag="div">
                     @auth()
                         <div class="buttons">
-                            <b-button label="LOGOUT" icon-left="logout" onclick="document.getElementById('logout').submit()">
+                            <b-button label="LOGOUT" 
+                                type="is-danger"
+                                icon-left="logout" 
+                                onclick="document.getElementById('logout').submit()">
                             </b-button>
                         </div>
                     @else

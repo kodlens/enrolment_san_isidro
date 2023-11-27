@@ -4,10 +4,10 @@
             <div class="columns is-centered">
                 <div class="column is-8-dekstop is-10-tablet">
                     <div class="box">
-                        <div class="has-text-weight-bold subtitle is-4">LEARNERS</div>
+                        <div class="has-text-weight-bold subtitle is-4">ENROLLEES</div>
                         <b-field label="Search">
                             <b-input type="text"
-                                     v-model="search.name" placeholder="Search Lastname"
+                                     v-model="search.lname" placeholder="Search Lastname"
                                      @keyup.native.enter="loadAsyncData"/>
                             <p class="control">
                                 <b-tooltip label="Search" type="is-success">
@@ -16,16 +16,17 @@
                             </p>
                         </b-field>
 
-                        <div class="buttons is-right mt-3">
+                        <!-- <div class="buttons is-right mt-3">
                             <b-button tag="a" href="/enrollee/create"
                                   icon-left="plus"
                                   class="is-primary is-small">ADD LEARNER</b-button>
-                        </div>
+                        </div> -->
 
                         <b-table
                             :data="data"
                             :loading="loading"
                             paginated
+                            detailed
                             backend-pagination
                             :total="total"
                             :pagination-rounded="true"
@@ -38,13 +39,10 @@
                             backend-sorting
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
-
-                            <b-table-column field="learner_id" label="ID" sortable v-slot="props">
-                                {{ props.row.learner_id }}
-                            </b-table-column>
+                            
 
                             <b-table-column field="lname" label="Name" sortable v-slot="props">
-                                {{ props.row.lname }}, {{ props.row.fname }} {{ props.row.mname }}
+                                {{ props.row.learner.lname }}, {{ props.row.learner.fname }} {{ props.row.learner.mname }}
                             </b-table-column>
 
                             <b-table-column field="sex" label="Sex" v-slot="props">
@@ -70,16 +68,35 @@
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small mr-1" tag="a" icon-right="pencil" @click="getData(props.row.learner_id)"></b-button>
+                                        <b-button class="button is-small mr-1" 
+                                            tag="a" icon-right="pencil" 
+                                            @click="getData(props.row.enroll_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small mr-1" icon-right="delete" @click="confirmDelete(props.row.learner_id)"></b-button>
+                                        <b-button class="button is-small mr-1" 
+                                            icon-right="delete" 
+                                            @click="confirmDelete(props.row.enroll_id)"></b-button>
                                     </b-tooltip>
-                                    <!--                                    <b-tooltip label="Reset Password" type="is-info">-->
-                                    <!--                                        <b-button class="button is-small mr-1" icon-right="lock" @click="openModalResetPassword(props.row.learner_id)"></b-button>-->
-                                    <!--                                    </b-tooltip>-->
                                 </div>
                             </b-table-column>
+
+                            <template #detail="props">
+                                <p class="has-text-weight-bold is-size-6">SUBJECTS</p>
+                                <table>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Description</th>
+                                        <th>Class</th>
+                                        <th>Fee</th>
+                                    </tr>
+                                    <tr v-for="(item, ix) in props.row.subjects" :key="`subj${ix}`">
+                                        <td>{{ item.subject.subject_code }}</td>
+                                        <td>{{ item.subject.subject_description }}</td>
+                                        <td>{{ item.subject.class }}</td>
+                                        <td>{{ item.subject.fee }}</td>
+                                    </tr>
+                                </table>
+                            </template>
                         </b-table>
 
                         <div class="columns">
@@ -165,7 +182,7 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'enrol_id',
+            sortField: 'enroll_id',
             sortOrder: 'desc',
             page: 1,
             perPage: 10,
@@ -203,7 +220,7 @@ export default{
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-enrolees?${params}`)
+            axios.get(`/get-enrollees?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -245,19 +262,19 @@ export default{
 
 
         //alert box ask for deletion
-        confirmDelete(delete_id) {
+        confirmDelete(dataId) {
             this.$buefy.dialog.confirm({
                 title: 'DELETE!',
                 type: 'is-danger',
                 message: 'Are you sure you want to delete this data?',
                 cancelText: 'Cancel',
                 confirmText: 'Delete',
-                onConfirm: () => this.deleteSubmit(delete_id)
+                onConfirm: () => this.deleteSubmit(dataId)
             });
         },
         //execute delete after confirming
-        deleteSubmit(delete_id) {
-            axios.delete('/manage-learners/' + delete_id).then(res => {
+        deleteSubmit(dataId) {
+            axios.delete('/enrollee/' + dataId).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {

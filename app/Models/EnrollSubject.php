@@ -19,4 +19,8 @@ class EnrollSubject extends Model
     ];
 
 
+    public function subject(){
+        return $this->hasOne(Subject::class, 'subject_id', 'subject_id');
+    }
+
 }

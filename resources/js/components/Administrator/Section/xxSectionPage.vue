@@ -41,6 +41,14 @@
                                 {{ props.row.section_id }}
                             </b-table-column>
 
+                            <b-table-column field="track" label="Track" sortable v-slot="props">
+                                {{ props.row.track.track }}
+                            </b-table-column>
+
+                            <b-table-column field="strand" label="Strand" sortable v-slot="props">
+                                {{ props.row.strand.strand }}
+                            </b-table-column>
+
                             <b-table-column field="section" label="Section" v-slot="props">
                                 {{ props.row.section }}
                             </b-table-column>
@@ -100,7 +108,42 @@
 
                     <section class="modal-card-body">
                         <div class="">
-  
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Track" label-position="on-border"
+                                             expanded
+                                             :type="this.errors.track_id ? 'is-danger':''"
+                                             :message="this.errors.track_id ? this.errors.track_id[0] : ''">
+                                        <b-select v-model="fields.track_id"
+                                                  expanded
+                                                  @input="loadStrands"
+                                                 placeholder="Track" required>
+                                            <option :value="item.track_id" v-for="(item, ix) in tracks" :key="`track${ix}`">
+                                                {{ item.track }}
+                                            </option>
+                                        </b-select>
+                                    </b-field>
+                                </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Strand" label-position="on-border"
+                                             expanded
+                                             :type="this.errors.strand_id ? 'is-danger':''"
+                                             :message="this.errors.strand_id ? this.errors.strand_id[0] : ''">
+                                        <b-select v-model="fields.strand_id"
+                                                  placeholder="Strand" required
+                                                  expanded>
+                                            <option :value="item.strand_id" v-for="(item, ix) in strands" :key="`strand${ix}`">
+                                                {{ item.strand }}
+                                            </option>
+                                        </b-select>
+                                    </b-field>
+                                </div>
+
+                            </div>
+
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Section" label-position="on-border"
@@ -163,13 +206,17 @@ export default{
             },
 
             isModalCreate: false,
+            modalResetPassword: false,
 
             fields: {
+                track_id: null,
                 section_id: null,
                 section: null
             },
             errors: {},
 
+            tracks: [],
+            strands: [],
 
 
         }
@@ -290,9 +337,9 @@ export default{
             this.$buefy.dialog.confirm({
                 title: 'DELETE!',
                 type: 'is-danger',
-                message: 'Are you sure you want to delete this section?',
+                message: 'Are you sure you want to delete this data?',
                 cancelText: 'Cancel',
-                confirmText: 'Delete',
+                confirmText: 'Delete user account?',
                 onConfirm: () => this.deleteSubmit(delete_id)
             });
         },
@@ -310,9 +357,22 @@ export default{
 
         clearFields(){
             this.global_id = 0;
+
+            this.fields.track_id = null
+            this.fields.section_id = null
             this.fields.section = null
         },
 
+        loadTracks(){
+            axios.get('/load-tracks').then(res=>{
+                this.tracks = res.data;
+            })
+        },
+        loadStrands(){
+            axios.get('/load-strands?trackid=' +  this.fields.track_id).then(res=>{
+                this.strands = res.data;
+            })
+        },
 
         //update code here
         getData: function(data_id){
@@ -323,6 +383,7 @@ export default{
             //nested axios for getting the address 1 by 1 or request by request
             axios.get('/sections/'+data_id).then(res=>{
                 this.fields = res.data;
+                this.loadStrands()
             });
         },
 
@@ -331,6 +392,7 @@ export default{
     },
 
     mounted() {
+        this.loadTracks()
         this.loadAsyncData()
     }
 

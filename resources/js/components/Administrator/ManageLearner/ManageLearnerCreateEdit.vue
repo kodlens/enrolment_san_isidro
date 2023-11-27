@@ -6,7 +6,7 @@
 
                     <div class="box">
                         <div class="box-title mb-2">
-                            ENROLLMENT FORM
+                            LEARNER REGISTRATION FORM
                         </div>
 
                         <div class="panel-body">
