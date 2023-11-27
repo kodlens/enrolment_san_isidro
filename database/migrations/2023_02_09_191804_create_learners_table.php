@@ -22,6 +22,7 @@ class CreateLearnersTable extends Migration
 
             $table->string('student_id', 10)->nullable();
             $table->string('grade_level', 15)->nullable();
+        
             $table->tinyInteger('learner_status')->nullable(0);
 
             //$table->string('psa_cert')->nullable();

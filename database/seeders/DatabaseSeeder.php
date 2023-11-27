@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             GradeLevelSeeder::class,
             ReligionSeeder::class,
             SubjectSeeder::class,
-            
+            SectionSeeder::class
         ]);
     }
 }

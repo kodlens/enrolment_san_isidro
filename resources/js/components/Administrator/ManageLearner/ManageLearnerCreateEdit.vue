@@ -11,6 +11,9 @@
 
                         <div class="panel-body">
 
+                            <b-button class="button is-info is-outlined"
+                                    @click="debug">DEBUG</b-button>
+                                    
                             <div class="divider">LEARNER INFORMATION</div>
 
                             <div class="columns">
@@ -453,8 +456,6 @@
 
                             <hr>
                             <div class="buttons is-right">
-                                <b-button class="button is-info is-outlined"
-                                    @click="debug">DEBUG</b-button>
                                 <button :class="btnClass">Register</button>
                             </div>
 
@@ -536,6 +537,7 @@ export default {
             semesters: [],
             tracks: [],
             strands: [],
+            sections: [],
 
             btnClass: {
                 'is-loading': false,
@@ -601,6 +603,7 @@ export default {
                 this.gradeLevels = res.data;
             })
         },
+
 
         //copy current address
         copyCurrentAddress(){
@@ -695,6 +698,7 @@ export default {
             this.loadSemesters()
             this.loadTracks()
             this.loadGradeLevels()
+            this.loadSections()
 
             if(this.propDataId > 0){
                 this.setData();

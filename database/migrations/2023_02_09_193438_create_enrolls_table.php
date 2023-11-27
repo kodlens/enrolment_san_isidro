@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEnrolsTable extends Migration
+class CreateEnrollsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,31 +13,36 @@ class CreateEnrolsTable extends Migration
      */
     public function up()
     {
-        Schema::create('enrols', function (Blueprint $table) {
-            $table->id('enrol_id');
+        Schema::create('enrolls', function (Blueprint $table) {
+            $table->id('enroll_id');
 
             $table->unsignedBigInteger('academic_year_id');
             $table->foreign('academic_year_id')->references('academic_year_id')->on('academic_years')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->string('grade_level')->nullable();
-            $table->string('learner_status')->nullable();
+
+            $table->string('grade_level', 20)->nullable();
+            $table->tinyInteger('learner_status')->default(0);
 
             $table->unsignedBigInteger('learner_id');
             $table->foreign('learner_id')->references('learner_id')->on('learners')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->string('scholarship')->nullable();
-
+            //$table->string('scholarship')->nullable();
             //$table->unsignedBigInteger('semester_id')->default(0);
             //$table->unsignedBigInteger('track_id')->default(0);
             //$table->unsignedBigInteger('strand_id')->default(0);
 
-            $table->date('date_enroled')->nullable();
+            $table->unsignedBigInteger('semester_id')->default(0);
+            $table->unsignedBigInteger('track_id')->default(0);
+            $table->unsignedBigInteger('strand_id')->default(0);
+            $table->unsignedBigInteger('section_id')->default(0);
+
+            $table->date('date_enrolled')->nullable();
 
             //$table->unsignedBigInteger('section_id');
             //$table->string('section')->nullable();
-            $table->string('administer_by')->nullable();
+            $table->string('administer_by', 50)->nullable();
 
             $table->timestamps();
 
@@ -51,6 +56,6 @@ class CreateEnrolsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('enrols');
+        Schema::dropIfExists('enrolls');
     }
 }

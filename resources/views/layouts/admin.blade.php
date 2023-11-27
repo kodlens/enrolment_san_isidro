@@ -74,7 +74,7 @@
 
                 <b-navbar-dropdown label="Cashier">
 
-                    <b-navbar-item href="/cashier-page">
+                    <!-- <b-navbar-item href="/cashier-page">
                         Academic Years
                     </b-navbar-item>
 
@@ -86,7 +86,7 @@
                     </b-navbar-item>
                     <b-navbar-item href="/sections">
                         Sections
-                    </b-navbar-item>
+                    </b-navbar-item> -->
 
                 </b-navbar-dropdown>
 
@@ -97,12 +97,12 @@
 
                 <b-navbar-dropdown label="Enrollee">
 
-                    <b-navbar-item href="/enrollee">
+                    <!-- <b-navbar-item href="/enrollee">
                         Enrollee
-                    </b-navbar-item>
+                    </b-navbar-item> -->
 
-                    <b-navbar-item href="/enrolement">
-                        Enrolement
+                    <b-navbar-item href="/enrollment">
+                        Enrollment
                     </b-navbar-item>
                   
 

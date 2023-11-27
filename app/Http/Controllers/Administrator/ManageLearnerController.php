@@ -478,4 +478,13 @@ class ManageLearnerController extends Controller
     }
 
 
+    public function destroy($id){
+        Learner::destroy($id);
+
+        return response()->json([
+            'status' => 'deleted'
+        ], 200);
+    }
+
+
 }

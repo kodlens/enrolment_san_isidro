@@ -16,17 +16,17 @@ class CreateSectionsTable extends Migration
         Schema::create('sections', function (Blueprint $table) {
             $table->id('section_id');
 
-            $table->unsignedBigInteger('track_id');
-            $table->foreign('track_id')->references('track_id')->on('tracks')
-                ->onUpdate('cascade')->onDelete('cascade');
+            // $table->unsignedBigInteger('track_id');
+            // $table->foreign('track_id')->references('track_id')->on('tracks')
+            //     ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->unsignedBigInteger('strand_id');
-            $table->foreign('strand_id')->references('strand_id')->on('strands')
-                ->onUpdate('cascade')->onDelete('cascade');
+            // $table->unsignedBigInteger('strand_id');
+            // $table->foreign('strand_id')->references('strand_id')->on('strands')
+            //     ->onUpdate('cascade')->onDelete('cascade');
 
             $table->integer('max')->default(0);
 
-            $table->string('section')->nullable();
+            $table->string('section', 50)->nullable();
             $table->timestamps();
         });
     }

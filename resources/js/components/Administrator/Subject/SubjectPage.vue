@@ -103,7 +103,7 @@
             <form @submit.prevent="submit">
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Subject Information</p>
+                        <p class="modal-card-title has-text-weight-bold is-size-6">Subject Information</p>
                         <button
                             type="button"
                             class="delete"
@@ -146,6 +146,16 @@
                                         <b-numberinput v-model="fields.units"
                                             type="number" :controls="false"
                                             placeholder="Units" required>
+                                        </b-numberinput>
+                                    </b-field>
+                                </div>
+                                <div class="column">
+                                    <b-field label="Fee" label-position="on-border"
+                                        :type="this.errors.fee ? 'is-danger':''"
+                                        :message="this.errors.fee ? this.errors.fee[0] : ''">
+                                        <b-numberinput v-model="fields.fee"
+                                            type="number" :controls="false"
+                                            placeholder="Fee" required>
                                         </b-numberinput>
                                     </b-field>
                                 </div>

@@ -15,7 +15,7 @@
                  trap-focus scroll="keep" aria-role="dialog" aria-modal>
             <div class="modal-card card-width">
                 <header class="modal-card-head">
-                    <p class="modal-card-title">Select Patient</p>
+                    <p class="modal-card-title has-text-weight-bold is-size-6">SELECT LEARNER</p>
                     <button type="button" class="delete"
                             @click="isModalActive = false"/>
 

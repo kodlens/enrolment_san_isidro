@@ -108,7 +108,7 @@
             <form @submit.prevent="submit">
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Add/Update Academic Year</p>
+                        <p class="modal-card-title has-text-weight-bold is-size-6">Add/Update Academic Year</p>
                         <button
                             type="button"
                             class="delete"

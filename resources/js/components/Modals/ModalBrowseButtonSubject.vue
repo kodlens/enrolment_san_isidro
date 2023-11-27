@@ -1,21 +1,17 @@
 <template>
     <div>
-        <b-field label="Subject">
-            <b-input :value="valueFullname" expanded
-                icon="account" placeholder="Select Subject" required readonly>
-            </b-input>
+        <b-button class="button is-info is-outlined"
+            icon-right="book-multiple" 
+            @click="openModal">ADD SUBJECT
+        </b-button>
 
-            <p class="control">
-                <b-button class="button is-primary" @click="openModal">...</b-button>
-            </p>
-        </b-field>
 
 
         <b-modal v-model="isModalActive" has-modal-card
                  trap-focus scroll="keep" aria-role="dialog" aria-modal>
             <div class="modal-card card-width">
                 <header class="modal-card-head">
-                    <p class="modal-card-title">Select Patient</p>
+                    <p class="modal-card-title has-text-weight-bold is-size-6">SELECT SUBJECT</p>
                     <button type="button" class="delete"
                             @click="isModalActive = false"/>
 
@@ -25,8 +21,8 @@
                     <div>
 
                         <b-field label="Search" label-position="on-border" >
-                            <b-input type="text" v-model="search.code" placeholder="Search Lastname..." expanded auto-focus></b-input>
-                            <b-input type="text" v-model="search.desc" placeholder="Search Firstname..." expanded auto-focus></b-input>
+                            <b-input type="text" v-model="search.code" placeholder="Search Subj Code..." expanded auto-focus></b-input>
+                            <b-input type="text" v-model="search.desc" placeholder="Search Subj Description..." expanded auto-focus></b-input>
                             <p class="control">
                                 <b-button class="is-primary" icon-left="magnify" @click="loadAsyncData"></b-button>
                             </p>

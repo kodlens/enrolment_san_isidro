@@ -9,6 +9,7 @@ use App\Models\Semester;
 use App\Models\Track;
 use App\Models\Strand;
 use App\Models\GradeLevel;
+use App\Models\Section;
 
 class OpenController extends Controller
 {
@@ -39,9 +40,14 @@ class OpenController extends Controller
     }
 
 
-   public function loadGradeLevels(){
+    public function loadGradeLevels(){
         return GradeLevel::where('active', 1)
             ->orderBy('id', 'asc')
+            ->get();
+    }
+
+    public function loadSections(Request $req){
+        return Section::orderBy('section_id', 'asc')
             ->get();
     }
 
