@@ -14,24 +14,19 @@ class Learner extends Model
     protected $primaryKey = 'learner_id';
 
     protected $fillable = [
+        'academic_year_id',
         'grade_level',
-        'is_returnee',
+        'learner_status',
         'lrn',
-        'psa_cert_no',
         'lname',
         'fname',
         'mname',
         'extension',
-        
         'sex',
         'birthdate',
         'birthplace',
         'age',
-        'mother_tongue',
-        'is_indigenous',
-        'if_yes_indigenous',
-        'is_4ps',
-        'household_4ps_id_no',
+        'last_school_attended',
 
         'current_country',
         'current_province',
@@ -40,12 +35,6 @@ class Learner extends Model
         'current_street',
         'current_zipcode',
 
-        'permanent_country',
-        'permanent_province',
-        'permanent_city',
-        'permanent_barangay',
-        'permanent_street',
-        'permanent_zipcode',
 
         'email',
         'contact_no',
@@ -55,11 +44,16 @@ class Learner extends Model
         'father_mname',
         'father_extension',
         'father_contact_no',
+        'father_education',
+        'father_religion',
         
         'mother_maiden_lname',
         'mother_maiden_fname',
         'mother_maiden_mname',
         'mother_maiden_contact_no',
+        'mother_education',
+        'mother_education',
+        'mother_religion',
 
         'guardian_lname',
         'guardian_fname',

@@ -8788,6 +8788,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['propData', 'propDataId'],
   data: function data() {
@@ -8935,6 +8936,8 @@ __webpack_require__.r(__webpack_exports__);
       this.btnClass['is-loading'] = true;
       this.errors = {}; //clear all errors, to refresh errors
 
+      this.fiedls.formatBirthdate = $formatDate(this.fields.birthdate);
+
       if (this.id > 0) {
         /* update */
         axios.put('/manage-learners/' + this.id, this.fields).then(function (res) {
@@ -9078,8 +9081,8 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.fname = 'Wayne';
       this.fields.mname = 'Yes';
       this.fields.extension = '';
-      this.fields.sex = 'MALE';
-      this.fields.birthdate = new Date('1988-08-08');
+      this.fields.sex = 'MALE'; //this.fields.birthdate = new Date('1988-08-08')
+
       this.fields.birthplace = 'Baroy Lanao del Norte';
       this.fields.age = '17';
       this.fields.mother_tongue = 'Cebuano';
@@ -9689,46 +9692,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -10201,35 +10166,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['propData', 'propDataId'],
   data: function data() {
+    var _fields;
+
     return {
       id: 0,
-      fields: {
-        lrn: '',
-        lname: '',
-        fname: '',
-        mname: '',
-        sex: '',
+      fields: (_fields = {
+        lrn: null,
+        grade_level: null,
+        learner_status: null,
+        lname: null,
+        fname: null,
+        mname: null,
+        sex: null,
         age: null,
         birthdate: null,
-        birthplace: '',
-        is_indigenous: null,
-        if_yes_indigenous: null,
-        is_4ps: null,
-        household_4ps_id_no: null,
-        permanent_province: '',
-        permanent_city: '',
-        permanent_barangay: '',
-        permanent_street: '',
-        permanent_zipcode: '',
-        current_province: '',
-        current_city: '',
-        current_barangay: '',
-        current_street: '',
-        current_zipcode: '',
-        semester: null,
-        track_id: null,
-        strand_id: null
-      },
+        formatted_bdate: null,
+        birthplace: null
+      }, _defineProperty(_fields, "age", null), _defineProperty(_fields, "last_school_attended", null), _defineProperty(_fields, "current_province", null), _defineProperty(_fields, "current_city", null), _defineProperty(_fields, "current_barangay", null), _defineProperty(_fields, "current_street", null), _defineProperty(_fields, "current_zipcode", null), _defineProperty(_fields, "father_fname", null), _defineProperty(_fields, "father_lname", null), _defineProperty(_fields, "father_mname", null), _defineProperty(_fields, "father_contact_no", null), _defineProperty(_fields, "mother_maiden_fname", null), _defineProperty(_fields, "mother_maiden_lname", null), _defineProperty(_fields, "mother_maiden_mname", null), _defineProperty(_fields, "mother_maiden_contact_no", null), _defineProperty(_fields, "guardian_fname", null), _defineProperty(_fields, "guardian_lname", null), _defineProperty(_fields, "guardian_mname", null), _defineProperty(_fields, "guardian_contact_no", null), _defineProperty(_fields, "semester", null), _defineProperty(_fields, "track_id", null), _defineProperty(_fields, "strand_id", null), _fields),
       errors: {},
       gradeLevels: [],
       current_provinces: [],
@@ -10336,6 +10289,10 @@ __webpack_require__.r(__webpack_exports__);
 
       this.btnClass['is-loading'] = true;
       this.errors = {}; //clear all errors, to refresh errors
+      //alternative
+
+      var formatted_bdate = this.fields.birthdate.getFullYear() + '-' + (this.fields.birthdate.getMonth() + 1).toString().padStart(2, "0") + '-' + this.fields.birthdate.getDate().toString().padStart(2, '0');
+      this.fields.formatted_bdate = formatted_bdate;
 
       if (this.id > 0) {
         /* update */
@@ -10424,8 +10381,8 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.fname = data.fname;
       this.fields.mname = data.mname;
       this.fields.extension = data.extension;
-      this.fields.sex = data.sex;
-      this.fields.birthdate = new Date(data.birthdate);
+      this.fields.sex = data.sex; //this.fields.birthdate = new Date(data.birthdate)
+
       this.fields.birthplace = data.birthplace;
       this.fields.age = data.age;
       this.fields.mother_tongue = data.mother_tongue;
@@ -10460,7 +10417,6 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.guardian_fname = data.guardian_fname;
       this.fields.guardian_mname = data.guardian_mname;
       this.fields.guardian_contact_no = data.guardian_contact_no;
-      this.fields.last_grade_level_completed = data.last_grade_level_completed;
       this.fields.last_school_year_completed = data.last_school_year_completed;
       this.fields.last_school_attended = data.last_school_attended;
       this.fields.last_schoold_id = data.last_schoold_id;
@@ -10471,25 +10427,20 @@ __webpack_require__.r(__webpack_exports__);
       this.btnClass['is-loading'] = false;
     },
     debug: function debug() {
-      this.fields.grade_level = 12;
-      this.fields.is_returnee = 1;
-      this.fields.psa = 'PSACERT-12231';
+      this.fields.grade_level = 'GRADE 11';
+      this.fields.learner_status = 1;
       this.fields.lrn = '20221123231';
-      this.fields.lname = 'Abapo';
-      this.fields.fname = 'Wayne';
-      this.fields.mname = 'Yes';
+      this.fields.lname = 'LABAJO';
+      this.fields.fname = 'MAYESEL';
+      this.fields.mname = '';
       this.fields.extension = '';
-      this.fields.sex = 'MALE';
+      this.fields.sex = 'FEMALE';
       this.fields.birthdate = new Date('1988-08-08');
       this.fields.birthplace = 'Baroy Lanao del Norte';
-      this.fields.age = '17';
-      this.fields.mother_tongue = 'Cebuano';
-      this.fields.is_indigenous = 1;
-      this.fields.if_yes_indigenous = 'IGOROT';
-      this.fields.is_4ps = 1;
-      this.fields.household_4ps_id_no = '4PS-11234';
+      this.fields.age = '20';
       this.fields.current_street = 'Juan Luna St.';
       this.fields.current_zipcode = '9210';
+      this.fields.last_school_attended = 'TCNHS';
       this.fields.father_lname = 'FATHERLNAME';
       this.fields.father_fname = 'FATHERFNAME';
       this.fields.father_mname = 'FATHERMNAME';
@@ -10502,9 +10453,7 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.guardian_fname = 'GFNAME';
       this.fields.guardian_mname = 'GMNAME';
       this.fields.guardian_contact_no = '09161234567';
-      this.fields.last_grade_level_completed = 'GRADE 11';
       this.fields.last_school_year_completed = '2021-2022';
-      this.fields.last_school_attended = 'LNNCHS';
       this.fields.last_schoold_id = '2022-2211';
       this.fields.semester_id = 1;
       this.fields.senior_high_school_id = '200222';
@@ -11409,6 +11358,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
 //
 //
 //
@@ -56264,9 +56217,23 @@ var render = function () {
                 _vm._v(" "),
                 _c("hr"),
                 _vm._v(" "),
-                _c("div", { staticClass: "buttons is-right" }, [
-                  _c("button", { class: _vm.btnClass }, [_vm._v("Register")]),
-                ]),
+                _c(
+                  "div",
+                  { staticClass: "buttons is-right" },
+                  [
+                    _c(
+                      "b-button",
+                      {
+                        staticClass: "is-outlined is-warning",
+                        on: { click: _vm.debug },
+                      },
+                      [_vm._v("DEBUG")]
+                    ),
+                    _vm._v(" "),
+                    _c("button", { class: _vm.btnClass }, [_vm._v("Register")]),
+                  ],
+                  1
+                ),
               ]),
             ]),
           ]
@@ -57355,7 +57322,7 @@ var render = function () {
     _c("div", { staticClass: "columns is-centered" }, [
       _c(
         "div",
-        { staticClass: "column is-6-widescreen is-8-desktop is-8-tablet" },
+        { staticClass: "column is-8-widescreen is-8-desktop is-10-tablet" },
         [
           _c(
             "form",
@@ -57484,6 +57451,10 @@ var render = function () {
                                 _c("option", { domProps: { value: 0 } }, [
                                   _vm._v("OLD"),
                                 ]),
+                                _vm._v(" "),
+                                _c("option", { domProps: { value: 2 } }, [
+                                  _vm._v("RETURNEE"),
+                                ]),
                               ]
                             ),
                           ],
@@ -57495,47 +57466,6 @@ var render = function () {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "columns" }, [
-                    _vm.fields.learner_status === 0
-                      ? _c(
-                          "div",
-                          { staticClass: "column" },
-                          [
-                            _c(
-                              "b-field",
-                              {
-                                attrs: {
-                                  label: "School Id",
-                                  type: this.errors.school_id
-                                    ? "is-danger"
-                                    : "",
-                                  message: this.errors.school_id
-                                    ? this.errors.school_id[0]
-                                    : "",
-                                },
-                              },
-                              [
-                                _c("b-input", {
-                                  attrs: {
-                                    icon: "account",
-                                    placeholder: "School Id",
-                                    type: "text",
-                                  },
-                                  model: {
-                                    value: _vm.fields.school_id,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.fields, "school_id", $$v)
-                                    },
-                                    expression: "fields.school_id",
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                          ],
-                          1
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
                     _c(
                       "div",
                       { staticClass: "column" },
@@ -57779,7 +57709,11 @@ var render = function () {
                           },
                           [
                             _c("b-datepicker", {
-                              attrs: { placeholder: "Birthdate", required: "" },
+                              attrs: {
+                                editable: "",
+                                placeholder: "Birthdate",
+                                required: "",
+                              },
                               model: {
                                 value: _vm.fields.birthdate,
                                 callback: function ($$v) {
@@ -57859,6 +57793,50 @@ var render = function () {
                                   _vm.$set(_vm.fields, "age", $$v)
                                 },
                                 expression: "fields.age",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                      ],
+                      1
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "columns" }, [
+                    _c(
+                      "div",
+                      { staticClass: "column" },
+                      [
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Last School Attended",
+                              type: this.errors.last_school_attended
+                                ? "is-danger"
+                                : "",
+                              message: this.errors.last_school_attended
+                                ? this.errors.last_school_attended[0]
+                                : "",
+                            },
+                          },
+                          [
+                            _c("b-input", {
+                              attrs: {
+                                type: "text",
+                                placeholder: "Last School Attended",
+                              },
+                              model: {
+                                value: _vm.fields.last_school_attended,
+                                callback: function ($$v) {
+                                  _vm.$set(
+                                    _vm.fields,
+                                    "last_school_attended",
+                                    $$v
+                                  )
+                                },
+                                expression: "fields.last_school_attended",
                               },
                             }),
                           ],
@@ -58841,11 +58819,11 @@ var render = function () {
                           {
                             attrs: {
                               label: "School Id",
-                              type: this.errors.senior_high_school_id
+                              type: _vm.errors.senior_high_school_id
                                 ? "is-danger"
                                 : "",
-                              message: this.errors.senior_high_school_id
-                                ? this.errors.senior_high_school_id[0]
+                              message: _vm.errors.senior_high_school_id
+                                ? _vm.errors.senior_high_school_id[0]
                                 : "",
                             },
                           },
@@ -58995,9 +58973,25 @@ var render = function () {
                   _vm._v(" "),
                   _c("hr"),
                   _vm._v(" "),
-                  _c("div", { staticClass: "buttons is-right" }, [
-                    _c("button", { class: _vm.btnClass }, [_vm._v("Register")]),
-                  ]),
+                  _c(
+                    "div",
+                    { staticClass: "buttons is-right" },
+                    [
+                      _c(
+                        "b-button",
+                        {
+                          staticClass: "button is-info is-outlined",
+                          on: { click: _vm.debug },
+                        },
+                        [_vm._v("DEBUG")]
+                      ),
+                      _vm._v(" "),
+                      _c("button", { class: _vm.btnClass }, [
+                        _vm._v("Register"),
+                      ]),
+                    ],
+                    1
+                  ),
                 ]),
               ]),
             ]
@@ -60312,7 +60306,7 @@ var render = function () {
     [
       _c("div", { staticClass: "section" }, [
         _c("div", { staticClass: "columns is-centered" }, [
-          _c("div", { staticClass: "column is-8" }, [
+          _c("div", { staticClass: "column is-8-widescreen is-10-tablet" }, [
             _c(
               "div",
               { staticClass: "box" },
@@ -60508,6 +60502,24 @@ var render = function () {
                               _vm._v(
                                 "\n                            " +
                                   _vm._s(props.row.class) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: { field: "fee", label: "Fee", sortable: "" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(props.row.fee) +
                                   "\n                        "
                               ),
                             ]

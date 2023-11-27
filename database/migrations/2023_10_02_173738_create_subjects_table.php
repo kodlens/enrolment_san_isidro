@@ -19,6 +19,7 @@ class CreateSubjectsTable extends Migration
             $table->string('subject_description')->nullable();
             $table->string('units')->nullable();
             $table->string('class')->nullable();
+            $table->double('fee')->default(0);
             $table->timestamps();
         });
     }

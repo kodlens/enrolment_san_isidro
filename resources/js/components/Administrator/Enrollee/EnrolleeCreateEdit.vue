@@ -430,6 +430,7 @@
                             <div class="buttons is-right">
 <!--                                <b-button class="button is-info is-outlined"-->
 <!--                                    @click="debug">DEBUG</b-button>-->
+                                <b-button class="is-outlined is-warning" @click="debug">DEBUG</b-button>
                                 <button :class="btnClass">Register</button>
                             </div>
 
@@ -595,6 +596,8 @@ export default {
             this.btnClass['is-loading'] = true
             this.errors = {}; //clear all errors, to refresh errors
 
+            this.fiedls.formatBirthdate = $formatDate(this.fields.birthdate)
+
             if(this.id > 0){
                 /* update */
                 axios.put('/manage-learners/' + this.id, this.fields).then(res=>{
@@ -756,7 +759,7 @@ export default {
             this.fields.mname = 'Yes'
             this.fields.extension = ''
             this.fields.sex = 'MALE'
-            this.fields.birthdate = new Date('1988-08-08')
+            //this.fields.birthdate = new Date('1988-08-08')
             this.fields.birthplace = 'Baroy Lanao del Norte'
             this.fields.age = '17'
             this.fields.mother_tongue = 'Cebuano'

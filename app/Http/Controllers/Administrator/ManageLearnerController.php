@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 use App\Models\Learner;
 use Illuminate\Validation\Rule;
+use App\Models\AcademicYear;
+
+
 
 
 class ManageLearnerController extends Controller
@@ -57,11 +60,12 @@ class ManageLearnerController extends Controller
 
 
     public function store(Request $req){
+       
 
         $req->validate([
 
             'grade_level' => ['required'],
-            'is_returnee' => ['required'],
+            'learner_status' => ['required'],
 
             'lname' => ['required', 'string', 'max:50'],
             'fname' => ['required', 'string', 'max:50'],
@@ -69,7 +73,6 @@ class ManageLearnerController extends Controller
             'birthdate' => ['required'],
             
             'age' => ['required'],
-            'mother_tongue' => ['required'],
 
             'current_province' => ['required'],
             'current_city' => ['required'],
@@ -80,12 +83,6 @@ class ManageLearnerController extends Controller
             'guardian_fname' => ['required'],
             'guardian_contact_no' => ['required', 'regex:/^(09|\+639)\d{9}$/'],
 
-            'if_yes_indigenous' => Rule::requiredIf(function () use ($req){
-                return $req->is_indigenous == 1 ? true : false;
-            }),
-            'household_4ps_id_no' => Rule::requiredIf(function () use ($req){
-                return $req->is_4ps == 1 ? true : false;
-            }),
 
             //==================================================================================//
             //=-----------if senior high school required this fields-----------------=//
@@ -120,48 +117,48 @@ class ManageLearnerController extends Controller
             /* ==================================== */
             /* end required fields if senior highschool */
             /* required if returnee*/
-            'last_grade_level_completed' => Rule::requiredIf(function () use ($req){
-                if($req->is_returnee == 1){
-                    return true;
-                }else{
-                    return false;
-                }
-            }),
-            'last_school_year_completed' => Rule::requiredIf(function () use ($req){
-                if($req->is_returnee == 1){
-                    return true;
-                }else{
-                    return false;
-                }
-            }),
-            'last_school_attended' => Rule::requiredIf(function () use ($req){
-                if($req->is_returnee == 1){
-                    return true;
-                }else{
-                    return false;
-                }
-            }),
-            'last_schoold_id' => Rule::requiredIf(function () use ($req){
-                if($req->is_returnee == 1){
-                    return true;
-                }else{
-                    return false;
-                }
-            }),
+            // 'last_grade_level_completed' => Rule::requiredIf(function () use ($req){
+            //     if($req->learner_status == 2){
+            //         return true;
+            //     }else{
+            //         return false;
+            //     }
+            // }),
+            // 'last_school_year_completed' => Rule::requiredIf(function () use ($req){
+            //     if($req->learner_status == 2){
+            //         return true;
+            //     }else{
+            //         return false;
+            //     }
+            // }),
+            // 'last_school_attended' => Rule::requiredIf(function () use ($req){
+            //     if($req->learner_status == 2){
+            //         return true;
+            //     }else{
+            //         return false;
+            //     }
+            // }),
+            // 'last_schoold_id' => Rule::requiredIf(function () use ($req){
+            //     if($req->learner_status == 2){
+            //         return true;
+            //     }else{
+            //         return false;
+            //     }
+            // }),
         ],[
             'guardian_contact_no.regex' => 'Please enter a valid Philippines mobile phone number.',
-            'if_yes_indigenous.required' => 'This field is required since you belong to indigenous.',
-            'household_4ps_id_no.required' => 'This field is required since you are a 4ps member.',
+            //'if_yes_indigenous.required' => 'This field is required since you belong to indigenous.',
+            //'household_4ps_id_no.required' => 'This field is required since you are a 4ps member.',
 
             'semester_id.required' => 'This field is required since you are a senior high.',
             'senior_high_school_id.required' => 'This field is required since you are a senior high.',
             'track_id.required' => 'This field is required since you are a senior high.',
             'strand_id.required' => 'This field is required since you are a senior high.',
             
-            'last_grade_level_completed.required' => 'This field is required since you are a returnee student.',
-            'last_school_year_completed.required' => 'This field is required since you are a returnee student.',
-            'last_school_attended.required' => 'This field is required since you are a returnee student.',
-            'last_schoold_id.required' => 'This field is required since you are a returnee student.'
+            // 'last_grade_level_completed.required' => 'This field is required since you are a returnee student.',
+            // 'last_school_year_completed.required' => 'This field is required since you are a returnee student.',
+            // 'last_school_attended.required' => 'This field is required since you are a returnee student.',
+            // 'last_schoold_id.required' => 'This field is required since you are a returnee student.'
 
         ]);
         /* if not a senior high, set default value */
@@ -179,42 +176,37 @@ class ManageLearnerController extends Controller
 
 
         /* if not a returnee setup default data */
-        $lastGradeLevelCompleted = null;
-        $lastSchoolYearCompleted = null;
-        $lastSchoolAttended = null;
-        $lastSchoolId = null;
-        if($req->is_returnee > 0){
+        // $lastGradeLevelCompleted = null;
+        // $lastSchoolYearCompleted = null;
+        // $lastSchoolAttended = null;
+        // $lastSchoolId = null;
 
-            $lastGradeLevelCompleted = strtoupper($req->last_grade_level_completed);
-            $lastSchoolYearCompleted = strtoupper($req->last_school_year_completed);
-            $lastSchoolAttended = strtoupper($req->last_school_attended);
-            $lastSchoolId = strtoupper($req->last_schoold_id);
-        }
+        // if($req->learner_status == 2){
+        //     $lastGradeLevelCompleted = strtoupper($req->last_grade_level_completed);
+        //     $lastSchoolYearCompleted = strtoupper($req->last_school_year_completed);
+        //     $lastSchoolAttended = strtoupper($req->last_school_attended);
+        //     $lastSchoolId = strtoupper($req->last_schoold_id);
+        // }
         /* ===========END=============== */
 
+        $ay = AcademicYear::where('is_active', 1)->first();
 
         /*inserting data to database*/
         $data = Learner::create([
-
+            'academic_year_id' => $ay->academic_year_id,
             'grade_level' => $req->grade_level,
-            'is_returnee' => $req->is_returnee,
+            'learner_status' => $req->learner_status,
 
-            'psa_cert' => $req->psa_cert,
             'lrn' => $req->lrn,
             'lname' => strtoupper($req->lname),
             'fname' => strtoupper($req->fname),
             'mname' => strtoupper($req->mname),
             'extension' => strtoupper($req->suffix),
             'sex' => $req->sex,
-            'birthdate' => date('Y-m-d', strtotime($req->birthdate)),
+            'birthdate' => date('Y-m-d', strtotime($req->formatted_bdate)),
             'age' => $req->age,
             'birthplace' => strtoupper($req->birthplace),
-
-            'mother_tongue' => strtoupper($req->mother_tongue),
-            'is_indigenous' => $req->is_indigenous,
-            'if_yes_indigenous' => $req->is_indigenous ? $req->if_yes_indigenous : null,
-            'is_4ps' => $req->is_4ps,
-            'household_4ps_id_no' => $req->is_4ps ? $req->household_4ps_id_no : null,
+            'last_school_attended' => strtoupper($req->last_school_attended),
 
             'current_province' => $req->current_province,
             'current_city' => $req->current_city,
@@ -222,37 +214,27 @@ class ManageLearnerController extends Controller
             'current_street' => strtoupper($req->current_street),
             'current_zipcode' => $req->current_zipcode,
 
-            'permanent_province' => $req->permanent_province,
-            'permanent_city' => $req->permanent_city,
-            'permanent_barangay' => $req->permanent_barangay,
-            'permanent_street' => strtoupper($req->permanent_street),
-            'permanent_zipcode' => $req->permanent_zipcode,
-
-            //'email' => $req->email,
-            //'contact_no' => $req->contact_no,
-
             'father_lname' => strtoupper($req->father_lname),
             'father_fname' => strtoupper($req->father_fname),
             'father_mname' => strtoupper($req->father_mname),
-            'father_extension' => strtoupper($req->father_mname),
+            'father_extension' => strtoupper($req->father_extension),
             'father_contact_no' => $req->father_contact_no,
+            'father_education' => strtoupper($req->father_education),
+            'father_religion' => strtoupper($req->father_religion),
 
             'mother_maiden_lname' => strtoupper($req->mother_maiden_lname),
             'mother_maiden_fname' => strtoupper($req->mother_maiden_fname),
             'mother_maiden_mname' => strtoupper($req->mother_maiden_mname),
             'mother_maiden_contact_no' => $req->mother_maiden_contact_no,
+            'mother_education' => strtoupper($req->mother_education),
+            'mother_religion' => strtoupper($req->mother_religion),
+
 
             'guardian_lname' => strtoupper($req->guardian_lname),
             'guardian_fname' => strtoupper($req->guardian_fname),
             'guardian_mname' => strtoupper($req->guardian_mname),
             'guardian_extension' => strtoupper($req->guardian_mname),
             'guardian_contact_no' => $req->guardian_contact_no,
-
-
-            'last_grade_level_completed' => $lastGradeLevelCompleted,
-            'last_school_year_completed' => $lastSchoolYearCompleted,
-            'last_school_attended' => $lastSchoolAttended,
-            'last_schoold_id' => $lastSchoolId,
 
             
             'semester_id' => $semesterId,

@@ -2,7 +2,7 @@
     <div>
         <div class="section">
             <div class="columns is-centered">
-                <div class="column is-8">
+                <div class="column is-8-widescreen is-10-tablet">
                     <div class="box">
                         <div class="has-text-weight-bold subtitle is-4">SUBJECTS</div>
                         <b-field label="Search">
@@ -55,6 +55,10 @@
 
                             <b-table-column field="class" label="Class" sortable v-slot="props">
                                 {{ props.row.class }}
+                            </b-table-column>
+
+                            <b-table-column field="fee" label="Fee" sortable v-slot="props">
+                                {{ props.row.fee }}
                             </b-table-column>
 
                             <b-table-column label="Action" v-slot="props">
