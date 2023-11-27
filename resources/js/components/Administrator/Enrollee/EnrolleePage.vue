@@ -5,9 +5,24 @@
                 <div class="column is-8-dekstop is-10-tablet">
                     <div class="box">
                         <div class="has-text-weight-bold subtitle is-4">ENROLLEES</div>
+
+                        <b-field label="Academic Year">
+                            <b-select v-model="search.ayid" 
+                                placeholder="Academic Year"
+                                @keyup.native.enter="loadAsyncData">
+                                <option v-for="(item, ix) in academicYears" :key="`ay${ix}`" 
+                                    :value="item.academic_year_id">
+                                    {{ item.academic_year_code }} - {{ item.academic_year_desc }}
+                                </option>
+                            </b-select>
+                                
+               
+                        </b-field>
+
+
                         <b-field label="Search">
                             <b-input type="text"
-                                     v-model="search.lname" placeholder="Search Lastname"
+                                     v-model="search.name" placeholder="Search Lastname"
                                      @keyup.native.enter="loadAsyncData"/>
                             <p class="control">
                                 <b-tooltip label="Search" type="is-success">
@@ -39,14 +54,14 @@
                             backend-sorting
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
-                            
+
 
                             <b-table-column field="lname" label="Name" sortable v-slot="props">
                                 {{ props.row.learner.lname }}, {{ props.row.learner.fname }} {{ props.row.learner.mname }}
                             </b-table-column>
 
                             <b-table-column field="sex" label="Sex" v-slot="props">
-                                {{ props.row.sex }}
+                                {{ props.row.learner.sex }}
                             </b-table-column>
 
                             <b-table-column field="grade_level" label="Grade Level" v-slot="props">
@@ -82,7 +97,7 @@
 
                             <template #detail="props">
                                 <p class="has-text-weight-bold is-size-6">SUBJECTS</p>
-                                <table>
+                                <table class="table">
                                     <tr>
                                         <th>Code</th>
                                         <th>Description</th>
@@ -96,6 +111,11 @@
                                         <td>{{ item.subject.fee }}</td>
                                     </tr>
                                 </table>
+
+                                <div class="buttons">
+                                    <b-button class="is-small is-outlined is-info mt-2"
+                                        icon-left="printer">PRINT COE</b-button>
+                                </div>
                             </template>
                         </b-table>
 
@@ -119,55 +139,6 @@
 
 
 
-        <!--modal reset password-->
-        <b-modal v-model="modalResetPassword" has-modal-card
-                 trap-focus
-                 :width="640"
-                 aria-role="dialog"
-                 aria-label="Modal"
-                 aria-modal>
-
-            <form @submit.prevent="resetPassword">
-                <div class="modal-card">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">Change Password</p>
-                        <button
-                            type="button"
-                            class="delete"
-                            @click="modalResetPassword = false"/>
-                    </header>
-
-                    <section class="modal-card-body">
-                        <div class="">
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Password" label-position="on-border"
-                                        :type="this.errors.password ? 'is-danger':''"
-                                        :message="this.errors.password ? this.errors.password[0] : ''">
-                                        <b-input type="password" v-model="fields.password" password-reveal
-                                            placeholder="Password" required>
-                                        </b-input>
-                                    </b-field>
-                                    <b-field label="Confirm Password" label-position="on-border"
-                                             :type="this.errors.password_confirmation ? 'is-danger':''"
-                                             :message="this.errors.password_confirmation ? this.errors.password_confirmation[0] : ''">
-                                        <b-input type="password" v-model="fields.password_confirmation"
-                                            password-reveal
-                                            placeholder="Confirm Password" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <footer class="modal-card-foot">
-                        <button
-                            class="button is-primary">SAVE</button>
-                    </footer>
-                </div>
-            </form><!--close form-->
-        </b-modal>
-        <!--close modal-->
 
 
     </div>
@@ -188,21 +159,18 @@ export default{
             perPage: 10,
             defaultSortDirection: 'asc',
 
-
             global_id : 0,
 
             search: {
-                lname: '',
+                ayid: '',
+                name: '',
             },
 
             isModalCreate: false,
-            modalResetPassword: false,
-
-            fields: {
-                password: null,
-                password_confirmation: null
-            },
+     
             errors: {},
+
+            academicYears: [],
         }
 
     },
@@ -214,7 +182,8 @@ export default{
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `lname=${this.search.lname}`,
+                `name=${this.search.name}`,
+                `ayid=${this.search.ayid}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
@@ -289,12 +258,28 @@ export default{
         },
 
 
+        async loadAcademicYears(){
+            await axios.get('/load-academic-years').then(res=>{
+                this.academicYears = res.data
+
+                this.academicYears.forEach(item =>{
+                    if(item.is_active === 1){
+                        this.search.ayid = item.academic_year_id
+                    }
+                })
+            }).catch(err=>{
+            
+            })
+        }
 
 
     },
 
     mounted() {
-        this.loadAsyncData()
+        this.loadAcademicYears().then(()=>{
+            this.loadAsyncData()
+        })
+  
     }
 
 }

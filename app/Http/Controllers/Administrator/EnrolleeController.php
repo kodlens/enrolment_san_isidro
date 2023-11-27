@@ -13,6 +13,7 @@ class EnrolleeController extends Controller
         return view('administrator.enrollee.enrollee-page');
     }
     public function getEnrollees(Request $req){
+        
         $sort = explode('.', $req->sort_by);
 
         $data = Enroll::with(['academic_year', 'learner', 
@@ -20,9 +21,10 @@ class EnrolleeController extends Controller
                 'section', 'subjects.subject'
             ])
             ->whereHas('learner', function($q) use ($req){
-                $q->where('lname', 'like', '%' . $req->lname . '%')
-                    ->orWhere('fname', 'like', '%' . $req->lname . '%');
+                $q->where('lname', 'like', '%' . $req->name . '%')
+                    ->orWhere('fname', 'like', '%' . $req->name . '%');
             })
+            ->where('academic_year_id', $req->ayid)
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
         return $data;
