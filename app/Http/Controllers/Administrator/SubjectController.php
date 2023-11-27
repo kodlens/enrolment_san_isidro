@@ -80,4 +80,19 @@ class SubjectController extends Controller
 
 
 
+    //browse
+    public function getBrowseSubjects(Request $req){
+        $sort = explode('.', $req->sort_by);
+
+        $data = Subject::where('subject_code', 'like', $req->code . '%')
+            ->where('subject_description', 'like', $req->desc . '%')
+            ->orderBy($sort[0], $sort[1])
+            ->paginate($req->perpage);
+
+        return $data;
+
+    }
+
+
+
 }

@@ -20,7 +20,8 @@ class CreateLearnersTable extends Migration
             $table->foreign('academic_year_id')->references('academic_year_id')->on('academic_years')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->string('grade_level')->nullable();
+            $table->string('student_id', 10)->nullable();
+            $table->string('grade_level', 15)->nullable();
             $table->tinyInteger('learner_status')->nullable(0);
 
             //$table->string('psa_cert')->nullable();
@@ -44,32 +45,32 @@ class CreateLearnersTable extends Migration
             $table->string('current_zipcode')->nullable();
 
             //$table->string('email')->nullable();
-            $table->string('contact_no')->nullable();
-            $table->string('religion')->nullable();
+            $table->string('contact_no', 50)->nullable();
+            $table->string('religion', 50)->nullable();
 
             //father
-            $table->string('father_lname')->nullable();
-            $table->string('father_fname')->nullable();
-            $table->string('father_mname')->nullable();
-            $table->string('father_extension')->nullable();
-            $table->string('father_contact_no')->nullable();
-            $table->string('father_religion')->nullable();
-            $table->string('father_education')->nullable();
+            $table->string('father_lname', 50)->nullable();
+            $table->string('father_fname', 50)->nullable();
+            $table->string('father_mname', 50)->nullable();
+            $table->string('father_extension', 50)->nullable();
+            $table->string('father_contact_no', 50)->nullable();
+            $table->string('father_religion', 50)->nullable();
+            $table->string('father_education', 50)->nullable();
 
             //mother
-            $table->string('mother_maiden_lname')->nullable();
-            $table->string('mother_maiden_fname')->nullable();
-            $table->string('mother_maiden_mname')->nullable();
-            $table->string('mother_maiden_contact_no')->nullable();
-            $table->string('mother_religion')->nullable();
-            $table->string('mother_education')->nullable();
+            $table->string('mother_maiden_lname', 50)->nullable();
+            $table->string('mother_maiden_fname', 50)->nullable();
+            $table->string('mother_maiden_mname', 50)->nullable();
+            $table->string('mother_maiden_contact_no', 50)->nullable();
+            $table->string('mother_religion', 50)->nullable();
+            $table->string('mother_education', 50)->nullable();
 
 
-            $table->string('guardian_lname')->nullable();
-            $table->string('guardian_fname')->nullable();
-            $table->string('guardian_mname')->nullable();
-            $table->string('guardian_extension')->nullable();
-            $table->string('guardian_contact_no')->nullable();
+            $table->string('guardian_lname', 50)->nullable();
+            $table->string('guardian_fname', 50)->nullable();
+            $table->string('guardian_mname', 50)->nullable();
+            $table->string('guardian_extension', 50)->nullable();
+            $table->string('guardian_contact_no', 50)->nullable();
 
 
             $table->unsignedBigInteger('semester_id')->default(0);
@@ -78,7 +79,7 @@ class CreateLearnersTable extends Migration
             $table->unsignedBigInteger('track_id')->default(0);
             $table->unsignedBigInteger('strand_id')->default(0);
 
-            $table->string('administer_by')->nullable();
+            $table->string('administer_by', 30)->nullable();
 
             $table->timestamps();
         });

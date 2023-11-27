@@ -1,8 +1,8 @@
 <template>
     <div>
-        <b-field label="Learner">
+        <b-field label="Subject">
             <b-input :value="valueFullname" expanded
-                icon="account" placeholder="Select Learner" required readonly>
+                icon="account" placeholder="Select Subject" required readonly>
             </b-input>
 
             <p class="control">
@@ -11,7 +11,7 @@
         </b-field>
 
 
-        <b-modal v-model="this.isModalActive" has-modal-card
+        <b-modal v-model="isModalActive" has-modal-card
                  trap-focus scroll="keep" aria-role="dialog" aria-modal>
             <div class="modal-card card-width">
                 <header class="modal-card-head">
@@ -24,20 +24,9 @@
                 <section class="modal-card-body">
                     <div>
 
-                        <b-field label="Academic Year" label-position="on-border" expanded>
-                            <b-select v-model="search.academic_year_id" 
-                                expanded
-                                placeholder="Select Academic Year"
-                                @input="loadAsyncData">
-                                <option v-for="(item, index) in academicYears"
-                                    :key="index" 
-                                    :value="item.academic_year_id">{{ item.academic_year_code }} - {{ item.academic_year_desc }}</option>
-                            </b-select>
-                        </b-field>
-
                         <b-field label="Search" label-position="on-border" >
-                            <b-input type="text" v-model="search.lname" placeholder="Search Lastname..." expanded auto-focus></b-input>
-                            <b-input type="text" v-model="search.fname" placeholder="Search Firstname..." expanded auto-focus></b-input>
+                            <b-input type="text" v-model="search.code" placeholder="Search Lastname..." expanded auto-focus></b-input>
+                            <b-input type="text" v-model="search.desc" placeholder="Search Firstname..." expanded auto-focus></b-input>
                             <p class="control">
                                 <b-button class="is-primary" icon-left="magnify" @click="loadAsyncData"></b-button>
                             </p>
@@ -61,20 +50,20 @@
                                 default-sort-direction="defualtSortDirection"
                                 @sort="onSort">
 
-                                <b-table-column field="learner_id" label="ID" v-slot="props">
-                                    {{props.row.learner_id}}
+                                <b-table-column field="subject_id" label="ID" v-slot="props">
+                                    {{props.row.subject_id}}
                                 </b-table-column>
 
-                                <b-table-column field="lname" label="Lastname" v-slot="props">
-                                    {{props.row.lname}}
+                                <b-table-column field="subject_code" label="Code" v-slot="props">
+                                    {{props.row.subject_code}}
                                 </b-table-column>
 
-                                <b-table-column field="fname" label="Firstname" v-slot="props">
-                                    {{props.row.fname}}
+                                <b-table-column field="subject_description" label="Description" v-slot="props">
+                                    {{props.row.subject_description}}
                                 </b-table-column>
 
-                                <b-table-column field="mname" label="Middlename" v-slot="props">
-                                    {{props.row.mname}}
+                                <b-table-column field="fee" label="Fee" v-slot="props">
+                                    {{props.row.fee}}
                                 </b-table-column>
 
                                 <b-table-column field="" label="Action" v-slot="props">
@@ -118,7 +107,7 @@ export default {
             data: [],
             total: 0,
             loading: false,
-            sortfield: 'learner_id',
+            sortfield: 'subject_id',
             sortOrder:'desc',
             page: 1,
             perPage: 5,
@@ -131,14 +120,9 @@ export default {
                 fullname: '',
             },
             search: {
-                academic_year_id: null,
-                lname: '',
-                fname: '',
+                code: '',
+                desc: '',
             },
-
-            academicYears: [],
-
-            
 
         }
     },
@@ -148,14 +132,14 @@ export default {
                 `sort_by=${this.sortfield}.${this.sortOrder}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`,
-                `lname=${this.search.lname}`,
-                `fname=${this.search.fname}`,
-                `ayid=${this.search.academic_year_id}`,
+                `code=${this.search.code}`,
+                `desc=${this.search.desc}`,
+               
 
             ].join('&');
 
             this.loading = true;
-            axios.get(`/get-browse-learners?${params}`).then(({data}) => {
+            axios.get(`/get-browse-subjects?${params}`).then(({data}) => {
                 this.data = [];
                 let currentTotal = data.total;
                 if (data.total / this.perPage > 1000) {
@@ -199,27 +183,13 @@ export default {
 
         selectData(dataRow){
             this.isModalActive = false;
-            this.$emit('browseLearner', dataRow);
+            this.$emit('browseSubject', dataRow);
         },
 
-        loadAcademicYears(){
-            axios.get('/load-academic-years').then(res=>{
-                this.academicYears = res.data
-
-                this.academicYears.forEach(item =>{
-                    if(item.is_active === 1) {
-                        this.search.academic_year_id = item.academic_year_id
-                    }
-                })
-            })
-        }
 
 
     },
 
-    mounted(){
-        this.loadAcademicYears()
-    },
 
     computed: {
         valueFullname(){

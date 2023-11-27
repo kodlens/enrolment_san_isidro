@@ -87,6 +87,7 @@ Route::middleware(['auth', 'admin'])->group(function(){
 
     Route::resource('/subjects', App\Http\Controllers\Administrator\SubjectController::class);
     Route::get('/get-subjects', [App\Http\Controllers\Administrator\SubjectController::class, 'getSubjects']);
+    Route::get('/get-browse-subjects', [App\Http\Controllers\Administrator\SubjectController::class, 'getBrowseSubjects']);
 
     Route::resource('/sections', App\Http\Controllers\Administrator\SectionController::class);
     Route::get('/get-sections', [App\Http\Controllers\Administrator\SectionController::class, 'getSections']);
@@ -95,10 +96,13 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/get-enrollee', [App\Http\Controllers\Administrator\EnrolleeController::class, 'getEnrollee']);
 
     Route::resource('/enrolement', App\Http\Controllers\Administrator\EnrolementController::class);
+  
 
     Route::resource('/manage-learners', App\Http\Controllers\Administrator\ManageLearnerController::class);
     Route::get('/get-learners', [App\Http\Controllers\Administrator\ManageLearnerController::class, 'getLearners']);
+    Route::get('/get-browse-learners', [App\Http\Controllers\Administrator\ManageLearnerController::class, 'getBrowseLearners']);
 
+    
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
     Route::get('/get-accounts', [App\Http\Controllers\Administrator\UserController::class, 'getAccounts']);
 

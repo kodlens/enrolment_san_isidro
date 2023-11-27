@@ -14,6 +14,7 @@ class Learner extends Model
     protected $primaryKey = 'learner_id';
 
     protected $fillable = [
+        'student_id',
         'academic_year_id',
         'grade_level',
         'learner_status',

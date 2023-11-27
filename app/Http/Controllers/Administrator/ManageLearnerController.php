@@ -459,4 +459,23 @@ class ManageLearnerController extends Controller
     }
 
 
+
+
+
+    public function getBrowseLearners(Request $req){
+        $sort = explode('.', $req->sort_by);
+        $ayId = $req->ayid;
+
+        $learners = Learner::with(['track', 'strand'])
+            ->where('academic_year_id', $ayId)
+            ->where('lname', 'like', $req->lname . '%')
+            ->where('fname', 'like', $req->fname . '%')
+            ->orderBy($sort[0], $sort[1])
+            ->paginate($req->perpage);
+
+        return $learners;
+
+    }
+
+
 }
