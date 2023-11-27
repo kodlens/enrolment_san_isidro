@@ -95,9 +95,19 @@
                     Learners
                 </b-navbar-item>
 
-                <b-navbar-item href="/enrollee">
-                    Enrollee
-                </b-navbar-item>
+                <b-navbar-dropdown label="Enrollee">
+
+                    <b-navbar-item href="/enrollee">
+                        Enrollee
+                    </b-navbar-item>
+
+                    <b-navbar-item href="/enrolement">
+                        Enrolement
+                    </b-navbar-item>
+                  
+
+                </b-navbar-dropdown>
+
 
                 <b-navbar-item href="/users">
                     Users

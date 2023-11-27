@@ -1,8 +1,8 @@
 <template>
     <div>
-        <b-field label="Patient">
-            <b-input :value="valueFullname" expanded icon-pack="fa"
-                    icon="account-outline" placeholder="Select Patient" required readonly>
+        <b-field label="Learner">
+            <b-input :value="valueFullname" expanded
+                icon="account" placeholder="Select Learner" required readonly>
             </b-input>
 
             <p class="control">
@@ -23,6 +23,15 @@
 
                 <section class="modal-card-body">
                     <div>
+
+                        <b-field>
+                            <b-select v-model="search.academic_year_id" placeholder="Select Academic Year"
+                                @input="loadAsyncData">
+                                <option v-for="(item, index) in academicYears"
+                                    :key="index" 
+                                    :value="item.academic_year_id">{{ item.academic_year_code }} - {{ item.academic_year_desc }}</option>
+                            </b-select>
+                        </b-field>
 
                         <b-field label="Search" label-position="on-border" >
                             <b-input type="text" v-model="search.lname" placeholder="Search Lastname..." expanded auto-focus></b-input>
@@ -113,14 +122,16 @@ export default {
             isModalActive: false,
             errors:{},
 
-            dentist: {
+            learner: {
                 fullname: '',
             },
             search: {
+                academic_year_id: null,
                 lname: '',
                 fname: '',
             },
 
+            
 
         }
     },
@@ -180,9 +191,21 @@ export default {
         selectData(dataRow){
             this.isModalActive = false;
             this.$emit('browsePatient', dataRow);
+        },
+
+        loadAcademicYears(){
+            axios.get('/load-academic-years').then(res=>{
+                this.academicYears = res.data
+            }).catch(err=>{
+            
+            })
         }
 
 
+    },
+
+    mounted(){
+        this.loadAcademicYears()
     },
 
     computed: {
