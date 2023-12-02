@@ -84,12 +84,13 @@
                     <b-navbar-item href="/subjects">
                         Subjects
                     </b-navbar-item>
-                    <b-navbar-item href="/blocks">
+                    <!-- <b-navbar-item href="/blocks">
                         Blocks
-                    </b-navbar-item>
+                    </b-navbar-item> -->
 
                 </b-navbar-dropdown>
 
+             
                  <!--<b-navbar-dropdown label="Cashier">
 
                     <b-navbar-item href="/cashier-page">
@@ -124,6 +125,10 @@
                     </b-navbar-item>
                     
                 </b-navbar-dropdown>
+                
+                <b-navbar-item href="/cashier-page">
+                    Cashier
+                </b-navbar-item>
 
 
                 <b-navbar-item href="/users">

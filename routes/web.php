@@ -103,6 +103,11 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/get-learners', [App\Http\Controllers\Administrator\ManageLearnerController::class, 'getLearners']);
     Route::get('/get-browse-learners', [App\Http\Controllers\Administrator\ManageLearnerController::class, 'getBrowseLearners']);
 
+
+    Route::resource('/cashier-page', App\Http\Controllers\Administrator\CashierController::class);
+    Route::get('/get-cashier-page', [App\Http\Controllers\Administrator\CashierController::class, 'getData']);
+
+
     
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
     Route::get('/get-accounts', [App\Http\Controllers\Administrator\UserController::class, 'getAccounts']);
