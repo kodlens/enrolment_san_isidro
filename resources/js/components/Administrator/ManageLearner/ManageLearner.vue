@@ -39,8 +39,8 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="learner_id" label="ID" sortable v-slot="props">
-                                {{ props.row.learner_id }}
+                            <b-table-column field="student_id" label="Student Id" sortable v-slot="props">
+                                {{ props.row.student_id }}
                             </b-table-column>
 
                             <b-table-column field="lname" label="Name" sortable v-slot="props">
@@ -288,7 +288,7 @@ export default{
 </script>
 
 
-<style>
+<style scoped>
 
     .table > tbody > tr {
         /* background-color: blue; */

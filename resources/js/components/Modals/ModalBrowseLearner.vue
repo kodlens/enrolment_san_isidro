@@ -35,6 +35,14 @@
                             </b-select>
                         </b-field>
 
+                        <b-field label="Student Id">
+                            <b-input type="text" 
+                                v-model="search.student" 
+                                @keyup.native.enter="loadAsyncData"
+                                placeholder="Search Student Id..." 
+                                expanded auto-focus></b-input>
+                        </b-field>
+
                         <b-field label="Search" label-position="on-border" >
                             <b-input type="text" v-model="search.lname" placeholder="Search Lastname..." expanded auto-focus></b-input>
                             <b-input type="text" v-model="search.fname" placeholder="Search Firstname..." expanded auto-focus></b-input>
@@ -61,8 +69,8 @@
                                 default-sort-direction="defualtSortDirection"
                                 @sort="onSort">
 
-                                <b-table-column field="learner_id" label="ID" v-slot="props">
-                                    {{props.row.learner_id}}
+                                <b-table-column field="student_id" label="Student Id" v-slot="props">
+                                    {{props.row.student_id}}
                                 </b-table-column>
 
                                 <b-table-column field="lname" label="Lastname" v-slot="props">
@@ -132,6 +140,7 @@ export default {
             },
             search: {
                 academic_year_id: null,
+                student: '',
                 lname: '',
                 fname: '',
             },
@@ -148,6 +157,7 @@ export default {
                 `sort_by=${this.sortfield}.${this.sortOrder}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`,
+                `student=${this.search.student}`,
                 `lname=${this.search.lname}`,
                 `fname=${this.search.fname}`,
                 `ayid=${this.search.academic_year_id}`,

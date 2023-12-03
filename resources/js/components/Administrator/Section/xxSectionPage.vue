@@ -402,7 +402,7 @@ export default{
 </script>
 
 
-<style>
+<style scoped>
 
 .table > tbody > tr {
     /* background-color: blue; */

@@ -243,6 +243,11 @@ class ManageLearnerController extends Controller
             'strand_id' => $strandId,
         ]);
 
+        $updateData = Learner::find($data->learner_id);
+        $id = date('Y') . '-' . str_pad($data->learner_id, 6, '0', STR_PAD_LEFT);
+        $updateData->student_id = $id;
+        $updateData->save();
+
         return response()->json([
             'status' => 'saved'
         ], 200);
@@ -461,13 +466,15 @@ class ManageLearnerController extends Controller
 
 
 
-
+    //for modal browse
     public function getBrowseLearners(Request $req){
         $sort = explode('.', $req->sort_by);
         $ayId = $req->ayid;
+        $studentId = $req->student;
 
         $learners = Learner::with(['track', 'strand'])
             ->where('academic_year_id', $ayId)
+            ->where('student_id', 'like', $studentId . '%')
             ->where('lname', 'like', $req->lname . '%')
             ->where('fname', 'like', $req->fname . '%')
             ->orderBy($sort[0], $sort[1])

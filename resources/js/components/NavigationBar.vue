@@ -80,7 +80,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .navbar-item{
         font-weight: bold;
     }

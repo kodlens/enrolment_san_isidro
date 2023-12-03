@@ -20,7 +20,7 @@ class CreateLearnersTable extends Migration
             $table->foreign('academic_year_id')->references('academic_year_id')->on('academic_years')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->string('student_id', 10)->nullable();
+            $table->string('student_id', 20)->nullable();
             $table->string('grade_level', 15)->nullable();
         
             $table->tinyInteger('learner_status')->nullable(0);

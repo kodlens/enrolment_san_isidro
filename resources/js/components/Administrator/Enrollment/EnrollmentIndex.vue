@@ -232,7 +232,7 @@ export default{
         
         emitBrowseLearner(row){
             this.learner.learner_id = row.learner_id
-            this.learner.name = row.lname + ', ' + row.fname + ' ' + row.mname
+            this.learner.name = '(' + row.student_id + ') ' + row.lname + ', ' + row.fname + ' ' + row.mname
             console.log(row);
             this.learner.grade_level = row.grade_level
             this.learner.learner_status = row.learner_status
