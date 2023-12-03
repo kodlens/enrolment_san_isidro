@@ -97,8 +97,10 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('/enrollee', App\Http\Controllers\Administrator\EnrolleeController::class);
     Route::get('/get-enrollees', [App\Http\Controllers\Administrator\EnrolleeController::class, 'getEnrollees']);
     Route::get('/get-browse-enrollees', [App\Http\Controllers\Administrator\EnrolleeController::class, 'getBrowseEnrollees']);
+    Route::get('/print-coe/{learnerId}/{ayid}', [App\Http\Controllers\Administrator\EnrolleeController::class, 'coeIndex']);
+    Route::get('/get-report-learner/{learnerId}/{ayid}', [App\Http\Controllers\Administrator\EnrolleeController::class, 'getReportLearner']);
 
-
+    
     Route::resource('/enrollment', App\Http\Controllers\Administrator\EnrollmentController::class);
   
 
@@ -107,9 +109,13 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/get-browse-learners', [App\Http\Controllers\Administrator\ManageLearnerController::class, 'getBrowseLearners']);
 
 
-    Route::resource('/cashier-page', App\Http\Controllers\Administrator\CashierController::class);
-    Route::get('/get-cashier-page', [App\Http\Controllers\Administrator\CashierController::class, 'getData']);
-
+    Route::resource('/billing-subjects', App\Http\Controllers\Administrator\BillingController::class);
+    Route::get('/get-billing-subjects', [App\Http\Controllers\Administrator\BillingController::class, 'getData']);
+    Route::get('/get-browse-billings', [App\Http\Controllers\Administrator\BillingController::class, 'getBrowseBillings']);
+    
+    
+    Route::resource('/billing-payment', App\Http\Controllers\Administrator\BillingPaymentController::class);
+    Route::get('/get-billing-payment', [App\Http\Controllers\Administrator\BillingPaymentController::class, 'getData']);
     
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
     Route::get('/get-accounts', [App\Http\Controllers\Administrator\UserController::class, 'getAccounts']);

@@ -4,7 +4,11 @@
             <div class="columns is-centered">
                 <div class="column is-8-dekstop is-10-tablet">
                     <div class="box">
-                        <div class="has-text-weight-bold subtitle is-4">ENROLLEES</div>
+
+                        <div class="has-text-weight-bold is-size-4">ENROLLEES</div>
+                        <div class="has-text-weight-bold mb-4 is-size-6">
+                            List of enrollees of the selected Academic Year.
+                        </div>
 
                         <b-field label="Academic Year">
                             <b-select v-model="search.ayid" 
@@ -88,10 +92,10 @@
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
-                                    <b-tooltip label="Edit" type="is-warning">
+                                    <b-tooltip label="Payment History" type="is-warning">
                                         <b-button class="button is-small mr-1" 
-                                            tag="a" icon-right="pencil" 
-                                            @click="getData(props.row.enroll_id)"></b-button>
+                                            tag="a" icon-right="history" 
+                                            @click="getData(props.row.billing_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
                                         <b-button class="button is-small mr-1" 
@@ -119,7 +123,9 @@
                                 </table>
 
                                 <div class="buttons">
-                                    <b-button class="is-small is-outlined is-info mt-2"
+                                    <b-button tag="a" 
+                                        :href="`/print-coe/${props.row.learner_id}/${search.ayid}`"
+                                        class="is-small is-outlined is-info mt-2"
                                         icon-left="printer">PRINT COE</b-button>
                                 </div>
                             </template>

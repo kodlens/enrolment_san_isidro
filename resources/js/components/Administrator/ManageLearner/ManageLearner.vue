@@ -4,7 +4,10 @@
             <div class="columns is-centered">
                 <div class="column is-8-dekstop is-10-tablet">
                     <div class="box">
-                        <div class="has-text-weight-bold subtitle is-4">LEARNERS</div>
+                        <div class="has-text-weight-bold is-size-4">LEARNERS</div>
+                        <div class="has-text-weight-bold mb-4 is-size-6">
+                            Record and manage learner information.
+                        </div>
                         <b-field label="Search">
                             <b-input type="text"
                                 v-model="search.lname" placeholder="Search Lastname"

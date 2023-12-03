@@ -14,12 +14,15 @@ class BillingPayment extends Model
 
 
     protected $fillable = [
-        'billing_payment_id',
+        'billing_id',
         'academic_year_id',
         'enroll_id',
-        'user_id',
+        'learner_id',
         'date_paid',
-        'payment'
+        'current_balance',
+        'payment',
+        'remarks'
     ];
+ 
 
 }

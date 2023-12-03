@@ -12,6 +12,9 @@ class EnrolleeController extends Controller
     public function index(){
         return view('administrator.enrollee.enrollee-page');
     }
+
+ 
+
     public function getEnrollees(Request $req){
         
         $sort = explode('.', $req->sort_by);
@@ -56,10 +59,35 @@ class EnrolleeController extends Controller
                     ->where('lname', 'like', $req->lname . '%')
                     ->where('fname', 'like', $req->fname . '%');
             })
-
+            //->where('is_enrolled', 0)
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);   
             
         return $data;
     }
+
+
+
+
+    public function coeIndex($learnerId, $ayId){
+        return view('administrator.enrollee.report.coe-index')
+            ->with('learnerId', $learnerId)
+            ->with('ayId', $ayId);
+    }
+
+    public function getReportLearner($learnerId, $ayId){
+        $data = Enroll::with(['academic_year', 'learner', 
+            'semester', 'track', 'strand', 
+            'billing.billing_payment',
+            'section', 'subjects.subject'
+        ])
+        ->where('academic_year_id', $ayId)
+        ->where('learner_id', $learnerId)
+        ->first();
+
+
+        return $data;
+    }
+
+
 }

@@ -124,10 +124,20 @@
                     </b-navbar-item>
                     
                 </b-navbar-dropdown>
+
+                <b-navbar-dropdown label="Cashier">
+
+                    <b-navbar-item href="/billing-subjects">
+                        Billing Subjects
+                    </b-navbar-item>
+                  
+                    <b-navbar-item href="/billing-payment">
+                        Billing Payment
+                    </b-navbar-item>
+                    
+                </b-navbar-dropdown>
                 
-                <b-navbar-item href="/cashier-page">
-                    Cashier
-                </b-navbar-item>
+               
 
 
                 <b-navbar-item href="/users">
