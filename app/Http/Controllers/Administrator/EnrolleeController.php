@@ -43,4 +43,23 @@ class EnrolleeController extends Controller
         ], 200);
     }
 
+
+    public function getBrowseEnrollees(Request $req){
+        $sort = explode('.', $req->sort_by);
+        $ayId = $req->ayid;
+        $studentId = $req->student;
+
+        $data = Enroll::with(['learner', 'semester', 'track', 'strand', 'section', 'subjects.subject'])
+            ->where('academic_year_id', $ayId)
+            ->whereHas('learner', function($q) use ($req){
+                $q->where('student_id', 'like', $req->student_id . '%')
+                    ->where('lname', 'like', $req->lname . '%')
+                    ->where('fname', 'like', $req->fname . '%');
+            })
+
+            ->orderBy($sort[0], $sort[1])
+            ->paginate($req->perpage);   
+            
+        return $data;
+    }
 }

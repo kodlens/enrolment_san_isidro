@@ -4,9 +4,7 @@
             icon-right="book-multiple" 
             @click="openModal">ADD SUBJECT
         </b-button>
-
-
-
+        
         <b-modal v-model="isModalActive" has-modal-card
                  trap-focus scroll="keep" aria-role="dialog" aria-modal>
             <div class="modal-card card-width">

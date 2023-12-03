@@ -70,7 +70,7 @@ class EnrollmentController extends Controller
             'track_id' => $track_id,
             'strand_id' => $strand_id,
             'section_id' => $req->section_id,
-            'date_enrolled' => date('Y-m-d', strtotime($req->date_enrolled)),
+            'date_admission' => date('Y-m-d', strtotime($req->date_admission)),
             'administer_by' => $user->username
         ]);
 

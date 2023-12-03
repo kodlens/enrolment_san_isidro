@@ -16,19 +16,18 @@
                                     <b-field
                                         :type="this.errors.learner_id ? 'is-danger':''"
                                         :message="this.errors.learner_id ? this.errors.learner_id[0] : ''">
-                                        <modal-browse-learner
-                                            :prop-name="learner.name"
-                                            @browseLearner="emitBrowseLearner"></modal-browse-learner>
+                                        <modal-browse-enrollee
+                                            :prop-name="enrollee.name"
+                                            @browseEnrollee="emitBrowseEnrollee"></modal-browse-enrollee>
                                     </b-field>
                                 </div> <!--col--> 
                                 <div class="column">
                                     <b-field label="Date Enrolled">
-                                        <b-datepicker v-model="learner.date_enrolled" 
+                                        <b-datepicker v-model="enrollee.date_enrolled" 
                                             placeholder="Date Enrolled"></b-datepicker>
                                     </b-field>
                                 </div>
                             </div> <!--cols-->
-
 
                             <div class="columns">
                                 <div class="column">
@@ -40,10 +39,10 @@
                                             expanded
                                             icon="account"
                                             placeholder="Grade Level"
-                                            v-model="learner.grade_level"
+                                            v-model="enrollee.grade_level"
                                             required>
                                             <option :value="item.grade_level"
-                                                    v-for="(item, ix) in gradeLevels" :key="`g${ix}`">
+                                                v-for="(item, ix) in gradeLevels" :key="`g${ix}`">
                                                 {{ item.grade_level }}
                                             </option>
                                         </b-select >
@@ -58,7 +57,7 @@
                                             expanded
                                             icon="account"
                                             placeholder="Section"
-                                            v-model="learner.section_id"
+                                            v-model="enrollee.section_id"
                                             required>
                                             <option :value="item.section_id"
                                                     v-for="(item, ix) in sections" :key="`section${ix}`">
@@ -76,7 +75,7 @@
                                             required
                                             icon="account"
                                             placeholder="Learner Status"
-                                            v-model="learner.learner_status">
+                                            v-model="enrollee.learner_status">
                                             <option :value="1">NEW</option>
                                             <option :value="0">OLD</option>
                                             <option :value="2">RETURNEE</option>
@@ -91,10 +90,10 @@
                                     <b-field label="Semester" expanded
                                         :type="this.errors.semester_id ? 'is-danger':''"
                                         :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
-                                        <b-select v-model="learner.semester_id" expanded
+                                        <b-select v-model="enrollee.semester_id" expanded
                                             icon="account"
                                             placeholder="Semester">
-                                            <option :value="item.semester_id" v-for="(item, ix) in semesters" :key="ix">
+                                            <option :value="item.semester_id" v-for="(item, ix) in semesters" :key="`sem${ix}`">
                                                 {{  item.semester }}
                                             </option>
                                         </b-select>
@@ -110,7 +109,7 @@
                                     <b-field label="Track"
                                              :type="this.errors.track_id ? 'is-danger':''"
                                              :message="this.errors.track_id ? this.errors.track_id[0] : ''">
-                                        <b-select v-model="learner.track_id" expanded
+                                        <b-select v-model="enrollee.track_id" expanded
                                                   icon="account"
                                                   placeholder="Track"
                                                   @input="loadStrands">
@@ -125,7 +124,7 @@
                                     <b-field label="Strand"
                                              :type="this.errors.strand_id ? 'is-danger':''"
                                              :message="this.errors.strand_id ? this.errors.strand_id[0] : ''">
-                                        <b-select v-model="learner.strand_id" expanded
+                                        <b-select v-model="enrollee.strand_id" expanded
                                                   icon="account"
                                                   placeholder="Strand">
                                             <option :value="item.strand_id" v-for="(item, ix) in strands" :key="`strand${ix}`">
@@ -140,51 +139,47 @@
 
                         <hr>
 
-                        <div class="has-text-weight-bold mb-4 info-header">SUBJECTS TO ENROLL</div>
+                        <div class="has-text-weight-bold mb-4 info-header">SUBJECTS ENROLLED</div>
                         <b-field
                             :type="this.errors.subjects ? 'is-danger':''"
                             :message="this.errors.subjects ? this.errors.subjects[0] : ''">
                         </b-field>
                         <!-- subjects loop -->
-                        <div class="subject-card"
-                            v-for="(item, index) in learner.subjects" :key="index">
-                            <div class="buttons is-right m-2">
-                                <b-button class="is-danger is-small is-outlined"
-                                    icon-right="delete" @click="removeSubject(index)"></b-button>
+
+
+                        <div class="subject-card">
+                            <div class="has-text-weight-bold">SUBJECTS</div>
+
+                            <table class="table">
+                                <tr>
+                                    <th>Subject Code</th>
+                                    <th>Subject Description</th>
+                                    <th>Class</th>
+                                    <th>Fee</th>
+                                </tr>
+                                <tr v-for="(item, index) in enrollee.subjects" :key="index">
+                                    <td>{{  item.subject.subject_code }}</td>
+                                    <td>{{  item.subject.subject_description }}</td>
+                                    <td>{{  item.subject.class }}</td>
+                                    <td>{{  item.subject.fee }}</td>
+                                </tr>
+                            </table>
+                          
+                            <div v-for="(item, ix) in otherFees" :key="`other${ix}`">
+                                <div>{{ item.description }} - {{ item.amount }}</div>
                             </div>
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Subjet Name" label-position="on-border">
-                                        <b-input type="text" readonly v-model="item.subj_name" 
-                                            placeholder="Subjet Name" /></b-field>
-                                </div> <!--col--> 
-                                <div class="column is-2">
-                                    <b-field label="Class" label-position="on-border">
-                                        <b-input type="text" readonly v-model="item.class" 
-                                            placeholder="Class" /></b-field>
-                                </div> <!--col--> 
-                                  
-                                <div class="column is-2">
-                                    <b-field label="Fee" label-position="on-border">
-                                        <b-input type="text" readonly v-model="item.fee" 
-                                            placeholder="Fee" /></b-field>
-                                </div> <!--col--> 
-
-                            </div> <!--cols-->
-
+                            <div>TOTAL SUBJECT FEE: <span>{{ totalFee }}</span></div>
+                            <div class="has-text-weight-bold">TOTAL FEE: <span>{{ finalTotalFee }}</span></div>
                           
                         </div>
-                        <div class="buttons is-right mt-4">
-                            <modal-browse-button-subject
-                                @browseSubject="emitBrowseSubject($event)"></modal-browse-button-subject>
-                        </div>
+                  
 
                         <div class="has-text-weight-bold mb-4 info-header">CONTROLS/ACTION</div>
 
                         <div class="buttons mt-4 is-right">
                             <b-button class="is-primary has-text-weight-bold"
                                 @click="submit"
-                                label="SAVE ENROLLMENT" icon-right="arrow-right"></b-button>
+                                label="SAVE BILLING" icon-right="arrow-right"></b-button>
                         </div>
                         
                     </div> <!--panel-->
@@ -201,7 +196,7 @@ export default{
     data(){
         return {
 
-            learner: {
+            enrollee: {
                 name: null,
                 learner_id: null,
                 date_enrolled: new Date(),
@@ -213,9 +208,12 @@ export default{
                 track_id: null,
                 strand_id: null,
                 section: 0,
+                fee_balance: 0,
 
                 subjects: []
             },
+
+            finalTotalFee: 0,
 
             errors: {},
 
@@ -225,73 +223,49 @@ export default{
             strands: [],
             sections: [],
 
+            otherFees: [],
+
+
         }
+
+        
     },
 
     methods: {
         
-        emitBrowseLearner(row){
-            this.learner.learner_id = row.learner_id
-            this.learner.name = row.lname + ', ' + row.fname + ' ' + row.mname
+        emitBrowseEnrollee(row){
+            console.log(row.track_id);
+            this.enrollee.learner_id = row.learner.learner_id
+            this.enrollee.enroll_id = row.enroll_id
+            this.enrollee.academic_year_id = row.academic_year_id
+
+            this.enrollee.name = row.learner.lname + ', ' + row.learner.fname + ' ' + row.learner.mname
             console.log(row);
-            this.learner.grade_level = row.grade_level
-            this.learner.learner_status = row.learner_status
-            this.learner.semester_id = row.semester_id
-            this.learner.track_id = row.track_id
-            this.learner.section_id = row.section_id
+
+            this.enrollee.grade_level = row.grade_level
+            this.enrollee.learner_status = row.learner_status
+            this.enrollee.semester_id = row.semester_id
+            this.enrollee.track_id = row.track_id
+            this.enrollee.section_id = row.section_id
+         
             this.loadStrands().then(()=>{
-                this.learner.strand_id = row.strand_id
+                this.enrollee.strand_id = row.strand_id
             })
-
-        },
-        emitBrowseSubject(row, ix){
-            this.learner.subjects.forEach(item => {
-                if(item.subject_id == row.subject_id){
-                    return;
-                }
-            });
-
-            this.learner.subjects.push({
-                subject_id: row.subject_id,
-                subject_code: row.subject_code,
-                subject_description: row.subject_description,
-                units: row.units,
-                class: row.class,
-                fee: row.fee,
-                subj_name: row.subject_code + ' - ' + row.subject_description
-            })
-
+            this.enrollee.subjects = row.subjects
+       
+            this.loadOtherFees()
         },
 
-        removeSubject(index){
-
-            this.$buefy.dialog.confirm({
-                title: 'DELETE?',
-                message: 'Are you sure you want to remove this subject?',
-                type: 'is-danger',
-
-                onConfirm: ()=>{
-                    let id = this.learner.subjects[index].enrol_subject_id;
-
-                    if(id > 0){
-                        axios.delete('/enrolment-delete-subject/' + id).then(res=>{
-                            if(res.data.status === 'deleted'){
-                                this.$buefy.toast.open({
-                                    message: `Subject removed successfully.`,
-                                    type: 'is-primary'
-                                })
-                            }
-                        });
-                    }
-
-                    this.learner.subjects.splice(index, 1);
-                }
-            });
+        loadOtherFees(){
+            axios.get('/load-other-fees').then(res=>{
+                this.otherFees = res.data
+            })
         },
 
         submit(){
             this.errors = {}
-            axios.post('/enrollment', this.learner).then(res=>{
+            this.enrollee.fee_balance = this.finalTotalFee
+            axios.post('/cashier-page', this.enrollee).then(res=>{
                 if(res.data.status === 'saved'){
                     this.$buefy.dialog.alert({
                         title: "Saved!",
@@ -304,10 +278,10 @@ export default{
                 if(err.response.status === 422){
                     this.errors = err.response.data.errors
 
-                    if(this.errors.message[0] === 'exist'){
+                    if(this.errors.exist){
                         this.$buefy.dialog.alert({
                             title: "Exist!",
-                            message: 'Learner already enrolled.',
+                            message: this.errors.exist[0],
                             type: 'is-danger'
                         });
                     }
@@ -315,23 +289,7 @@ export default{
             })
         },
 
-        clearFields(){
-            this.learner = {
-                name: null,
-                learner_id: null,
-                date_enrolled: new Date(),
-                grade_level: null,
-
-                learner_status: null,
-
-                semester_id: null,
-                track_id: null,
-                strand_id: null,
-                section: 0,
-
-                subjects: []
-            };
-        },
+    
 
 
 
@@ -347,7 +305,7 @@ export default{
             })
         },
         async loadStrands() {
-            axios.get('/load-strands?trackid=' +  this.learner.track_id).then(res=>{
+            axios.get('/load-strands?trackid=' +  this.enrollee.track_id).then(res=>{
                 this.strands = res.data;
             })
         },
@@ -362,13 +320,57 @@ export default{
             })
         },
 
+
+        clearFields(){
+            this.enrollee = {
+                name: null,
+                learner_id: null,
+                date_admission: new Date(),
+                grade_level: null,
+
+                learner_status: null,
+
+                semester_id: null,
+                track_id: null,
+                strand_id: null,
+                section: 0,
+
+                fee_balance: 0,
+                subjects: []
+
+            };
+
+            this.otherFees = []
+
+        },
+
     },
+
+    
 
     mounted(){
         this.loadSemesters()
         this.loadTracks()
         this.loadGradeLevels()
         this.loadSections()
+    },
+
+
+    computed: {
+        totalFee(){
+            let total = 0
+            this.enrollee.subjects.forEach(item => {
+                total += Number(item.subject.fee)
+            });
+
+            let oFees = 0
+            this.otherFees.forEach(item =>{
+                oFees += item.amount
+            })
+            
+            this.finalTotalFee = total + oFees
+            return total
+        }
     }
 }
 </script>

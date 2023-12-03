@@ -10,6 +10,7 @@ use App\Models\Track;
 use App\Models\Strand;
 use App\Models\GradeLevel;
 use App\Models\Section;
+use App\Models\Miscellaneous;
 
 class OpenController extends Controller
 {
@@ -48,6 +49,11 @@ class OpenController extends Controller
 
     public function loadSections(Request $req){
         return Section::orderBy('section_id', 'asc')
+            ->get();
+    }
+
+    public function loadOtherFees(){
+        return Miscellaneous::orderBy('description', 'asc')
             ->get();
     }
 

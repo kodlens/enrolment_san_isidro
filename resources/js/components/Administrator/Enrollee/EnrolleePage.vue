@@ -68,6 +68,12 @@
                                 {{ props.row.grade_level }}
                             </b-table-column>
 
+                            <b-table-column field="grade_level" label="Enrollment Status" v-slot="props">
+                                <span v-if="props.row.is_enrolled == 1">ENROLED</span>
+                                <span v-else>ADMITTED</span>
+
+                            </b-table-column>
+
                             <b-table-column field="track_strand" label="Track/Strand" v-slot="props">
                                 <span v-if="props.row.track">
                                     {{ props.row.track.track }}

@@ -22,13 +22,12 @@
                                     </b-field>
                                 </div> <!--col--> 
                                 <div class="column">
-                                    <b-field label="Date Enrolled">
-                                        <b-datepicker v-model="learner.date_enrolled" 
+                                    <b-field label="Admission Date">
+                                        <b-datepicker v-model="learner.date_admission" 
                                             placeholder="Date Enrolled"></b-datepicker>
                                     </b-field>
                                 </div>
                             </div> <!--cols-->
-
 
                             <div class="columns">
                                 <div class="column">
@@ -204,7 +203,7 @@ export default{
             learner: {
                 name: null,
                 learner_id: null,
-                date_enrolled: new Date(),
+                date_admission: new Date(),
                 grade_level: null,
 
                 learner_status: null,
@@ -307,7 +306,7 @@ export default{
                     if(this.errors.message[0] === 'exist'){
                         this.$buefy.dialog.alert({
                             title: "Exist!",
-                            message: 'Learner already enrolled.',
+                            message: 'Learner already admitted.',
                             type: 'is-danger'
                         });
                     }
@@ -319,7 +318,7 @@ export default{
             this.learner = {
                 name: null,
                 learner_id: null,
-                date_enrolled: new Date(),
+                date_admission: new Date(),
                 grade_level: null,
 
                 learner_status: null,

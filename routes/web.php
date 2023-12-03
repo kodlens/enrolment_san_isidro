@@ -61,6 +61,7 @@ Route::get('/load-semesters', [App\Http\Controllers\OpenController::class, 'load
 Route::get('/load-tracks', [App\Http\Controllers\OpenController::class, 'loadTracks']);
 Route::get('/load-strands', [App\Http\Controllers\OpenController::class, 'loadStrands']);
 Route::get('/load-sections', [App\Http\Controllers\OpenController::class, 'loadSections']);
+Route::get('/load-other-fees', [App\Http\Controllers\OpenController::class, 'loadOtherFees']);
 
 //open links
 Route::get('/load-academic-years', [App\Http\Controllers\OpenController::class, 'loadAcademicYears']);
@@ -95,6 +96,8 @@ Route::middleware(['auth', 'admin'])->group(function(){
 
     Route::resource('/enrollee', App\Http\Controllers\Administrator\EnrolleeController::class);
     Route::get('/get-enrollees', [App\Http\Controllers\Administrator\EnrolleeController::class, 'getEnrollees']);
+    Route::get('/get-browse-enrollees', [App\Http\Controllers\Administrator\EnrolleeController::class, 'getBrowseEnrollees']);
+
 
     Route::resource('/enrollment', App\Http\Controllers\Administrator\EnrollmentController::class);
   
@@ -107,22 +110,17 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('/cashier-page', App\Http\Controllers\Administrator\CashierController::class);
     Route::get('/get-cashier-page', [App\Http\Controllers\Administrator\CashierController::class, 'getData']);
 
-
     
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
     Route::get('/get-accounts', [App\Http\Controllers\Administrator\UserController::class, 'getAccounts']);
 
     Route::post('/user-reset-password/{userid}', [App\Http\Controllers\Administrator\UserController::class, 'resetPassword']);
 
-
-
 });
 
 
 
 // -----------------------ADMINSITRATOR-------------------------------------------
-
-
 
 
 

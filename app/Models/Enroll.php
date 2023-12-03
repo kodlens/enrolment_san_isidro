@@ -22,7 +22,9 @@ class Enroll extends Model
         'semester_id',
         'track_id',
         'strand_id',
+        'date_admission',
         'date_enrolled',
+        'is_enrolled',
         'section_id',
     ];
 

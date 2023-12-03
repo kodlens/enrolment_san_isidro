@@ -698,7 +698,7 @@ export default {
             this.loadSemesters()
             this.loadTracks()
             this.loadGradeLevels()
-            this.loadSections()
+            //this.loadSections()
 
             if(this.propDataId > 0){
                 this.setData();

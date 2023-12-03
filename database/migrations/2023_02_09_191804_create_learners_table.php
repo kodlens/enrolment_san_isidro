@@ -74,7 +74,9 @@ class CreateLearnersTable extends Migration
             $table->string('guardian_contact_no', 50)->nullable();
 
 
-            $table->unsignedBigInteger('semester_id')->default(0);
+            $table->unsignedBigInteger('semester_id')->default(0)
+                ->nullable();
+                
             $table->string('senior_high_school_id', 30)->nullable();
 
             $table->unsignedBigInteger('track_id')->default(0);
