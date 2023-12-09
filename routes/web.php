@@ -84,6 +84,11 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('/tracks', App\Http\Controllers\Administrator\TrackController::class);
     Route::get('/get-tracks', [App\Http\Controllers\Administrator\TrackController::class, 'getTracks']);
 
+    
+    Route::resource('/faculty', App\Http\Controllers\Administrator\FacultyController::class);
+    Route::get('/get-faculty', [App\Http\Controllers\Administrator\FacultyController::class, 'getData']);
+
+
     Route::resource('/strands', App\Http\Controllers\Administrator\StrandController::class);
     Route::get('/get-strands', [App\Http\Controllers\Administrator\StrandController::class, 'getStrands']);
 

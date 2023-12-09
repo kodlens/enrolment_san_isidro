@@ -102,6 +102,22 @@
                                             icon-right="delete" 
                                             @click="confirmDelete(props.row.enroll_id)"></b-button>
                                     </b-tooltip>
+
+                                    <b-tooltip label="More options">
+                                        <b-dropdown aria-role="list">
+                                            <template #trigger="{ active }">
+                                                <b-button
+                                                    label=""
+                                                    size="is-small"
+                                                    type="is-primary"
+                                                    :icon-right="active ? 'menu-up' : 'menu-down'" />
+                                            </template>
+
+                                            <b-dropdown-item aria-role="listitem">Action</b-dropdown-item>
+                                            <b-dropdown-item aria-role="listitem">Another action</b-dropdown-item>
+                                            <b-dropdown-item aria-role="listitem">Something else</b-dropdown-item>
+                                        </b-dropdown>
+                                    </b-tooltip>
                                 </div>
                             </b-table-column>
 
