@@ -39,7 +39,10 @@ class CreateEnrollsTable extends Migration
             $table->unsignedBigInteger('section_id')->default(0)->nullabe();
 
             $table->date('date_enrolled')->nullable();
-
+            
+            $table->tinyInteger('is_enrolled')->default(0)
+                ->nullable();
+                
             //$table->unsignedBigInteger('section_id');
             //$table->string('section')->nullable();
             $table->string('administer_by', 50)->nullable();

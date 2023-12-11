@@ -28,12 +28,10 @@ class EnrollmentController extends Controller
             'grade_level' => ['required'],
             'subjects' => ['required'],
             'section_id' => ['required']
-            
-
         ],[
             'learner_id.required' => 'Please select learner.',
             'subjects.required' => 'Please add some subject/s.',
-
+            'section_id.required' => 'Section is required.'
         ]);
 
         $ay = AcademicYear::where('is_active', 1)->first();
