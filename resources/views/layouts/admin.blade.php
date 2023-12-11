@@ -89,25 +89,6 @@
 
                 </b-navbar-dropdown>
 
-             
-                 <!--<b-navbar-dropdown label="Cashier">
-
-                    <b-navbar-item href="/cashier-page">
-                        Academic Years
-                    </b-navbar-item>
-
-                    <b-navbar-item href="/tracks">
-                        Tracks
-                    </b-navbar-item>
-                    <b-navbar-item href="/strands">
-                        Strands
-                    </b-navbar-item>
-                    <b-navbar-item href="/sections">
-                        Sections
-                    </b-navbar-item> 
-
-                </b-navbar-dropdown>-->
-
 
                 <b-navbar-item href="/manage-learners">
                     Learners
@@ -137,7 +118,18 @@
                     
                 </b-navbar-dropdown>
                 
-               
+                <b-navbar-dropdown label="Records">
+
+                    <b-navbar-item href="/learber-grades">
+                        Learner Grades
+                    </b-navbar-item>
+
+                    <b-navbar-item href="/credentials">
+                        Credentials
+                    </b-navbar-item>
+
+                </b-navbar-dropdown>
+
 
 
                 <b-navbar-item href="/users">
