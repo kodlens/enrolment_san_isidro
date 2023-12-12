@@ -47,8 +47,11 @@ class OpenController extends Controller
             ->get();
     }
 
-    public function loadSections(Request $req){
-        return Section::orderBy('section_id', 'asc')
+    public function loadSection(Request $req){
+        $gradeLevel = $req->grade;
+
+        return Section::where('grade_level', $gradeLevel)
+            ->orderBy('section_id', 'asc')
             ->get();
     }
 

@@ -16,6 +16,8 @@
                             </p>
                         </b-field>
 
+
+
                         <div class="buttons is-right mt-3">
                             <b-button @click="openModal" icon-left="plus" class="is-primary is-small">NEW</b-button>
                         </div>
@@ -41,6 +43,11 @@
                                 {{ props.row.section_id }}
                             </b-table-column>
 
+                            <b-table-column field="grade_level" label="Grade Level" v-slot="props">
+                                {{ props.row.grade_level }}
+                            </b-table-column>
+
+                            
                             <b-table-column field="section" label="Section" v-slot="props">
                                 {{ props.row.section }}
                             </b-table-column>
@@ -101,6 +108,21 @@
                     <section class="modal-card-body">
                         <div class="">
   
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Grade Level" label-position="on-border"
+                                        :type="this.errors.grade_level ? 'is-danger':''"
+                                        :message="this.errors.grade_level ? this.errors.grade_level[0] : ''">
+                                        <b-select v-model="fields.grade_level"
+                                            placeholder="Grade Level" required>
+                                            <option v-for="(item, index) in gradeLevels" 
+                                                :key="`gl${index}`"
+                                                :value="item.grade_level">{{ item.grade_level }}</option>
+                                        </b-select>
+                                    </b-field>
+                                </div>
+                            </div>
+
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Section" label-position="on-border"
@@ -170,7 +192,7 @@ export default{
             },
             errors: {},
 
-
+            gradeLevels: [],
 
         }
 
@@ -326,12 +348,17 @@ export default{
             });
         },
 
-
+        loadGradeLevels(){
+            axios.get('/load-grade-levels').then(res=>{
+                this.gradeLevels = res.data
+            })
+        }
 
     },
 
     mounted() {
         this.loadAsyncData()
+        this.loadGradeLevels()
     }
 
 }

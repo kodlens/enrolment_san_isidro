@@ -17,16 +17,14 @@ class SectionController extends Controller
 
 
     public function show($id){
-        return Section::with(['track', 'strand'])
-            ->find($id);
+        return Section::find($id);
     }
 
 
     public function getSections(Request $req){
         $sort = explode('.', $req->sort_by);
 
-        $data = Section::with(['track', 'strand'])
-            ->where('section', 'like', $req->section . '%')
+        $data = Section::where('section', 'like', $req->section . '%')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
 
@@ -36,10 +34,12 @@ class SectionController extends Controller
     public function store(Request $req){
 
         $req->validate([
+            'grade_level' => ['required'],
             'section' => ['required', 'unique:sections']
         ]);
 
         Section::create([
+            'grade_level' => strtoupper($req->grade_level),
             'section' => strtoupper($req->section),
             'max' => $req->max,
         ]);
@@ -53,11 +53,13 @@ class SectionController extends Controller
     public function update(Request $req, $id){
 
         $req->validate([
+            'grade_level' => ['required'],
             'section' => ['required', 'unique:sections,section,' . $id . ',section_id'],
         ]);
 
         Section::where('section_id', $id)
             ->update([
+                'grade_level' => strtoupper($req->grade_level),
                 'section' => strtoupper($req->section),
                 'max' => $req->max
             ]);

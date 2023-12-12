@@ -23,9 +23,8 @@ class CreateSectionsTable extends Migration
             // $table->unsignedBigInteger('strand_id');
             // $table->foreign('strand_id')->references('strand_id')->on('strands')
             //     ->onUpdate('cascade')->onDelete('cascade');
-
+            $table->string('grade_level', 20)->nullable();
             $table->integer('max')->default(0);
-
             $table->string('section', 50)->nullable();
             $table->timestamps();
         });

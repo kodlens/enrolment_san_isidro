@@ -60,14 +60,12 @@ Route::get('/load-grade-levels', [App\Http\Controllers\OpenController::class, 'l
 Route::get('/load-semesters', [App\Http\Controllers\OpenController::class, 'loadSemesters']);
 Route::get('/load-tracks', [App\Http\Controllers\OpenController::class, 'loadTracks']);
 Route::get('/load-strands', [App\Http\Controllers\OpenController::class, 'loadStrands']);
-Route::get('/load-sections', [App\Http\Controllers\OpenController::class, 'loadSections']);
+Route::get('/load-section', [App\Http\Controllers\OpenController::class, 'loadSection']);
 Route::get('/load-other-fees', [App\Http\Controllers\OpenController::class, 'loadOtherFees']);
 
 //open links
 Route::get('/load-academic-years', [App\Http\Controllers\OpenController::class, 'loadAcademicYears']);
 Route::get('/load-open-religions', [App\Http\Controllers\OpenController::class, 'loadReligions']);
-
-
 
 
 // -----------------------ADMINISTRATOR-----------------------------------
@@ -98,6 +96,10 @@ Route::middleware(['auth', 'admin'])->group(function(){
 
     Route::resource('/sections', App\Http\Controllers\Administrator\SectionController::class);
     Route::get('/get-sections', [App\Http\Controllers\Administrator\SectionController::class, 'getSections']);
+
+    
+    Route::resource('/section-subjects', App\Http\Controllers\Administrator\SectionSubjectController::class);
+    Route::get('/get-section-subjects', [App\Http\Controllers\Administrator\SectionSubjectController::class, 'getData']);
 
     Route::resource('/enrollee', App\Http\Controllers\Administrator\EnrolleeController::class);
     Route::get('/get-enrollees', [App\Http\Controllers\Administrator\EnrolleeController::class, 'getEnrollees']);

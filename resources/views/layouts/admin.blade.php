@@ -83,6 +83,9 @@
                     <b-navbar-item href="/subjects">
                         Subjects
                     </b-navbar-item>
+                    <b-navbar-item href="/section-subjects">
+                        Section Subjects
+                    </b-navbar-item>
                     <b-navbar-item href="/faculty">
                         Faculty
                     </b-navbar-item>
