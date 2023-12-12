@@ -123,6 +123,10 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('/billing-payment', App\Http\Controllers\Administrator\BillingPaymentController::class);
     Route::get('/get-billing-payment', [App\Http\Controllers\Administrator\BillingPaymentController::class, 'getData']);
     
+    Route::resource('/enrollee-grades', App\Http\Controllers\Administrator\EnrolleeGradeController::class);
+    Route::get('/get-enrollee-grades', [App\Http\Controllers\Administrator\EnrolleeGradeController::class, 'getData']);
+    
+
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
     Route::get('/get-accounts', [App\Http\Controllers\Administrator\UserController::class, 'getAccounts']);
 

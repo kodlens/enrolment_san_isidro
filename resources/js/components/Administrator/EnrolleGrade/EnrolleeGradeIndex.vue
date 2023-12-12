@@ -163,11 +163,15 @@
                                 <tr>
                                     <th>Subject Code</th>
                                     <th>Subject Description</th>
+                                    <th>Grade</th>
               
                                 </tr>
                                 <tr v-for="(item, index) in enrollee.section_subjects" :key="index">
                                     <td>{{  item.subject.subject_code }}</td>
                                     <td>{{  item.subject.subject_description }}</td>
+                                    <td>
+                                        <b-input type="text" v-model="item.grade" placeholder="Grade"></b-input>
+                                    </td>
                                   
                                 </tr>
                             </table>
@@ -186,7 +190,7 @@
                         <div class="buttons mt-4 is-right">
                             <b-button class="is-primary has-text-weight-bold"
                                 @click="submit"
-                                label="SAVE BILLING" icon-right="arrow-right"></b-button>
+                                label="SAVE STUDENT GRADES" icon-right="arrow-right"></b-button>
                         </div>
                         
                     </div> <!--panel-->
@@ -230,7 +234,6 @@ export default{
             sections: [],
 
             otherFees: [],
-
 
         }
 

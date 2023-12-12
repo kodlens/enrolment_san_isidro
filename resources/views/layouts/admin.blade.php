@@ -123,7 +123,7 @@
                 
                 <b-navbar-dropdown label="Records">
 
-                    <b-navbar-item href="/learber-grades">
+                    <b-navbar-item href="/enrollee-grades">
                         Learner Grades
                     </b-navbar-item>
 
