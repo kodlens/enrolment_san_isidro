@@ -127,7 +127,7 @@
                         Learner Grades
                     </b-navbar-item>
 
-                    <b-navbar-item href="/credentials">
+                    <b-navbar-item href="/enrollee-credentials">
                         Credentials
                     </b-navbar-item>
 

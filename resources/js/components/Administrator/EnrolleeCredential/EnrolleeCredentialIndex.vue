@@ -7,9 +7,9 @@
                 <div class="column is-8-widescreen is-10-desktop is-10-tablet">
 
                     <div class="box">
-                        <div class="has-text-weight-bold is-size-4">ENROLLE GRADE</div>
+                        <div class="has-text-weight-bold is-size-4">ENROLLEE CREDENTIALS</div>
                         <div class="has-text-weight-bold mb-4 is-size-6">
-                            Grade entry for learner.
+                            Upload/manage credentials or documents of the learner.
                         </div>
                         <div class="has-text-weight-bold mb-4 info-header">LEARNER INFORMATON</div>
                         
@@ -148,7 +148,7 @@
 
                         <hr>
 
-                        <div class="has-text-weight-bold mb-4 info-header">SUBJECTS ENROLLED</div>
+                        <div class="has-text-weight-bold mb-4 info-header">CREDENTIALS</div>
                         <b-field
                             :type="this.errors.subjects ? 'is-danger':''"
                             :message="this.errors.subjects ? this.errors.subjects[0] : ''">
@@ -157,9 +157,9 @@
 
 
                         <div class="subject-card">
-                            <div class="has-text-weight-bold">SUBJECTS</div>
+                            <div class="has-text-weight-bold">CREDENTIALS</div>
 
-                            <table class="table">
+                            <!-- <table class="table">
                                 <tr>
                                     <th>Subject Code</th>
                                     <th>Subject Description</th>
@@ -175,7 +175,13 @@
                                   
                                 </tr>
                             </table>
-       
+                          
+                            <div v-for="(item, ix) in otherFees" :key="`other${ix}`">
+                                <div>{{ item.description }} - {{ item.amount }}</div>
+                            </div>
+                            <div>TOTAL SUBJECT FEE: <span>0</span></div>
+                            <div class="has-text-weight-bold">TOTAL FEE: <span>0.00</span></div>
+                           -->
                         </div>
                   
 
@@ -184,7 +190,7 @@
                         <div class="buttons mt-4 is-right">
                             <b-button class="is-primary has-text-weight-bold"
                                 @click="submit"
-                                label="SAVE STUDENT GRADES" icon-right="arrow-right"></b-button>
+                                label="SAVE STUDENT CREDENTIAL" icon-right="arrow-right"></b-button>
                         </div>
                         
                     </div> <!--panel-->
