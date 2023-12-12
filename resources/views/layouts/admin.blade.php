@@ -65,7 +65,7 @@
                     Home
                 </b-navbar-item>
 
-                <b-navbar-dropdown label="Settings">
+                <b-navbar-dropdown label="Manage">
 
                     <b-navbar-item href="/academic-years">
                         Academic Years

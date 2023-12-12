@@ -56,9 +56,9 @@
                                     {{props.row.subject_description}}
                                 </b-table-column>
 
-                                <b-table-column field="fee" label="Fee" v-slot="props">
+                                <!-- <b-table-column field="fee" label="Fee" v-slot="props">
                                     {{props.row.fee}}
-                                </b-table-column>
+                                </b-table-column> -->
 
                                 <b-table-column field="" label="Action" v-slot="props">
                                     <div class="buttons">

@@ -53,13 +53,6 @@
                                 {{ props.row.units }}
                             </b-table-column>
 
-                            <b-table-column field="class" label="Class" sortable v-slot="props">
-                                {{ props.row.class }}
-                            </b-table-column>
-
-                            <b-table-column field="fee" label="Fee" sortable v-slot="props">
-                                {{ props.row.fee }}
-                            </b-table-column>
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
