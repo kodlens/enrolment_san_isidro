@@ -280,6 +280,7 @@ export default{
             })
         },
         loadSection(){
+            this.fields.section_id = null
             axios.get('/load-section?grade=' + this.fields.grade_level.grade_level).then(res=>{
                 this.sections = res.data;
             })

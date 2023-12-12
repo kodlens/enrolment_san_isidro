@@ -12472,6 +12472,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadSection: function loadSection() {
       var _this5 = this;
 
+      this.fields.section_id = null;
       axios.get('/load-section?grade=' + this.fields.grade_level.grade_level).then(function (res) {
         _this5.sections = res.data;
       });

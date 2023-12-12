@@ -58,7 +58,11 @@ class SectionSubjectController extends Controller
 
 
         foreach($req->subjects as $item){
-            SectionSubject::create([
+            SectionSubject::updateOrCreate([
+                'academic_year_id' => $req->academic_year_id,
+                'section_id' => $req->section_id,
+                'subject_id' => $item['subject_id']
+            ],[
                 'academic_year_id' => $req->academic_year_id,
                 'grade_level' => $req->grade_level['grade_level'],
                 'section_id' => $req->section_id,
