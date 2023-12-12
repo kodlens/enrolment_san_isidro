@@ -45,9 +45,11 @@
                                             icon="account"
                                             placeholder="Learner Status"
                                             v-model="fields.learner_status">
-                                            <option :value="1">NEW</option>
                                             <option :value="0">OLD</option>
+                                            <option :value="1">NEW</option>
                                             <option :value="2">RETURNEE</option>
+                                            <option :value="3">TRANSFEREE</option>
+
                                         </b-select>
                                     </b-field>
                                 </div>

@@ -115,9 +115,9 @@
                         Billing Subjects
                     </b-navbar-item>
                   
-                    <b-navbar-item href="/billing-payment">
+                    <!-- <b-navbar-item href="/billing-payment">
                         Billing Payment
-                    </b-navbar-item>
+                    </b-navbar-item> -->
                     
                 </b-navbar-dropdown>
                 

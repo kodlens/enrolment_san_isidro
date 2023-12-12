@@ -19,10 +19,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td> GRADE LEVEL: </td>
+                    <td> GRADE LEVEL & SECTION: </td>
                     <td class="report-data">
                         <span v-if="learner.learner">
-                            {{ learner.learner.grade_level }}
+                            {{ learner.learner.grade_level }} - {{ learner.section.section }}
                         </span>
                     </td>
                 </tr>
@@ -31,14 +31,6 @@
                     <td class="report-data">
                         <span v-if="learner.track">
                             {{ learner.track.track }} - {{ learner.strand.strand }}
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td> BALANCE: </td>
-                    <td class="report-data">
-                        <span v-if="learner.billing">
-                            {{ learner.billing.fee_balance }}
                         </span>
                     </td>
                 </tr>
@@ -52,7 +44,7 @@
                         <th>Day</th>
                         <th>Instructor</th>
                     </tr>
-                    <tr v-for="(item, index) in learner.subjects" :key="`sub${index}`">
+                    <tr v-for="(item, index) in learner.section_subjects" :key="`sub${index}`">
                         <td>{{ item.subject.subject_code }}</td>
                         <td>{{ item.subject.subject_description }}</td>
                         <td>____________________</td>

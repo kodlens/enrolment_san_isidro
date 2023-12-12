@@ -38,16 +38,14 @@ class BillingController extends Controller
     }
 
     public function store(Request $req){
+
         $req->validate([
             'academic_year_id' => ['required'],
             'enroll_id' => ['required'],
             'learner_id' => ['required'],
-            //'user_id' => ['required'],
-
         ]);
 
-
-        
+    
         $exist = Billing::where('academic_year_id', $req->academic_year_id)
             ->where('learner_id', $req->learner_id)
             ->where('enroll_id', $req->enroll_id)
@@ -60,7 +58,6 @@ class BillingController extends Controller
                 'message' => 'The given data was invalid.'
             ], 422);
         }
-
 
         Billing::create([
             'academic_year_id' => $req->academic_year_id,

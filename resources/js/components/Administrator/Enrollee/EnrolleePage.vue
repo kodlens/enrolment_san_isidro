@@ -127,14 +127,11 @@
                                     <tr>
                                         <th>Code</th>
                                         <th>Description</th>
-                                        <th>Class</th>
-                                        <th>Fee</th>
+                             
                                     </tr>
-                                    <tr v-for="(item, ix) in props.row.subjects" :key="`subj${ix}`">
+                                    <tr v-for="(item, ix) in props.row.section_subjects" :key="`subj${ix}`">
                                         <td>{{ item.subject.subject_code }}</td>
                                         <td>{{ item.subject.subject_description }}</td>
-                                        <td>{{ item.subject.class }}</td>
-                                        <td>{{ item.subject.fee }}</td>
                                     </tr>
                                 </table>
 

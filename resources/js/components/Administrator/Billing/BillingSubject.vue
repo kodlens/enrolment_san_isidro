@@ -25,14 +25,14 @@
                                     </b-field>
                                 </div> <!--col--> 
                                 <div class="column">
-                                    <b-field label="Date Enrolled">
+                                    <b-field label="Date Process">
                                         <b-datepicker v-model="enrollee.date_enrolled" 
                                             placeholder="Date Enrolled"></b-datepicker>
                                     </b-field>
                                 </div>
-                            </div> <!--cols-->
+                            </div> 
 
-                            <div class="columns">
+                            <!--<div class="columns">
                                 <div class="column">
                                     <b-field label="Grade Level"
                                         expanded
@@ -50,7 +50,7 @@
                                             </option>
                                         </b-select >
                                     </b-field>
-                                </div> <!--col--> 
+                                </div>col
                                 <div class="column">
                                     <b-field label="Section"
                                         expanded
@@ -68,7 +68,7 @@
                                             </option>
                                         </b-select >
                                     </b-field>
-                                </div> <!--col--> 
+                                </div>col
                                 <div class="column">
                                     <b-field label="Learner Status"
                                             expanded
@@ -86,57 +86,61 @@
                                     </b-field>
                                 </div>
 
-                            </div> <!--cols-->
+                            </div> cols-->
 
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Semester" expanded
-                                        :type="this.errors.semester_id ? 'is-danger':''"
-                                        :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
-                                        <b-select v-model="enrollee.semester_id" expanded
-                                            icon="account"
-                                            placeholder="Semester">
-                                            <option :value="item.semester_id" v-for="(item, ix) in semesters" :key="`sem${ix}`">
-                                                {{  item.semester }}
-                                            </option>
-                                        </b-select>
-                                    </b-field>
+
+                            <div v-if="enrollee.grade_level.curriculum === 'SHS'">
+                                <div class="columns">
+                                    <div class="column">
+                                        <b-field label="Semester" expanded
+                                            :type="this.errors.semester_id ? 'is-danger':''"
+                                            :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
+                                            <b-select v-model="enrollee.semester_id" expanded
+                                                icon="account"
+                                                placeholder="Semester">
+                                                <option :value="item.semester_id" v-for="(item, ix) in semesters" :key="`sem${ix}`">
+                                                    {{  item.semester }}
+                                                </option>
+                                            </b-select>
+                                        </b-field>
+                                    </div>
+
+                                
                                 </div>
 
-                               
+
+                                <div class="columns">
+                                    <div class="column">
+                                        <b-field label="Track"
+                                                :type="this.errors.track_id ? 'is-danger':''"
+                                                :message="this.errors.track_id ? this.errors.track_id[0] : ''">
+                                            <b-select v-model="enrollee.track_id" expanded
+                                                    icon="account"
+                                                    placeholder="Track"
+                                                    @input="loadStrands">
+                                                <option :value="item.track_id" v-for="(item, ix) in tracks" :key="`track${ix}`">
+                                                    {{  item.track }}
+                                                </option>
+                                            </b-select>
+                                        </b-field>
+                                    </div>
+
+                                    <div class="column">
+                                        <b-field label="Strand"
+                                                :type="this.errors.strand_id ? 'is-danger':''"
+                                                :message="this.errors.strand_id ? this.errors.strand_id[0] : ''">
+                                            <b-select v-model="enrollee.strand_id" expanded
+                                                    icon="account"
+                                                    placeholder="Strand">
+                                                <option :value="item.strand_id" v-for="(item, ix) in strands" :key="`strand${ix}`">
+                                                    {{  item.strand }}
+                                                </option>
+                                            </b-select>
+                                        </b-field>
+                                    </div>
+                                </div>
                             </div>
-
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Track"
-                                             :type="this.errors.track_id ? 'is-danger':''"
-                                             :message="this.errors.track_id ? this.errors.track_id[0] : ''">
-                                        <b-select v-model="enrollee.track_id" expanded
-                                                  icon="account"
-                                                  placeholder="Track"
-                                                  @input="loadStrands">
-                                            <option :value="item.track_id" v-for="(item, ix) in tracks" :key="`track${ix}`">
-                                                {{  item.track }}
-                                            </option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
-
-                                <div class="column">
-                                    <b-field label="Strand"
-                                             :type="this.errors.strand_id ? 'is-danger':''"
-                                             :message="this.errors.strand_id ? this.errors.strand_id[0] : ''">
-                                        <b-select v-model="enrollee.strand_id" expanded
-                                                  icon="account"
-                                                  placeholder="Strand">
-                                            <option :value="item.strand_id" v-for="(item, ix) in strands" :key="`strand${ix}`">
-                                                {{  item.strand }}
-                                            </option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
-                            </div>
+                            
 
                         </div>
 
@@ -157,22 +161,20 @@
                                 <tr>
                                     <th>Subject Code</th>
                                     <th>Subject Description</th>
-                                    <th>Class</th>
-                                    <th>Fee</th>
+              
                                 </tr>
-                                <tr v-for="(item, index) in enrollee.subjects" :key="index">
+                                <tr v-for="(item, index) in enrollee.section_subjects" :key="index">
                                     <td>{{  item.subject.subject_code }}</td>
                                     <td>{{  item.subject.subject_description }}</td>
-                                    <td>{{  item.subject.class }}</td>
-                                    <td>{{  item.subject.fee }}</td>
+                                  
                                 </tr>
                             </table>
                           
                             <div v-for="(item, ix) in otherFees" :key="`other${ix}`">
                                 <div>{{ item.description }} - {{ item.amount }}</div>
                             </div>
-                            <div>TOTAL SUBJECT FEE: <span>{{ totalFee }}</span></div>
-                            <div class="has-text-weight-bold">TOTAL FEE: <span>{{ finalTotalFee }}</span></div>
+                            <div>TOTAL SUBJECT FEE: <span>0</span></div>
+                            <div class="has-text-weight-bold">TOTAL FEE: <span>0.00</span></div>
                           
                         </div>
                   
@@ -203,17 +205,16 @@ export default{
                 name: null,
                 learner_id: null,
                 date_enrolled: new Date(),
-                grade_level: null,
+                grade_level: {},
 
                 learner_status: null,
 
                 semester_id: null,
                 track_id: null,
                 strand_id: null,
-                section: 0,
-                fee_balance: 0,
-
-                subjects: []
+                section_id: 0,
+                section_subjects: [],
+               
             },
 
             finalTotalFee: 0,
@@ -236,27 +237,33 @@ export default{
 
     methods: {
         
-        emitBrowseEnrollee(row){
-            console.log(row.track_id);
+        async emitBrowseEnrollee(row){
+           
             this.enrollee.learner_id = row.learner.learner_id
             this.enrollee.enroll_id = row.enroll_id
             this.enrollee.academic_year_id = row.academic_year_id
 
             this.enrollee.name = row.learner.lname + ', ' + row.learner.fname + ' ' + row.learner.mname
-            console.log(row);
+    
+            this.enrollee.grade_level = row.grade_level.grade_level
+            this.enrollee.curriculum = row.grade_level.curriculum
 
-            this.enrollee.grade_level = row.grade_level
             this.enrollee.learner_status = row.learner_status
             this.enrollee.semester_id = row.semester_id
             this.enrollee.track_id = row.track_id
+            
+            await this.loadSection()
+
             this.enrollee.section_id = row.section_id
          
-            this.loadStrands().then(()=>{
+            await this.loadStrands().then(()=>{
                 this.enrollee.strand_id = row.strand_id
             })
-            this.enrollee.subjects = row.subjects
+
+            this.enrollee.section_subjects = row.section_subjects
+            console.log(row.section_subjects);
        
-            this.loadOtherFees()
+            //this.loadOtherFees()
         },
 
         loadOtherFees(){
@@ -317,8 +324,8 @@ export default{
                 this.gradeLevels = res.data;
             })
         },
-        loadSections(){
-            axios.get('/load-sections').then(res=>{
+        loadSection(){
+            axios.get('/load-section?grade=' + this.enrollee.grade_level).then(res=>{
                 this.sections = res.data;
             })
         },
@@ -355,25 +362,24 @@ export default{
         this.loadSemesters()
         this.loadTracks()
         this.loadGradeLevels()
-        this.loadSections()
     },
 
 
     computed: {
-        totalFee(){
-            let total = 0
-            this.enrollee.subjects.forEach(item => {
-                total += Number(item.subject.fee)
-            });
+        // totalFee(){
+        //     let total = 0
+        //     this.enrollee.section_subjects.forEach(item => {
+        //         total += Number(item.subject.fee)
+        //     });
 
-            let oFees = 0
-            this.otherFees.forEach(item =>{
-                oFees += item.amount
-            })
+        //     let oFees = 0
+        //     this.otherFees.forEach(item =>{
+        //         oFees += item.amount
+        //     })
             
-            this.finalTotalFee = total + oFees
-            return total
-        }
+        //     this.finalTotalFee = total + oFees
+        //     return total
+        // }
     }
 }
 </script>

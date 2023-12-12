@@ -2,7 +2,7 @@
     <div>
         <div class="section">
             <div class="columns is-centered">
-                <div class="column is-8">
+                <div class="column is-8-widescreen is-10-desktop">
                     <div class="box">
                         <div class="has-text-weight-bold subtitle is-4">SECTION AND SUBJECTS</div>
                         <b-field label="Search">
@@ -51,28 +51,28 @@
                             </b-table-column>
 
                             <b-table-column field="section" label="Section" v-slot="props">
-                                {{ props.row.section }}
+                                {{ props.row.section.section }}
                             </b-table-column>
 
                             <b-table-column field="subject" label="Subject" v-slot="props">
-                                {{ props.row.section.subject }}
-                            </b-table-column>
-                            
-                            <b-table-column field="section" label="Section" v-slot="props">
-                                {{ props.row.section }}
+                                <span v-if="props.row.subject">
+                                    {{ props.row.subject.subject_code }}
+                                </span>
                             </b-table-column>
 
-                            <b-table-column field="max" label="Max" v-slot="props">
-                                {{ props.row.max }}
+                            <b-table-column field="subjec_description" label="Description" v-slot="props">
+                                <span v-if="props.row.subject">
+                                    {{ props.row.subject.subject_description }}
+                                </span>
                             </b-table-column>
+                            
+                          
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
-                                    <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small mr-1" tag="a" icon-right="pencil" @click="getData(props.row.section_id)"></b-button>
-                                    </b-tooltip>
+                                 
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small mr-1" icon-right="delete" @click="confirmDelete(props.row.section_id)"></b-button>
+                                        <b-button class="button is-small mr-1" icon-right="delete" @click="confirmDelete(props.row.section_subject_id)"></b-button>
                                     </b-tooltip>
 
                                 </div>
@@ -182,7 +182,7 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'section_id',
+            sortField: 'section_subject_id',
             sortOrder: 'desc',
             page: 1,
             perPage: 10,
@@ -221,7 +221,7 @@ export default{
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-sections?${params}`)
+            axios.get(`/get-section-subjects?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -272,7 +272,7 @@ export default{
         submit: function(){
             if(this.global_id > 0){
                 //update
-                axios.put('/sections/'+this.global_id, this.fields).then(res=>{
+                axios.put('/section-subjects/'+this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -291,29 +291,8 @@ export default{
                         this.errors = err.response.data.errors;
                     }
                 })
-            }else{
-                //INSERT HERE
-                axios.post('/sections', this.fields).then(res=>{
-                    if(res.data.status === 'saved'){
-                        this.$buefy.dialog.alert({
-                            title: 'SAVED!',
-                            message: 'Successfully saved.',
-                            type: 'is-success',
-                            confirmText: 'OK',
-                            onConfirm: () => {
-                                this.isModalCreate = false;
-                                this.loadAsyncData();
-                                this.clearFields();
-                                this.global_id = 0;
-                            }
-                        })
-                    }
-                }).catch(err=>{
-                    if(err.response.status === 422){
-                        this.errors = err.response.data.errors;
-                    }
-                });
             }
+            
         },
 
 
@@ -330,7 +309,7 @@ export default{
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/sections/' + delete_id).then(res => {
+            axios.delete('/section-subjects/' + delete_id).then(res => {
                 this.loadAsyncData();
                 this.clearFields()
             }).catch(err => {
@@ -343,19 +322,6 @@ export default{
         clearFields(){
             this.global_id = 0;
             this.fields.section = null
-        },
-
-
-        //update code here
-        getData: function(data_id){
-            this.clearFields();
-            this.global_id = data_id;
-            this.isModalCreate = true;
-
-            //nested axios for getting the address 1 by 1 or request by request
-            axios.get('/sections/'+data_id).then(res=>{
-                this.fields = res.data;
-            });
         },
 
         loadGradeLevels(){

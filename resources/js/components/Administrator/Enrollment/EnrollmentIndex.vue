@@ -26,7 +26,7 @@
                                 </div> <!--col--> 
                                 <div class="column">
                                     <b-field label="Admission Date">
-                                        <b-datepicker v-model="learner.date_admission" 
+                                        <b-datepicker v-model="learner.admission_date" 
                                             placeholder="Date Enrolled"></b-datepicker>
                                     </b-field>
                                 </div>
@@ -43,8 +43,9 @@
                                             icon="account"
                                             placeholder="Grade Level"
                                             v-model="learner.grade_level"
+                                            @input="loadSection"
                                             required>
-                                            <option :value="item.grade_level"
+                                            <option :value="{ grade_level: item.grade_level, curriculum: item.curriculum }"
                                                     v-for="(item, ix) in gradeLevels" :key="`g${ix}`">
                                                 {{ item.grade_level }}
                                             </option>
@@ -79,75 +80,82 @@
                                             icon="account"
                                             placeholder="Learner Status"
                                             v-model="learner.learner_status">
-                                            <option :value="1">NEW</option>
                                             <option :value="0">OLD</option>
+                                            <option :value="1">NEW</option>
                                             <option :value="2">RETURNEE</option>
+                                            <option :value="3">TRANSFEREE</option>
                                         </b-select>
                                     </b-field>
                                 </div>
 
                             </div> <!--cols-->
 
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Semester" expanded
-                                        :type="this.errors.semester_id ? 'is-danger':''"
-                                        :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
-                                        <b-select v-model="learner.semester_id" expanded
-                                            icon="account"
-                                            placeholder="Semester">
-                                            <option :value="item.semester_id" v-for="(item, ix) in semesters" :key="ix">
-                                                {{  item.semester }}
-                                            </option>
-                                        </b-select>
-                                    </b-field>
+
+                            <div v-if="learner.grade_level.curriculum === 'SHS'">
+
+                                <div class="columns">
+                                    <div class="column">
+                                        <b-field label="Semester" expanded
+                                            :type="this.errors.semester_id ? 'is-danger':''"
+                                            :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
+                                            <b-select v-model="learner.semester_id" expanded
+                                                icon="account"
+                                                placeholder="Semester">
+                                                <option :value="item.semester_id" v-for="(item, ix) in semesters" :key="ix">
+                                                    {{  item.semester }}
+                                                </option>
+                                            </b-select>
+                                        </b-field>
+                                    </div>
+
+                                
                                 </div>
 
-                               
-                            </div>
 
+                                <div class="columns">
+                                    <div class="column">
+                                        <b-field label="Track"
+                                                :type="this.errors.track_id ? 'is-danger':''"
+                                                :message="this.errors.track_id ? this.errors.track_id[0] : ''">
+                                            <b-select v-model="learner.track_id" expanded
+                                                    icon="account"
+                                                    placeholder="Track"
+                                                    @input="loadStrands">
+                                                <option :value="item.track_id" v-for="(item, ix) in tracks" :key="`track${ix}`">
+                                                    {{  item.track }}
+                                                </option>
+                                            </b-select>
+                                        </b-field>
+                                    </div>
 
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Track"
-                                             :type="this.errors.track_id ? 'is-danger':''"
-                                             :message="this.errors.track_id ? this.errors.track_id[0] : ''">
-                                        <b-select v-model="learner.track_id" expanded
-                                                  icon="account"
-                                                  placeholder="Track"
-                                                  @input="loadStrands">
-                                            <option :value="item.track_id" v-for="(item, ix) in tracks" :key="`track${ix}`">
-                                                {{  item.track }}
-                                            </option>
-                                        </b-select>
-                                    </b-field>
+                                    <div class="column">
+                                        <b-field label="Strand"
+                                                :type="this.errors.strand_id ? 'is-danger':''"
+                                                :message="this.errors.strand_id ? this.errors.strand_id[0] : ''">
+                                            <b-select v-model="learner.strand_id" expanded
+                                                    icon="account"
+                                                    placeholder="Strand">
+                                                <option :value="item.strand_id" v-for="(item, ix) in strands" :key="`strand${ix}`">
+                                                    {{  item.strand }}
+                                                </option>
+                                            </b-select>
+                                        </b-field>
+                                    </div>
                                 </div>
+                            </div> <!--if SHS-->
 
-                                <div class="column">
-                                    <b-field label="Strand"
-                                             :type="this.errors.strand_id ? 'is-danger':''"
-                                             :message="this.errors.strand_id ? this.errors.strand_id[0] : ''">
-                                        <b-select v-model="learner.strand_id" expanded
-                                                  icon="account"
-                                                  placeholder="Strand">
-                                            <option :value="item.strand_id" v-for="(item, ix) in strands" :key="`strand${ix}`">
-                                                {{  item.strand }}
-                                            </option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
-                            </div>
+                            
 
                         </div>
 
                         <hr>
 
-                        <div class="has-text-weight-bold mb-4 info-header">SUBJECTS TO ENROLL</div>
+                        <!-- <div class="has-text-weight-bold mb-4 info-header">SUBJECTS TO ENROLL</div>
                         <b-field
                             :type="this.errors.subjects ? 'is-danger':''"
                             :message="this.errors.subjects ? this.errors.subjects[0] : ''">
                         </b-field>
-                        <!-- subjects loop -->
+                        subjects loop 
                         <div class="subject-card"
                             v-for="(item, index) in learner.subjects" :key="index">
                             <div class="buttons is-right m-2">
@@ -159,27 +167,27 @@
                                     <b-field label="Subjet Name" label-position="on-border">
                                         <b-input type="text" readonly v-model="item.subj_name" 
                                             placeholder="Subjet Name" /></b-field>
-                                </div> <!--col--> 
+                                </div>  
                                 <div class="column is-2">
                                     <b-field label="Class" label-position="on-border">
                                         <b-input type="text" readonly v-model="item.class" 
                                             placeholder="Class" /></b-field>
-                                </div> <!--col--> 
+                                </div> 
                                   
                                 <div class="column is-2">
                                     <b-field label="Fee" label-position="on-border">
                                         <b-input type="text" readonly v-model="item.fee" 
                                             placeholder="Fee" /></b-field>
-                                </div> <!--col--> 
+                                </div> 
 
-                            </div> <!--cols-->
+                            </div> 
 
                           
                         </div>
                         <div class="buttons is-right mt-4">
                             <modal-browse-button-subject
                                 @browseSubject="emitBrowseSubject($event)"></modal-browse-button-subject>
-                        </div>
+                        </div> -->
 
                         <div class="has-text-weight-bold mb-4 info-header">CONTROLS/ACTION</div>
 
@@ -206,8 +214,8 @@ export default{
             learner: {
                 name: null,
                 learner_id: null,
-                date_admission: new Date(),
-                grade_level: null,
+                admission_date: new Date(),
+                grade_level: {},
 
                 learner_status: null,
 
@@ -232,64 +240,68 @@ export default{
 
     methods: {
         
-        emitBrowseLearner(row){
+        async emitBrowseLearner(row){
             this.learner.learner_id = row.learner_id
             this.learner.name = '(' + row.student_id + ') ' + row.lname + ', ' + row.fname + ' ' + row.mname
             console.log(row);
-            this.learner.grade_level = row.grade_level
+            this.learner.grade_level.grade_level = row.grade_level.grade_level
+            this.learner.grade_level.curriculum = row.grade_level.curriculum
+            await this.loadSection();
+
             this.learner.learner_status = row.learner_status
             this.learner.semester_id = row.semester_id
             this.learner.track_id = row.track_id
             this.learner.section_id = row.section_id
-            this.loadStrands().then(()=>{
+
+            await this.loadStrands().then(()=>{
                 this.learner.strand_id = row.strand_id
             })
 
         },
-        emitBrowseSubject(row, ix){
-            this.learner.subjects.forEach(item => {
-                if(item.subject_id == row.subject_id){
-                    return;
-                }
-            });
+        // emitBrowseSubject(row, ix){
+        //     this.learner.subjects.forEach(item => {
+        //         if(item.subject_id == row.subject_id){
+        //             return;
+        //         }
+        //     });
 
-            this.learner.subjects.push({
-                subject_id: row.subject_id,
-                subject_code: row.subject_code,
-                subject_description: row.subject_description,
-                units: row.units,
-                class: row.class,
-                fee: row.fee,
-                subj_name: row.subject_code + ' - ' + row.subject_description
-            })
+        //     this.learner.subjects.push({
+        //         subject_id: row.subject_id,
+        //         subject_code: row.subject_code,
+        //         subject_description: row.subject_description,
+        //         units: row.units,
+        //         class: row.class,
+        //         fee: row.fee,
+        //         subj_name: row.subject_code + ' - ' + row.subject_description
+        //     })
 
-        },
+        // },
 
-        removeSubject(index){
+        // removeSubject(index){
 
-            this.$buefy.dialog.confirm({
-                title: 'DELETE?',
-                message: 'Are you sure you want to remove this subject?',
-                type: 'is-danger',
+        //     this.$buefy.dialog.confirm({
+        //         title: 'DELETE?',
+        //         message: 'Are you sure you want to remove this subject?',
+        //         type: 'is-danger',
 
-                onConfirm: ()=>{
-                    let id = this.learner.subjects[index].enrol_subject_id;
+        //         onConfirm: ()=>{
+        //             let id = this.learner.subjects[index].enrol_subject_id;
 
-                    if(id > 0){
-                        axios.delete('/enrolment-delete-subject/' + id).then(res=>{
-                            if(res.data.status === 'deleted'){
-                                this.$buefy.toast.open({
-                                    message: `Subject removed successfully.`,
-                                    type: 'is-primary'
-                                })
-                            }
-                        });
-                    }
+        //             if(id > 0){
+        //                 axios.delete('/enrolment-delete-subject/' + id).then(res=>{
+        //                     if(res.data.status === 'deleted'){
+        //                         this.$buefy.toast.open({
+        //                             message: `Subject removed successfully.`,
+        //                             type: 'is-primary'
+        //                         })
+        //                     }
+        //                 });
+        //             }
 
-                    this.learner.subjects.splice(index, 1);
-                }
-            });
-        },
+        //             this.learner.subjects.splice(index, 1);
+        //         }
+        //     });
+        // },
 
         submit(){
             this.errors = {}
@@ -321,17 +333,16 @@ export default{
             this.learner = {
                 name: null,
                 learner_id: null,
-                date_admission: new Date(),
-                grade_level: null,
-
+                admission_date: new Date(),
+                grade_level: {},
+                section_id: null,
                 learner_status: null,
 
                 semester_id: null,
                 track_id: null,
                 strand_id: null,
-                section: 0,
+       
 
-                subjects: []
             };
         },
 
@@ -358,19 +369,17 @@ export default{
                 this.gradeLevels = res.data;
             })
         },
-        loadSections(){
-            axios.get('/load-sections').then(res=>{
+        loadSection(){
+            axios.get('/load-section?grade=' + this.learner.grade_level.grade_level).then(res=>{
                 this.sections = res.data;
             })
         },
-
     },
 
     mounted(){
         this.loadSemesters()
         this.loadTracks()
         this.loadGradeLevels()
-        this.loadSections()
     }
 }
 </script>

@@ -87,6 +87,13 @@ class Learner extends Model
         return $this->hasOne(Track::class, 'track_id', 'track_id');
     }
 
+    public function section(){
+        return $this->hasOne(Section::class, 'section_id', 'section_id');
+    }
+
+    public function grade_level(){
+        return $this->hasOne(GradeLevel::class, 'grade_level', 'grade_level');
+    }
 
     public function current_province(){
         return $this->hasOne(Province::class, 'provCode', 'current_province');

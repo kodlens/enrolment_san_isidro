@@ -36,10 +36,14 @@ class CreateEnrollsTable extends Migration
             $table->unsignedBigInteger('semester_id')->default(0)->nullabe();
             $table->unsignedBigInteger('track_id')->default(0)->nullabe();
             $table->unsignedBigInteger('strand_id')->default(0)->nullabe();
-            $table->unsignedBigInteger('section_id')->default(0)->nullabe();
 
-            $table->date('date_enrolled')->nullable();
+            $table->unsignedBigInteger('section_id');
+            $table->foreign('section_id')->references('section_id')->on('sections')
+                ->onUpdate('cascade')->onDelete('cascade');
+
+            $table->date('admission_date')->nullable();
             
+            $table->date('date_enrolled')->nullable();
             $table->tinyInteger('is_enrolled')->default(0)
                 ->nullable();
                 

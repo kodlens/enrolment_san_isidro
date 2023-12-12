@@ -22,7 +22,7 @@ class Enroll extends Model
         'semester_id',
         'track_id',
         'strand_id',
-        'date_admission',
+        'admission_date',
         'date_enrolled',
         'is_enrolled',
         'section_id',
@@ -52,8 +52,12 @@ class Enroll extends Model
         return $this->hasOne(Section::class, 'section_id', 'section_id');
     }
 
-    public function subjects(){
-        return $this->hasMany(EnrollSubject::class, 'enroll_id', 'enroll_id');
+    public function grade_level(){
+        return $this->hasOne(GradeLevel::class, 'grade_level', 'grade_level');
+    }
+
+    public function section_subjects(){
+        return $this->hasMany(SectionSubject::class, 'section_id', 'section_id');
     }
 
     public function billing(){

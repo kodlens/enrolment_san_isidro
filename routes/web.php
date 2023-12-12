@@ -26,7 +26,6 @@ Route::get('/', function () {
 });
 
 
-
 Auth::routes([
     'login' => true,
     'register' => false

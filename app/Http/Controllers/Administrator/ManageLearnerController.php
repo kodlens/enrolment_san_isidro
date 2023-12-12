@@ -472,7 +472,7 @@ class ManageLearnerController extends Controller
         $ayId = $req->ayid;
         $studentId = $req->student;
 
-        $learners = Learner::with(['track', 'strand'])
+        $learners = Learner::with(['track', 'strand', 'grade_level', 'section', 'semester'])
             ->where('academic_year_id', $ayId)
             ->where('student_id', 'like', $studentId . '%')
             ->where('lname', 'like', $req->lname . '%')

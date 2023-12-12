@@ -224,7 +224,6 @@ export default{
         this.loadSemesters()
         this.loadTracks()
         this.loadGradeLevels()
-        this.loadSections()
     },
 
 

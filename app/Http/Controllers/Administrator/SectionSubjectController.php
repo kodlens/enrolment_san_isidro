@@ -20,6 +20,19 @@ class SectionSubjectController extends Controller
     }
 
 
+    public function getData(Request $req){
+        $sort = explode('.', $req->sort_by);
+
+        $data = SectionSubject::with(['academic_year', 'section', 'semester', 'track', 'strand', 'subject'])
+            ->whereHas('section', function($q)use($req){
+                $q->where('section', 'like', $req->section . '%');
+            })
+            ->orderBy($sort[0], $sort[1])
+            ->paginate($req->perpage);
+
+        return $data;
+    }
+
     public function create(){ 
         return view('administrator.section_subject.section-subject-create-edit')
             ->with('id', 0);
@@ -76,6 +89,15 @@ class SectionSubjectController extends Controller
 
         return response()->json([
             'status' => 'saved'
+        ], 200);
+    }
+
+
+    public function destroy($id){
+        SectionSubject::destroy($id);
+
+        return response()->json([
+            'status' => 'deleted'
         ], 200);
     }
 }

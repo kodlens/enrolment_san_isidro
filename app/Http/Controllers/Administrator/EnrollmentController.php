@@ -20,32 +20,26 @@ class EnrollmentController extends Controller
 
 
     public function store(Request $req){
-        
-        
 
         $req->validate([
             'learner_id' => ['required'],
             'grade_level' => ['required'],
-            'subjects' => ['required'],
-            'section_id' => ['required']
+            'section_id' => ['required'],
+            'semester_id' => ['required_if:grade_level.curriculum,SHS'],
+            'track_id' => ['required_if:grade_level.curriculum,SHS'],
+            'strand_id' => ['required_if:grade_level.curriculum,SHS'],
         ],[
             'learner_id.required' => 'Please select learner.',
-            'subjects.required' => 'Please add some subject/s.',
-            'section_id.required' => 'Section is required.'
+            'section_id.required' => 'Section is required.',
+            'semester_id.required_if' => 'Curriculum is SHS, semester is required.',
+            'track_id.required_if' => 'Curriculum is SHS, track is required.',
+            'strand_id.required_if' => 'Curriculum is SHS, strand is required.',
         ]);
 
         $ay = AcademicYear::where('is_active', 1)->first();
         $user = Auth::user();
 
-        $track_id = 0;
-        $strand_id = 0;
-        //if grade 11 and 12, assign track, 
-        if($req->grade_level == 'GRADE 11' || $req->grade_level == 'GRADE 12'){
-            $track_id = $req->track_id;
-            $strand_id = $req->strand_id;
-        }
 
-        
         //check if already enrol
         $exist = Enroll::where('learner_id', $req->learner_id)
             ->where('academic_year_id', $ay->academic_year_id)
@@ -61,26 +55,26 @@ class EnrollmentController extends Controller
 
         $enroll = Enroll::create([
             'academic_year_id' => $ay->academic_year_id,
-            'grade_level' => $req->grade_level,
+            'grade_level' => $req->grade_level['grade_level'],
             'learner_status' => $req->learner_status,
             'learner_id' => $req->learner_id,
-            'semester_id' => $req->semester_id,
-            'track_id' => $track_id,
-            'strand_id' => $strand_id,
+            'semester_id' => $req->grade_level['curriculum'] == 'SHS' ? $req->semester_id : 0,
+            'track_id' => $req->grade_level['curriculum'] == 'SHS' ? $req->track_id : 0,
+            'strand_id' => $req->grade_level['curriculum'] == 'SHS' ? $req->strand_id : 0,
             'section_id' => $req->section_id,
-            'date_admission' => date('Y-m-d', strtotime($req->date_admission)),
+            'admission_date' => date('Y-m-d', strtotime($req->admission_date)),
             'administer_by' => $user->username
         ]);
 
-        $arr=[];
-        foreach($req->subjects as $subj){
-            array_push($arr,[
-                'subject_id' => $subj['subject_id'],
-                'enroll_id' => $enroll['enroll_id'],
-            ]);
-        }
+        // $arr=[];
+        // foreach($req->subjects as $subj){
+        //     array_push($arr,[
+        //         'subject_id' => $subj['subject_id'],
+        //         'enroll_id' => $enroll['enroll_id'],
+        //     ]);
+        // }
 
-        EnrollSubject::insert($arr);
+        // EnrollSubject::insert($arr);
 
         return response()->json([
             'status' => 'saved'
