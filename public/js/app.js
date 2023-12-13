@@ -9257,6 +9257,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var learnerGrades, params;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -9281,7 +9282,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 14:
-                console.log(row.section_subjects);
                 row.section_subjects.forEach(function (item) {
                   _this.enrollee.section_subjects.push({
                     'subject_id': item.subject_id,
@@ -9289,9 +9289,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     'subject_description': item.subject.subject_description,
                     'grade': 0
                   });
+                });
+                learnerGrades = [];
+                params = ["enroll=".concat(_this.enrollee.enroll_id)].join('&');
+                axios.get("/get-enrollee-grades-by-learner?".concat(params)).then(function (res) {
+                  learnerGrades = res.data;
+                  console.log(learnerGrades);
                 }); //this.loadOtherFees()
 
-              case 16:
+              case 18:
               case "end":
                 return _context.stop();
             }

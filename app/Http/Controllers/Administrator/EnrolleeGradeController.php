@@ -17,7 +17,7 @@ class EnrolleeGradeController extends Controller
 
 
     public function store(Request $req){
-        
+
         $req->validate([
             'academic_year_id' => ['required'],
             'learner_id' => ['required'],
@@ -64,5 +64,18 @@ class EnrolleeGradeController extends Controller
         ], 200);
     }
 
+
+
+
+
+
+    public function getEnrolleeGradeByLearner(Request $req){
+
+        $enrolId = $req->enroll;
+        $data = EnrolleeGrade::where('enroll_id', $enrolId)
+            ->get();
+
+        return $data;
+    }
     
 }

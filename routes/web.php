@@ -125,7 +125,12 @@ Route::middleware(['auth', 'admin'])->group(function(){
     
     Route::resource('/enrollee-grades', App\Http\Controllers\Administrator\EnrolleeGradeController::class);
     Route::get('/get-enrollee-grades', [App\Http\Controllers\Administrator\EnrolleeGradeController::class, 'getData']);
+    Route::get('/get-enrollee-grades-by-learner', [App\Http\Controllers\Administrator\EnrolleeGradeController::class, 'getEnrolleeGradeByLearner']);
     
+
+   
+
+
     Route::resource('/enrollee-credentials', App\Http\Controllers\Administrator\EnrolleeCredentialController::class);
     Route::get('/get-enrollee-credentials', [App\Http\Controllers\Administrator\EnrolleeCredentialController::class, 'getData']);
     

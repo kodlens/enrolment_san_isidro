@@ -61,7 +61,7 @@ class SectionSubjectSeeder extends Seeder
             [
                 'academic_year_id' => 5,
                 'grade_level' => 'GRADE 10',
-                'section_id' => 9,
+                'section_id' => 11,
                 'semester_id' => 0,
                 'track_id' => 0,
                 'strand_id' => 0,
@@ -71,7 +71,7 @@ class SectionSubjectSeeder extends Seeder
             [
                 'academic_year_id' => 5,
                 'grade_level' => 'GRADE 10',
-                'section_id' => 9,
+                'section_id' => 11,
                 'semester_id' => 0,
                 'track_id' => 0,
                 'strand_id' => 0,
@@ -81,22 +81,20 @@ class SectionSubjectSeeder extends Seeder
             [
                 'academic_year_id' => 5,
                 'grade_level' => 'GRADE 10',
-                'section_id' => 9,
+                'section_id' => 11,
                 'semester_id' => 0,
                 'track_id' => 0,
                 'strand_id' => 0,
                 'subject_id' => 5,
-
             ],
             [
                 'academic_year_id' => 5,
                 'grade_level' => 'GRADE 10',
-                'section_id' => 9,
+                'section_id' => 11,
                 'semester_id' => 0,
                 'track_id' => 0,
                 'strand_id' => 0,
                 'subject_id' => 6,
-
             ],
         ];
 

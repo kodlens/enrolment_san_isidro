@@ -241,7 +241,7 @@ export default{
             this.enrollee.learner_id = row.learner.learner_id
             this.enrollee.enroll_id = row.enroll_id
             this.enrollee.academic_year_id = row.academic_year_id
-
+ 
             this.enrollee.name = row.learner.lname + ', ' + row.learner.fname + ' ' + row.learner.mname
     
             this.enrollee.grade_level = row.grade_level.grade_level
@@ -258,9 +258,6 @@ export default{
             await this.loadStrands().then(()=>{
                 this.enrollee.strand_id = row.strand_id
             })
-
-            console.log(row.section_subjects)
-
             row.section_subjects.forEach(item => {
                 this.enrollee.section_subjects.push({
                     'subject_id': item.subject_id,
@@ -270,10 +267,25 @@ export default{
                 });
             });
 
+
+            let learnerGrades = []
+            const params = [
+                `enroll=${this.enrollee.enroll_id}`
+            ].join('&')
+            axios.get(`/get-enrollee-grades-by-learner?${params}`).then(res=>{
+                learnerGrades = res.data
+                console.log(learnerGrades)
+            })
+
+            
+
            
        
             //this.loadOtherFees()
         },
+
+
+      
 
         loadOtherFees(){
             axios.get('/load-other-fees').then(res=>{
