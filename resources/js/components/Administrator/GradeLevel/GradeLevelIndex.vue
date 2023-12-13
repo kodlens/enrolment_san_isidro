@@ -10,7 +10,7 @@
 
                         <b-field label="Search" label-position="on-border">
                             <b-input type="text"
-                                        v-model="search.academic_year" placeholder="Search Curriculum"
+                                        v-model="search.grade" placeholder="Search Grade Level"
                                         @keyup.native.enter="loadAsyncData"/>
                             <p class="control">
                                     <b-tooltip label="Search" type="is-success">
@@ -135,9 +135,11 @@
                                     <b-field label="Curriculum Code" label-position="on-border"
                                         :type="this.errors.curriculum_code ? 'is-danger':''"
                                         :message="this.errors.curriculum_code ? this.errors.curriculum_code[0] : ''">
-                                        <b-input v-model="fields.curriculum_code"
+                                        <b-select v-model="fields.curriculum_code"
                                             placeholder="Curriculum Code" required>
-                                        </b-input>
+                                            <option v-for="(item, index) in curriculums" 
+                                                :value="item.curriculum_code">{{ item.curriculum_code }}</option>
+                                        </b-select>
                                     </b-field>
                                 </div>
                             </div>
@@ -194,6 +196,7 @@ export default{
                 academic_year: '', 
             },
             errors: {},
+            curriculums: []
         }
 
     },
@@ -354,11 +357,18 @@ export default{
             });
         },
 
+        loadCurriculums(){
+            axios.get('/load-curriculums').then(res=>{
+                this.curriculums = res.data
+            })
+        }
+
       
     },
 
     mounted() {
         this.loadAsyncData()
+        this.loadCurriculums()
     }
 
 }

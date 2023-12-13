@@ -12381,6 +12381,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -12400,7 +12402,8 @@ __webpack_require__.r(__webpack_exports__);
       fields: {
         academic_year: ''
       },
-      errors: {}
+      errors: {},
+      curriculums: []
     };
   },
   methods: {
@@ -12560,10 +12563,18 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/grade-levels/' + data_id).then(function (res) {
         _this5.fields = res.data;
       });
+    },
+    loadCurriculums: function loadCurriculums() {
+      var _this6 = this;
+
+      axios.get('/load-curriculums').then(function (res) {
+        _this6.curriculums = res.data;
+      });
     }
   },
   mounted: function mounted() {
     this.loadAsyncData();
+    this.loadCurriculums();
   }
 });
 
@@ -68272,7 +68283,10 @@ var render = function () {
                   { attrs: { label: "Search", "label-position": "on-border" } },
                   [
                     _c("b-input", {
-                      attrs: { type: "text", placeholder: "Search Curriculum" },
+                      attrs: {
+                        type: "text",
+                        placeholder: "Search Grade Level",
+                      },
                       nativeOn: {
                         keyup: function ($event) {
                           if (
@@ -68291,11 +68305,11 @@ var render = function () {
                         },
                       },
                       model: {
-                        value: _vm.search.academic_year,
+                        value: _vm.search.grade,
                         callback: function ($$v) {
-                          _vm.$set(_vm.search, "academic_year", $$v)
+                          _vm.$set(_vm.search, "grade", $$v)
                         },
-                        expression: "search.academic_year",
+                        expression: "search.grade",
                       },
                     }),
                     _vm._v(" "),
@@ -68714,19 +68728,36 @@ var render = function () {
                               },
                             },
                             [
-                              _c("b-input", {
-                                attrs: {
-                                  placeholder: "Curriculum Code",
-                                  required: "",
-                                },
-                                model: {
-                                  value: _vm.fields.curriculum_code,
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.fields, "curriculum_code", $$v)
+                              _c(
+                                "b-select",
+                                {
+                                  attrs: {
+                                    placeholder: "Curriculum Code",
+                                    required: "",
                                   },
-                                  expression: "fields.curriculum_code",
+                                  model: {
+                                    value: _vm.fields.curriculum_code,
+                                    callback: function ($$v) {
+                                      _vm.$set(
+                                        _vm.fields,
+                                        "curriculum_code",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "fields.curriculum_code",
+                                  },
                                 },
-                              }),
+                                _vm._l(_vm.curriculums, function (item, index) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      domProps: { value: item.curriculum_code },
+                                    },
+                                    [_vm._v(_vm._s(item.curriculum_code))]
+                                  )
+                                }),
+                                0
+                              ),
                             ],
                             1
                           ),

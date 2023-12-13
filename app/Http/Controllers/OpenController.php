@@ -11,6 +11,7 @@ use App\Models\Strand;
 use App\Models\GradeLevel;
 use App\Models\Section;
 use App\Models\Miscellaneous;
+use App\Models\Curriculum;
 
 class OpenController extends Controller
 {
@@ -43,7 +44,7 @@ class OpenController extends Controller
 
     public function loadGradeLevels(){
         return GradeLevel::where('active', 1)
-            ->orderBy('id', 'asc')
+            ->orderBy('grade_level_id', 'asc')
             ->get();
     }
 
@@ -57,6 +58,11 @@ class OpenController extends Controller
 
     public function loadOtherFees(){
         return Miscellaneous::orderBy('description', 'asc')
+            ->get();
+    }
+
+    public function loadCurriculums(){
+        return Curriculum::orderBy('curriculum_code', 'asc')
             ->get();
     }
 

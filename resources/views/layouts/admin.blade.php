@@ -79,10 +79,6 @@
                         Section Subjects
                     </b-navbar-item>
 
-                    <b-navbar-item href="/sections">
-                        Sections
-                    </b-navbar-item>
-
                     <b-navbar-item href="/tracks">
                         Tracks
                     </b-navbar-item>
@@ -107,7 +103,9 @@
                         Grade Level
                     </b-navbar-item>
 
-                  
+                    <b-navbar-item href="/sections">
+                        Sections
+                    </b-navbar-item>
 
                 </b-navbar-dropdown>
 
