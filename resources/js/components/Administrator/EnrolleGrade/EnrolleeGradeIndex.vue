@@ -167,8 +167,8 @@
               
                                 </tr>
                                 <tr v-for="(item, index) in enrollee.section_subjects" :key="index">
-                                    <td>{{  item.subject.subject_code }}</td>
-                                    <td>{{  item.subject.subject_description }}</td>
+                                    <td>{{  item.subject_code }}</td>
+                                    <td>{{  item.subject_description }}</td>
                                     <td>
                                         <b-input type="text" v-model="item.grade" placeholder="Grade"></b-input>
                                     </td>
@@ -259,8 +259,18 @@ export default{
                 this.enrollee.strand_id = row.strand_id
             })
 
-            this.enrollee.section_subjects = row.section_subjects
-            console.log(row.section_subjects);
+            console.log(row.section_subjects)
+
+            row.section_subjects.forEach(item => {
+                this.enrollee.section_subjects.push({
+                    'subject_id': item.subject_id,
+                    'subject_code': item.subject.subject_code,
+                    'subject_description': item.subject.subject_description,
+                    'grade': 0
+                });
+            });
+
+           
        
             //this.loadOtherFees()
         },
@@ -274,7 +284,7 @@ export default{
         submit(){
             this.errors = {}
             this.enrollee.fee_balance = this.finalTotalFee
-            axios.post('/billing-subjects', this.enrollee).then(res=>{
+            axios.post('/enrollee-grades', this.enrollee).then(res=>{
                 if(res.data.status === 'saved'){
                     this.$buefy.dialog.alert({
                         title: "Saved!",

@@ -9281,8 +9281,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
               case 14:
-                _this.enrollee.section_subjects = row.section_subjects;
-                console.log(row.section_subjects); //this.loadOtherFees()
+                console.log(row.section_subjects);
+                row.section_subjects.forEach(function (item) {
+                  _this.enrollee.section_subjects.push({
+                    'subject_id': item.subject_id,
+                    'subject_code': item.subject.subject_code,
+                    'subject_description': item.subject.subject_description,
+                    'grade': 0
+                  });
+                }); //this.loadOtherFees()
 
               case 16:
               case "end":
@@ -9304,7 +9311,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       this.errors = {};
       this.enrollee.fee_balance = this.finalTotalFee;
-      axios.post('/billing-subjects', this.enrollee).then(function (res) {
+      axios.post('/enrollee-grades', this.enrollee).then(function (res) {
         if (res.data.status === 'saved') {
           _this3.$buefy.dialog.alert({
             title: "Saved!",
@@ -62730,12 +62737,10 @@ var render = function () {
                         _vm.enrollee.section_subjects,
                         function (item, index) {
                           return _c("tr", { key: index }, [
-                            _c("td", [
-                              _vm._v(_vm._s(item.subject.subject_code)),
-                            ]),
+                            _c("td", [_vm._v(_vm._s(item.subject_code))]),
                             _vm._v(" "),
                             _c("td", [
-                              _vm._v(_vm._s(item.subject.subject_description)),
+                              _vm._v(_vm._s(item.subject_description)),
                             ]),
                             _vm._v(" "),
                             _c(
