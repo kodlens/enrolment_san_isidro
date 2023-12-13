@@ -74,6 +74,7 @@
                     <b-navbar-item href="/subjects">
                         Subjects
                     </b-navbar-item>
+
                     <b-navbar-item href="/section-subjects">
                         Section Subjects
                     </b-navbar-item>
@@ -81,46 +82,32 @@
                     <b-navbar-item href="/sections">
                         Sections
                     </b-navbar-item>
+
                     <b-navbar-item href="/tracks">
                         Tracks
                     </b-navbar-item>
+
                     <b-navbar-item href="/strands">
                         Strands
                     </b-navbar-item>    
-
-
-                    <b-dropdown 
-                        append-to-body  
-                        aria-role="list"
-                        trap-focus :triggers="['hover']">
-                        <template #trigger>
-                            <a
-                                class="navbar-item"
-                                role="button">
-                                <span>Curriculum</span>
-                                <b-icon icon="menu-down"></b-icon>
-                            </a>
-                        </template>
-
-                        <b-dropdown-item>
-                            Grade Levels
-                        </b-dropdown-item>
-                        <b-dropdown-item>
-                            Sections
-                        </b-dropdown-item>
-                        <b-dropdown-item>
-                            Tracks
-                        </b-dropdown-item>
-                        <b-dropdown-item>
-                            Strands
-                        </b-dropdown-item>
-
-                    </b-dropdown>
-
                     
                     <b-navbar-item href="/faculty">
                         Faculty
                     </b-navbar-item>
+
+                </b-navbar-dropdown>
+
+                <b-navbar-dropdown label="Curriculum">
+
+                    <b-navbar-item href="/manage-curriculums">
+                        Manage Curriculum
+                    </b-navbar-item>
+
+                    <b-navbar-item href="/grade-levels">
+                        Grade Level
+                    </b-navbar-item>
+
+                  
 
                 </b-navbar-dropdown>
 

@@ -75,9 +75,15 @@ Route::middleware(['auth', 'admin'])->group(function(){
 
     Route::resource('/academic-years', App\Http\Controllers\Administrator\AcademicYearController::class);
     Route::get('/get-academic-years', [App\Http\Controllers\Administrator\AcademicYearController::class, 'getAcademicYears']);
-
     Route::post('/academic-year-active/{id}', [App\Http\Controllers\Administrator\AcademicYearController::class, 'active']);
 
+    Route::resource('/manage-curriculums', App\Http\Controllers\Administrator\CurriculumController::class);
+    Route::get('/get-curriculums', [App\Http\Controllers\Administrator\CurriculumController::class, 'getData']);
+
+    Route::resource('/grade-levels', App\Http\Controllers\Administrator\GradeLevelController::class);
+    Route::get('/get-grade-levels', [App\Http\Controllers\Administrator\GradeLevelController::class, 'getData']);
+
+   
     Route::resource('/tracks', App\Http\Controllers\Administrator\TrackController::class);
     Route::get('/get-tracks', [App\Http\Controllers\Administrator\TrackController::class, 'getTracks']);
 

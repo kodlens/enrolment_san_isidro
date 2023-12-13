@@ -14,9 +14,9 @@ class CreateGradeLevelsTable extends Migration
     public function up()
     {
         Schema::create('grade_levels', function (Blueprint $table) {
-            $table->id();
+            $table->id('grade_level_id');
             $table->string('grade_level')->nullable();
-            $table->string('curriculum')->nullable();
+            $table->string('curriculum_code')->nullable();
             $table->tinyInteger('active')->default(1);
             $table->timestamps();
         });
