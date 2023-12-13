@@ -12,6 +12,8 @@ use App\Models\GradeLevel;
 use App\Models\Section;
 use App\Models\Miscellaneous;
 use App\Models\Curriculum;
+use App\Models\SectionSubject;
+
 
 class OpenController extends Controller
 {
@@ -63,6 +65,14 @@ class OpenController extends Controller
 
     public function loadCurriculums(){
         return Curriculum::orderBy('curriculum_code', 'asc')
+            ->get();
+    }
+
+
+    public function loadSectionSubjects($sectionId){
+
+        return SectionSubject::with('subject')
+            ->where('section_id', $sectionId)
             ->get();
     }
 

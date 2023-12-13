@@ -45,7 +45,7 @@
                                             v-model="learner.grade_level"
                                             @input="loadSection"
                                             required>
-                                            <option :value="{ grade_level: item.grade_level, curriculum: item.curriculum }"
+                                            <option :value="{ grade_level: item.grade_level, curriculum_code: item.curriculum_code }"
                                                     v-for="(item, ix) in gradeLevels" :key="`g${ix}`">
                                                 {{ item.grade_level }}
                                             </option>
@@ -62,6 +62,7 @@
                                             icon="account"
                                             placeholder="Section"
                                             v-model="learner.section_id"
+                                            @input="loadSectionSubjects"
                                             required>
                                             <option :value="item.section_id"
                                                     v-for="(item, ix) in sections" :key="`section${ix}`">
@@ -80,10 +81,10 @@
                                             icon="account"
                                             placeholder="Learner Status"
                                             v-model="learner.learner_status">
-                                            <option :value="0">OLD</option>
-                                            <option :value="1">NEW</option>
-                                            <option :value="2">RETURNEE</option>
-                                            <option :value="3">TRANSFEREE</option>
+                                            <option value="OLD">OLD</option>
+                                            <option value="NEW">NEW</option>
+                                            <option value="RETURNEE">RETURNEE</option>
+                                            <option value="TRANSFEREE">TRANSFEREE</option>
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -91,7 +92,7 @@
                             </div> <!--cols-->
 
 
-                            <div v-if="learner.grade_level.curriculum === 'SHS'">
+                            <div v-if="learner.grade_level.curriculum_code === 'SHS'">
 
                                 <div class="columns">
                                     <div class="column">
@@ -144,50 +145,44 @@
                                 </div>
                             </div> <!--if SHS-->
 
-                            
-
                         </div>
 
                         <hr>
 
-                        <!-- <div class="has-text-weight-bold mb-4 info-header">SUBJECTS TO ENROLL</div>
-                        <b-field
-                            :type="this.errors.subjects ? 'is-danger':''"
-                            :message="this.errors.subjects ? this.errors.subjects[0] : ''">
-                        </b-field>
-                        subjects loop 
-                        <div class="subject-card"
-                            v-for="(item, index) in learner.subjects" :key="index">
-                            <div class="buttons is-right m-2">
-                                <b-button class="is-danger is-small is-outlined"
-                                    icon-right="delete" @click="removeSubject(index)"></b-button>
+                        <div v-if="learner.grade_level.curriculum_code === 'SHS'" class="my-4">
+                            <div class="has-text-weight-bold mb-4 info-header">SUBJECTS TO ENROLL</div>
+                            <b-field
+                                :type="this.errors.subjects ? 'is-danger':''"
+                                :message="this.errors.subjects ? this.errors.subjects[0] : ''">
+                            </b-field>
+                            <div class="subject-card"
+                                v-for="(item, index) in learner.subjects" :key="index">
+                                <div class="buttons is-right m-2">
+                                    <b-button class="is-danger is-small is-outlined"
+                                        icon-right="delete" @click="removeSubject(index)"></b-button>
+                                </div>
+                                <div class="columns">
+                                    <div class="column">
+                                        <b-field label="Subjet Name" label-position="on-border">
+                                            <b-input type="text" readonly v-model="item.subj_name" 
+                                                placeholder="Subjet Name" /></b-field>
+                                    </div>  
+                                    <div class="column is-2">
+                                        <b-field label="Class" label-position="on-border">
+                                            <b-input type="text" readonly v-model="item.units " 
+                                                placeholder="Class" /></b-field>
+                                    </div> 
+                                    
+                                </div> 
+
+                            
                             </div>
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Subjet Name" label-position="on-border">
-                                        <b-input type="text" readonly v-model="item.subj_name" 
-                                            placeholder="Subjet Name" /></b-field>
-                                </div>  
-                                <div class="column is-2">
-                                    <b-field label="Class" label-position="on-border">
-                                        <b-input type="text" readonly v-model="item.class" 
-                                            placeholder="Class" /></b-field>
-                                </div> 
-                                  
-                                <div class="column is-2">
-                                    <b-field label="Fee" label-position="on-border">
-                                        <b-input type="text" readonly v-model="item.fee" 
-                                            placeholder="Fee" /></b-field>
-                                </div> 
-
-                            </div> 
-
-                          
-                        </div>
-                        <div class="buttons is-right mt-4">
-                            <modal-browse-button-subject
-                                @browseSubject="emitBrowseSubject($event)"></modal-browse-button-subject>
-                        </div> -->
+                            <div class="buttons is-right mt-4">
+                                <modal-browse-button-subject
+                                    @browseSubject="emitBrowseSubject($event)"></modal-browse-button-subject>
+                            </div>
+                        </div> <!--if SHS-->
+                        
 
                         <div class="has-text-weight-bold mb-4 info-header">CONTROLS/ACTION</div>
 
@@ -241,16 +236,19 @@ export default{
     methods: {
         
         async emitBrowseLearner(row){
+
             this.learner.learner_id = row.learner_id
             this.learner.name = '(' + row.student_id + ') ' + row.lname + ', ' + row.fname + ' ' + row.mname
-            console.log(row);
+         
             this.learner.grade_level.grade_level = row.grade_level.grade_level
-            this.learner.grade_level.curriculum = row.grade_level.curriculum
+            this.learner.grade_level.curriculum_code = row.grade_level.curriculum_code
             await this.loadSection();
 
             this.learner.learner_status = row.learner_status
             this.learner.semester_id = row.semester_id
             this.learner.track_id = row.track_id
+            await this.loadStrands()
+            this.learner.strand_id = row.strand_id
             this.learner.section_id = row.section_id
 
             await this.loadStrands().then(()=>{
@@ -258,53 +256,84 @@ export default{
             })
 
         },
-        // emitBrowseSubject(row, ix){
-        //     this.learner.subjects.forEach(item => {
-        //         if(item.subject_id == row.subject_id){
-        //             return;
-        //         }
-        //     });
 
-        //     this.learner.subjects.push({
-        //         subject_id: row.subject_id,
-        //         subject_code: row.subject_code,
-        //         subject_description: row.subject_description,
-        //         units: row.units,
-        //         class: row.class,
-        //         fee: row.fee,
-        //         subj_name: row.subject_code + ' - ' + row.subject_description
-        //     })
+        emitBrowseSubject(row, ix){
+            console.log(row.subject_id);
+            let flagFound = false
+            this.learner.subjects.forEach(item => {
+                console.log(item.subject_id);
+                if(item.subject_id === row.subject_id){
+                    flagFound = true;
+                }
+            });
 
-        // },
+            if(flagFound){
+                this.$buefy.toast.open({
+                    message: 'Already added in the subject list.',
+                    type: 'is-danger'
+                })
+                return;
+            }
 
-        // removeSubject(index){
+            this.learner.subjects.push({
+                subject_id: row.subject_id,
+                subject_code: row.subject_code,
+                subject_description: row.subject_description,
+                units: row.units,
+                class: row.class,
+                fee: row.fee,
+                subj_name: row.subject_code + ' - ' + row.subject_description
+            })
 
-        //     this.$buefy.dialog.confirm({
-        //         title: 'DELETE?',
-        //         message: 'Are you sure you want to remove this subject?',
-        //         type: 'is-danger',
+        },
 
-        //         onConfirm: ()=>{
-        //             let id = this.learner.subjects[index].enrol_subject_id;
+        removeSubject(index){
+            this.$buefy.dialog.confirm({
+                title: 'DELETE?',
+                message: 'Are you sure you want to remove this subject?',
+                type: 'is-danger',
 
-        //             if(id > 0){
-        //                 axios.delete('/enrolment-delete-subject/' + id).then(res=>{
-        //                     if(res.data.status === 'deleted'){
-        //                         this.$buefy.toast.open({
-        //                             message: `Subject removed successfully.`,
-        //                             type: 'is-primary'
-        //                         })
-        //                     }
-        //                 });
-        //             }
+                onConfirm: ()=>{
+                    let id = this.learner.subjects[index].enrol_subject_id;
 
-        //             this.learner.subjects.splice(index, 1);
-        //         }
-        //     });
-        // },
+                    if(id > 0){
+                        axios.delete('/enrolment-delete-subject/' + id).then(res=>{
+                            if(res.data.status === 'deleted'){
+                                this.$buefy.toast.open({
+                                    message: `Subject removed successfully.`,
+                                    type: 'is-primary'
+                                })
+                            }
+                        });
+                    }
+
+                    this.learner.subjects.splice(index, 1);
+                }
+            });
+        },
+
+        loadSectionSubjects(){
+            axios.get('/load-section-subjects/' + this.learner.section_id).then(res=>{
+                const sectionSubjects = res.data
+                sectionSubjects.forEach(row => {
+
+                    this.learner.subjects.push({
+                        subject_id: row.subject_id,
+                        subject_code: row.subject.subject_code,
+                        subject_description: row.subject.subject_description,
+                        units: row.subject.units,
+                        subj_name: row.subject.subject_code + ' - ' + row.subject.subject_description
+                    })
+
+                });
+               
+                
+            })
+        },
 
         submit(){
             this.errors = {}
+
             axios.post('/enrollment', this.learner).then(res=>{
                 if(res.data.status === 'saved'){
                     this.$buefy.dialog.alert({

@@ -142,30 +142,6 @@
                                         </b-numberinput>
                                     </b-field>
                                 </div>
-                                <div class="column">
-                                    <b-field label="Fee" label-position="on-border"
-                                        :type="this.errors.fee ? 'is-danger':''"
-                                        :message="this.errors.fee ? this.errors.fee[0] : ''">
-                                        <b-numberinput v-model="fields.fee"
-                                            type="number" :controls="false"
-                                            placeholder="Fee" required>
-                                        </b-numberinput>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Class" label-position="on-border"
-                                        :type="this.errors.class ? 'is-danger':''"
-                                        :message="this.errors.class ? this.errors.class[0] : ''">
-                                        <b-select v-model="fields.class"
-                                            placeholder="Class" required expanded>
-                                            <option value="LEC">LEC</option>
-                                            <option value="LAB">LAB</option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
                             </div>
 
                         </div>

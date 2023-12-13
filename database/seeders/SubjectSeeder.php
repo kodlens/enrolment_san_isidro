@@ -24,6 +24,32 @@ class SubjectSeeder extends Seeder
                 'fee' => 150
 
             ],
+
+            [
+                'subject_code' => 'ICT',
+                'subject_description' => 'PRGRAMMING FUNDAMENTAL',
+                'units' => 3,
+                'class' => 'LEC',
+                'fee' => 150
+
+            ],
+            [
+                'subject_code' => 'COOK',
+                'subject_description' => 'COOK FUNDAMENTAL',
+                'units' => 3,
+                'class' => 'LEC',
+                'fee' => 150
+
+            ],
+            [
+                'subject_code' => 'PHYSICS',
+                'subject_description' => 'ADVANCE PHYSICS',
+                'units' => 3,
+                'class' => 'LEC',
+                'fee' => 150
+
+            ],
+
             [
                 'subject_code' => 'FIL',
                 'subject_description' => 'FILIPINO',

@@ -29,12 +29,12 @@ class Learner extends Model
         'age',
         'last_school_attended',
 
-        'current_country',
-        'current_province',
-        'current_city',
-        'current_barangay',
-        'current_street',
-        'current_zipcode',
+        'country',
+        'province',
+        'city',
+        'barangay',
+        'street',
+        'zipcode',
 
 
         'email',
@@ -62,10 +62,10 @@ class Learner extends Model
         'guardian_extension',
         'guardian_contact_no',
 
-        'last_grade_level_completed',
-        'last_school_year_completed',
-        'last_school_attended',
-        'last_schoold_id',
+        // 'last_grade_level_completed',
+        // 'last_school_year_completed',
+        // 'last_school_attended',
+        // 'last_schoold_id',
 
         'semester_id',
         'senior_high_school_id',
@@ -95,24 +95,16 @@ class Learner extends Model
         return $this->hasOne(GradeLevel::class, 'grade_level', 'grade_level');
     }
 
-    public function current_province(){
-        return $this->hasOne(Province::class, 'provCode', 'current_province');
-    }
-    public function current_city(){
-        return $this->hasOne(City::class, 'citymunCode', 'current_city');
-    }
-    public function current_barangay(){
-        return $this->hasOne(Barangay::class, 'brgyCode', 'current_barangay');
-    }
 
-    public function permanent_province(){
-        return $this->hasOne(Province::class, 'provCode', 'permanent_province');
+
+    public function province(){
+        return $this->hasOne(Province::class, 'provCode', 'province');
     }
-    public function permanent_city(){
-        return $this->hasOne(City::class, 'citymunCode', 'permanent_city');
+    public function city(){
+        return $this->hasOne(City::class, 'citymunCode', 'city');
     }
-    public function permanent_barangay(){
-        return $this->hasOne(Barangay::class, 'brgyCode', 'permanent_barangay');
+    public function barangay(){
+        return $this->hasOne(Barangay::class, 'brgyCode', 'barangay');
     }
 
 

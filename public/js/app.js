@@ -11640,11 +11640,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -11679,23 +11674,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _this.learner.learner_id = row.learner_id;
                 _this.learner.name = '(' + row.student_id + ') ' + row.lname + ', ' + row.fname + ' ' + row.mname;
-                console.log(row);
                 _this.learner.grade_level.grade_level = row.grade_level.grade_level;
-                _this.learner.grade_level.curriculum = row.grade_level.curriculum;
-                _context.next = 7;
+                _this.learner.grade_level.curriculum_code = row.grade_level.curriculum_code;
+                _context.next = 6;
                 return _this.loadSection();
 
-              case 7:
+              case 6:
                 _this.learner.learner_status = row.learner_status;
                 _this.learner.semester_id = row.semester_id;
                 _this.learner.track_id = row.track_id;
+                _context.next = 11;
+                return _this.loadStrands();
+
+              case 11:
+                _this.learner.strand_id = row.strand_id;
                 _this.learner.section_id = row.section_id;
-                _context.next = 13;
+                _context.next = 15;
                 return _this.loadStrands().then(function () {
                   _this.learner.strand_id = row.strand_id;
                 });
 
-              case 13:
+              case 15:
               case "end":
                 return _context.stop();
             }
@@ -11703,64 +11702,97 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    // emitBrowseSubject(row, ix){
-    //     this.learner.subjects.forEach(item => {
-    //         if(item.subject_id == row.subject_id){
-    //             return;
-    //         }
-    //     });
-    //     this.learner.subjects.push({
-    //         subject_id: row.subject_id,
-    //         subject_code: row.subject_code,
-    //         subject_description: row.subject_description,
-    //         units: row.units,
-    //         class: row.class,
-    //         fee: row.fee,
-    //         subj_name: row.subject_code + ' - ' + row.subject_description
-    //     })
-    // },
-    // removeSubject(index){
-    //     this.$buefy.dialog.confirm({
-    //         title: 'DELETE?',
-    //         message: 'Are you sure you want to remove this subject?',
-    //         type: 'is-danger',
-    //         onConfirm: ()=>{
-    //             let id = this.learner.subjects[index].enrol_subject_id;
-    //             if(id > 0){
-    //                 axios.delete('/enrolment-delete-subject/' + id).then(res=>{
-    //                     if(res.data.status === 'deleted'){
-    //                         this.$buefy.toast.open({
-    //                             message: `Subject removed successfully.`,
-    //                             type: 'is-primary'
-    //                         })
-    //                     }
-    //                 });
-    //             }
-    //             this.learner.subjects.splice(index, 1);
-    //         }
-    //     });
-    // },
-    submit: function submit() {
+    emitBrowseSubject: function emitBrowseSubject(row, ix) {
+      console.log(row.subject_id);
+      var flagFound = false;
+      this.learner.subjects.forEach(function (item) {
+        console.log(item.subject_id);
+
+        if (item.subject_id === row.subject_id) {
+          flagFound = true;
+        }
+      });
+
+      if (flagFound) {
+        this.$buefy.toast.open({
+          message: 'Already added in the subject list.',
+          type: 'is-danger'
+        });
+        return;
+      }
+
+      this.learner.subjects.push({
+        subject_id: row.subject_id,
+        subject_code: row.subject_code,
+        subject_description: row.subject_description,
+        units: row.units,
+        "class": row["class"],
+        fee: row.fee,
+        subj_name: row.subject_code + ' - ' + row.subject_description
+      });
+    },
+    removeSubject: function removeSubject(index) {
       var _this2 = this;
+
+      this.$buefy.dialog.confirm({
+        title: 'DELETE?',
+        message: 'Are you sure you want to remove this subject?',
+        type: 'is-danger',
+        onConfirm: function onConfirm() {
+          var id = _this2.learner.subjects[index].enrol_subject_id;
+
+          if (id > 0) {
+            axios["delete"]('/enrolment-delete-subject/' + id).then(function (res) {
+              if (res.data.status === 'deleted') {
+                _this2.$buefy.toast.open({
+                  message: "Subject removed successfully.",
+                  type: 'is-primary'
+                });
+              }
+            });
+          }
+
+          _this2.learner.subjects.splice(index, 1);
+        }
+      });
+    },
+    loadSectionSubjects: function loadSectionSubjects() {
+      var _this3 = this;
+
+      axios.get('/load-section-subjects/' + this.learner.section_id).then(function (res) {
+        var sectionSubjects = res.data;
+        sectionSubjects.forEach(function (row) {
+          _this3.learner.subjects.push({
+            subject_id: row.subject_id,
+            subject_code: row.subject.subject_code,
+            subject_description: row.subject.subject_description,
+            units: row.subject.units,
+            subj_name: row.subject.subject_code + ' - ' + row.subject.subject_description
+          });
+        });
+      });
+    },
+    submit: function submit() {
+      var _this4 = this;
 
       this.errors = {};
       axios.post('/enrollment', this.learner).then(function (res) {
         if (res.data.status === 'saved') {
-          _this2.$buefy.dialog.alert({
+          _this4.$buefy.dialog.alert({
             title: "Saved!",
             message: 'Data successfully saved.',
             type: 'is-success',
             onConfirm: function onConfirm() {
-              return _this2.clearFields();
+              return _this4.clearFields();
             }
           });
         }
       })["catch"](function (err) {
         if (err.response.status === 422) {
-          _this2.errors = err.response.data.errors;
+          _this4.errors = err.response.data.errors;
 
-          if (_this2.errors.message[0] === 'exist') {
-            _this2.$buefy.dialog.alert({
+          if (_this4.errors.message[0] === 'exist') {
+            _this4.$buefy.dialog.alert({
               title: "Exist!",
               message: 'Learner already admitted.',
               type: 'is-danger'
@@ -11784,29 +11816,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     //mga init data
     loadSemesters: function loadSemesters() {
-      var _this3 = this;
+      var _this5 = this;
 
       axios.get('/load-semesters').then(function (res) {
-        _this3.semesters = res.data;
+        _this5.semesters = res.data;
       });
     },
     loadTracks: function loadTracks() {
-      var _this4 = this;
+      var _this6 = this;
 
       axios.get('/load-tracks').then(function (res) {
-        _this4.tracks = res.data;
+        _this6.tracks = res.data;
       });
     },
     loadStrands: function loadStrands() {
-      var _this5 = this;
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                axios.get('/load-strands?trackid=' + _this5.learner.track_id).then(function (res) {
-                  _this5.strands = res.data;
+                axios.get('/load-strands?trackid=' + _this7.learner.track_id).then(function (res) {
+                  _this7.strands = res.data;
                 });
 
               case 1:
@@ -11818,17 +11850,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     loadGradeLevels: function loadGradeLevels() {
-      var _this6 = this;
+      var _this8 = this;
 
       axios.get('/load-grade-levels').then(function (res) {
-        _this6.gradeLevels = res.data;
+        _this8.gradeLevels = res.data;
       });
     },
     loadSection: function loadSection() {
-      var _this7 = this;
+      var _this9 = this;
 
       axios.get('/load-section?grade=' + this.learner.grade_level.grade_level).then(function (res) {
-        _this7.sections = res.data;
+        _this9.sections = res.data;
       });
     }
   },
@@ -12875,8 +12907,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -13358,7 +13399,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       id: 0,
       fields: (_fields = {
         lrn: null,
-        grade_level: null,
+        grade_level: {
+          grade_level: null,
+          curriculum_code: null
+        },
         learner_status: null,
         lname: null,
         fname: null,
@@ -13368,15 +13412,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         birthdate: null,
         formatted_bdate: null,
         birthplace: null
-      }, _defineProperty(_fields, "age", null), _defineProperty(_fields, "last_school_attended", null), _defineProperty(_fields, "current_province", null), _defineProperty(_fields, "current_city", null), _defineProperty(_fields, "current_barangay", null), _defineProperty(_fields, "current_street", null), _defineProperty(_fields, "current_zipcode", null), _defineProperty(_fields, "father_fname", null), _defineProperty(_fields, "father_lname", null), _defineProperty(_fields, "father_mname", null), _defineProperty(_fields, "father_contact_no", null), _defineProperty(_fields, "mother_maiden_fname", null), _defineProperty(_fields, "mother_maiden_lname", null), _defineProperty(_fields, "mother_maiden_mname", null), _defineProperty(_fields, "mother_maiden_contact_no", null), _defineProperty(_fields, "guardian_fname", null), _defineProperty(_fields, "guardian_lname", null), _defineProperty(_fields, "guardian_mname", null), _defineProperty(_fields, "guardian_contact_no", null), _defineProperty(_fields, "semester", null), _defineProperty(_fields, "track_id", null), _defineProperty(_fields, "strand_id", null), _fields),
+      }, _defineProperty(_fields, "age", null), _defineProperty(_fields, "last_school_attended", null), _defineProperty(_fields, "province", null), _defineProperty(_fields, "city", null), _defineProperty(_fields, "barangay", null), _defineProperty(_fields, "street", null), _defineProperty(_fields, "zipcode", null), _defineProperty(_fields, "father_fname", null), _defineProperty(_fields, "father_lname", null), _defineProperty(_fields, "father_mname", null), _defineProperty(_fields, "father_contact_no", null), _defineProperty(_fields, "mother_maiden_fname", null), _defineProperty(_fields, "mother_maiden_lname", null), _defineProperty(_fields, "mother_maiden_mname", null), _defineProperty(_fields, "mother_maiden_contact_no", null), _defineProperty(_fields, "guardian_fname", null), _defineProperty(_fields, "guardian_lname", null), _defineProperty(_fields, "guardian_mname", null), _defineProperty(_fields, "guardian_contact_no", null), _defineProperty(_fields, "semester", null), _defineProperty(_fields, "track_id", null), _defineProperty(_fields, "strand_id", null), _fields),
       errors: {},
       gradeLevels: [],
-      current_provinces: [],
-      current_cities: [],
-      current_barangays: [],
-      permanent_provinces: [],
-      permanent_cities: [],
-      permanent_barangays: [],
+      provinces: [],
+      cities: [],
+      barangays: [],
       semesters: [],
       tracks: [],
       strands: [],
@@ -13390,89 +13431,59 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     //ADDRESS
-    loadCurrentProvince: function loadCurrentProvince() {
+    loadProvinces: function loadProvinces() {
       var _this = this;
 
       axios.get('/load-provinces').then(function (res) {
-        _this.current_provinces = res.data;
+        _this.provinces = res.data;
       });
     },
-    loadCurrentCity: function loadCurrentCity() {
+    loadCities: function loadCities() {
       var _this2 = this;
 
-      axios.get('/load-cities?prov=' + this.fields.current_province).then(function (res) {
-        _this2.current_cities = res.data;
+      axios.get('/load-cities?prov=' + this.fields.province).then(function (res) {
+        _this2.cities = res.data;
       });
     },
-    loadCurrentBarangay: function loadCurrentBarangay() {
+    loadBarangays: function loadBarangays() {
       var _this3 = this;
 
-      axios.get('/load-barangays?prov=' + this.fields.current_province + '&city_code=' + this.fields.current_city).then(function (res) {
-        _this3.current_barangays = res.data;
-      });
-    },
-    loadPermanentProvince: function loadPermanentProvince() {
-      var _this4 = this;
-
-      axios.get('/load-provinces').then(function (res) {
-        _this4.permanent_provinces = res.data;
-      });
-    },
-    loadPermanentCity: function loadPermanentCity() {
-      var _this5 = this;
-
-      axios.get('/load-cities?prov=' + this.fields.permanent_province).then(function (res) {
-        _this5.permanent_cities = res.data;
-      });
-    },
-    loadPermanentBarangay: function loadPermanentBarangay() {
-      var _this6 = this;
-
-      axios.get('/load-barangays?prov=' + this.fields.permanent_province + '&city_code=' + this.fields.permanent_city).then(function (res) {
-        _this6.permanent_barangays = res.data;
+      axios.get('/load-barangays?prov=' + this.fields.province + '&city_code=' + this.fields.city).then(function (res) {
+        _this3.barangays = res.data;
       });
     },
     //ADDRESS
     loadSemesters: function loadSemesters() {
-      var _this7 = this;
+      var _this4 = this;
 
       axios.get('/load-semesters').then(function (res) {
-        _this7.semesters = res.data;
+        _this4.semesters = res.data;
       });
     },
     loadTracks: function loadTracks() {
-      var _this8 = this;
+      var _this5 = this;
 
       axios.get('/load-tracks').then(function (res) {
-        _this8.tracks = res.data;
+        _this5.tracks = res.data;
       });
     },
     loadStrands: function loadStrands() {
-      var _this9 = this;
+      var _this6 = this;
 
       axios.get('/load-strands?trackid=' + this.fields.track_id).then(function (res) {
-        _this9.strands = res.data;
+        _this6.strands = res.data;
       });
     },
     loadGradeLevels: function loadGradeLevels() {
-      var _this10 = this;
+      var _this7 = this;
 
       axios.get('/load-grade-levels').then(function (res) {
-        _this10.gradeLevels = res.data;
+        _this7.gradeLevels = res.data;
+        console.log(_this7.gradeLevels);
       });
     },
-    //copy current address
-    copyCurrentAddress: function copyCurrentAddress() {
-      this.fields.permanent_province = this.fields.current_province;
-      this.loadPermanentCity();
-      this.fields.permanent_city = this.fields.current_city;
-      this.loadPermanentBarangay();
-      this.fields.permanent_barangay = this.fields.current_barangay;
-      this.fields.permanent_street = this.fields.current_street;
-      this.fields.permanent_zipcode = this.fields.current_zipcode;
-    },
     submit: function submit() {
-      var _this11 = this;
+      var _this8 = this;
 
       this.btnClass['is-loading'] = true;
       this.errors = {}; //clear all errors, to refresh errors
@@ -13484,10 +13495,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.id > 0) {
         /* update */
         axios.put('/manage-learners/' + this.id, this.fields).then(function (res) {
-          _this11.btnClass['is-loading'] = false;
+          _this8.btnClass['is-loading'] = false;
 
           if (res.data.status === 'updated') {
-            _this11.$buefy.dialog.alert({
+            _this8.$buefy.dialog.alert({
               title: "UPDATED!",
               message: 'Data successfully updated.',
               type: 'is-success',
@@ -13497,12 +13508,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
           }
         })["catch"](function (err) {
-          _this11.btnClass['is-loading'] = false;
+          _this8.btnClass['is-loading'] = false;
 
           if (err.response.status === 422) {
-            _this11.errors = err.response.data.errors;
+            _this8.errors = err.response.data.errors;
 
-            _this11.$buefy.dialog.alert({
+            _this8.$buefy.dialog.alert({
               title: 'Error!',
               hasIcon: true,
               message: 'Some fields are required. Please check fields marked red.',
@@ -13517,7 +13528,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.btnClass['is-loading'] = false;
         axios.post('/manage-learners', this.fields).then(function (res) {
           if (res.data.status === 'saved') {
-            _this11.$buefy.dialog.alert({
+            _this8.$buefy.dialog.alert({
               title: "SAVED!",
               message: 'Data successfully saved.',
               type: 'is-success',
@@ -13527,12 +13538,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
           }
         })["catch"](function (err) {
-          _this11.btnClass['is-loading'] = false;
+          _this8.btnClass['is-loading'] = false;
 
           if (err.response.status === 422) {
-            _this11.errors = err.response.data.errors;
+            _this8.errors = err.response.data.errors;
 
-            _this11.$buefy.dialog.alert({
+            _this8.$buefy.dialog.alert({
               title: 'Error!',
               hasIcon: true,
               message: 'Some fields are required. Please check fields marked red.',
@@ -13545,8 +13556,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     initData: function initData() {
-      this.loadCurrentProvince();
-      this.loadPermanentProvince();
+      this.loadProvinces();
       this.loadSemesters();
       this.loadTracks();
       this.loadGradeLevels(); //this.loadSections()
@@ -13556,66 +13566,91 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     setData: function setData() {
-      this.btnClass['is-loading'] = true;
-      var data = JSON.parse(this.propData);
-      this.id = data.learner_id;
-      console.log(data);
-      this.fields.grade_level = data.grade_level;
-      this.fields.is_returnee = data.is_returnee;
-      this.fields.psa = data.psa;
-      this.fields.lrn = data.lrn;
-      this.fields.lname = data.lname;
-      this.fields.fname = data.fname;
-      this.fields.mname = data.mname;
-      this.fields.extension = data.extension;
-      this.fields.sex = data.sex; //this.fields.birthdate = new Date(data.birthdate)
+      var _this9 = this;
 
-      this.fields.birthplace = data.birthplace;
-      this.fields.age = data.age;
-      this.fields.mother_tongue = data.mother_tongue;
-      this.fields.is_indigenous = data.is_indigenous;
-      this.fields.if_yes_indigenous = data.if_yes_indigenous;
-      this.fields.is_4ps = data.is_4ps;
-      this.fields.household_4ps_id_no = data.household_4ps_id_no;
-      this.fields.current_province = data.current_province ? data.current_province.provCode : null;
-      this.loadCurrentCity();
-      this.fields.current_city = data.current_city ? data.current_city.citymunCode : null;
-      this.loadCurrentBarangay();
-      this.fields.current_barangay = data.current_barangay ? data.current_barangay.brgyCode : null;
-      this.fields.current_street = data.current_street;
-      this.fields.current_zipcode = data.current_zipcode;
-      this.fields.permanent_province = data.permanent_province ? data.permanent_province.provCode : null;
-      this.loadPermanentCity();
-      this.fields.permanent_city = data.permanent_city ? data.permanent_city.citymunCode : null;
-      this.loadPermanentBarangay();
-      this.fields.permanent_barangay = data.permanent_barangay ? data.permanent_barangay.brgyCode : null;
-      this.fields.permanent_street = data.permanent_street;
-      this.fields.permanent_zipcode = data.permanent_zipcode;
-      this.fields.father_lname = data.father_lname;
-      this.fields.father_fname = data.father_fname;
-      this.fields.father_mname = data.father_mname;
-      this.fields.father_contact_no = data.father_contact_no;
-      this.fields.father_extension = data.father_extension;
-      this.fields.mother_maiden_lname = data.mother_maiden_lname;
-      this.fields.mother_maiden_fname = data.mother_maiden_fname;
-      this.fields.mother_maiden_mname = data.mother_maiden_mname;
-      this.fields.mother_maiden_contact_no = data.mother_maiden_contact_no;
-      this.fields.guardian_lname = data.guardian_lname;
-      this.fields.guardian_fname = data.guardian_fname;
-      this.fields.guardian_mname = data.guardian_mname;
-      this.fields.guardian_contact_no = data.guardian_contact_no;
-      this.fields.last_school_year_completed = data.last_school_year_completed;
-      this.fields.last_school_attended = data.last_school_attended;
-      this.fields.last_schoold_id = data.last_schoold_id;
-      this.fields.semester_id = data.semester_id;
-      this.fields.senior_high_school_id = data.senior_high_school_id;
-      this.fields.track_id = data.track_id;
-      this.fields.strand_id = data.strand_id;
-      this.btnClass['is-loading'] = false;
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this9.btnClass['is-loading'] = true;
+                data = JSON.parse(_this9.propData);
+                _this9.id = data.learner_id;
+                console.log(data);
+                _this9.fields.grade_level = {
+                  grade_level: data.grade_level.grade_level,
+                  curriculum_code: data.grade_level.curriculum_code
+                };
+                console.log(data.grade_level); //this.fields.is_returnee = data.is_returnee
+                //this.fields.psa = data.psa
+
+                _this9.fields.learner_status = data.learner_status;
+                _this9.fields.lrn = data.lrn;
+                _this9.fields.lname = data.lname;
+                _this9.fields.fname = data.fname;
+                _this9.fields.mname = data.mname;
+                _this9.fields.extension = data.extension;
+                _this9.fields.sex = data.sex;
+                _this9.fields.birthdate = new Date(data.birthdate);
+                _this9.fields.birthplace = data.birthplace;
+                _this9.fields.age = data.age; // this.fields.mother_tongue = data.mother_tongue
+                // this.fields.is_indigenous = data.is_indigenous
+                // this.fields.if_yes_indigenous = data.if_yes_indigenous
+                // this.fields.is_4ps = data.is_4ps
+                // this.fields.household_4ps_id_no = data.household_4ps_id_no
+
+                _this9.fields.last_school_attended = data.last_school_attended;
+                _this9.fields.province = data.province ? data.province.provCode : null;
+                _context.next = 20;
+                return _this9.loadCities();
+
+              case 20:
+                _this9.fields.city = data.city ? data.city.citymunCode : null;
+                _context.next = 23;
+                return _this9.loadBarangays();
+
+              case 23:
+                _this9.fields.barangay = data.barangay ? data.barangay.brgyCode : null;
+                _this9.fields.street = data.street;
+                _this9.fields.zipcode = data.zipcode;
+                _this9.fields.father_lname = data.father_lname;
+                _this9.fields.father_fname = data.father_fname;
+                _this9.fields.father_mname = data.father_mname;
+                _this9.fields.father_contact_no = data.father_contact_no;
+                _this9.fields.father_extension = data.father_extension;
+                _this9.fields.mother_maiden_lname = data.mother_maiden_lname;
+                _this9.fields.mother_maiden_fname = data.mother_maiden_fname;
+                _this9.fields.mother_maiden_mname = data.mother_maiden_mname;
+                _this9.fields.mother_maiden_contact_no = data.mother_maiden_contact_no;
+                _this9.fields.guardian_lname = data.guardian_lname;
+                _this9.fields.guardian_fname = data.guardian_fname;
+                _this9.fields.guardian_mname = data.guardian_mname;
+                _this9.fields.guardian_contact_no = data.guardian_contact_no;
+                _this9.fields.semester_id = data.semester_id; //this.fields.senior_high_school_id = data.senior_high_school_id
+
+                _this9.fields.track_id = data.track_id;
+                _context.next = 43;
+                return _this9.loadStrands();
+
+              case 43:
+                _this9.fields.strand_id = data.strand_id;
+                _this9.btnClass['is-loading'] = false;
+
+              case 45:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     debug: function debug() {
-      this.fields.grade_level = 'GRADE 11';
-      this.fields.learner_status = 1;
+      this.fields.grade_level = {
+        grade_level: 'GRADE 11',
+        curriculum_code: 'SHS'
+      };
+      this.fields.learner_status = 'NEW';
       this.fields.lrn = '20221123231';
       this.fields.lname = 'LABAJO';
       this.fields.fname = 'MAYESEL';
@@ -13640,12 +13675,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.fields.guardian_fname = 'GFNAME';
       this.fields.guardian_mname = 'GMNAME';
       this.fields.guardian_contact_no = '09161234567';
-      this.fields.last_school_year_completed = '2021-2022';
-      this.fields.last_schoold_id = '2022-2211';
-      this.fields.semester_id = 1;
-      this.fields.senior_high_school_id = '200222';
-      this.fields.track_id = 1;
-      this.fields.strand_id = 1;
+      this.fields.last_school_year_completed = '2021-2022'; //this.fields.last_schoold_id = '2022-2211'
+      // this.fields.semester_id = 1
+      // this.fields.senior_high_school_id = '200222'
+      // this.fields.track_id = 1
+      // this.fields.strand_id = 1
     }
   },
   mounted: function mounted() {
@@ -13968,6 +14002,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     emitBrowseSubject: function emitBrowseSubject(row, ix) {
+      var flagFound = false;
+      this.fields.subjects.forEach(function (item) {
+        console.log(item.subject_id);
+
+        if (item.subject_id === row.subject_id) {
+          flagFound = true;
+        }
+      });
+
+      if (flagFound) {
+        this.$buefy.toast.open({
+          message: 'Already added in the subject list.',
+          type: 'is-danger'
+        });
+        return;
+      }
+
       this.fields.subjects.push({
         subject_id: row.subject_id,
         subject_code: row.subject_code,
@@ -15606,30 +15657,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -67335,7 +67362,7 @@ var render = function () {
                                   domProps: {
                                     value: {
                                       grade_level: item.grade_level,
-                                      curriculum: item.curriculum,
+                                      curriculum_code: item.curriculum_code,
                                     },
                                   },
                                 },
@@ -67383,6 +67410,7 @@ var render = function () {
                                 placeholder: "Section",
                                 required: "",
                               },
+                              on: { input: _vm.loadSectionSubjects },
                               model: {
                                 value: _vm.learner.section_id,
                                 callback: function ($$v) {
@@ -67451,19 +67479,19 @@ var render = function () {
                               },
                             },
                             [
-                              _c("option", { domProps: { value: 0 } }, [
+                              _c("option", { attrs: { value: "OLD" } }, [
                                 _vm._v("OLD"),
                               ]),
                               _vm._v(" "),
-                              _c("option", { domProps: { value: 1 } }, [
+                              _c("option", { attrs: { value: "NEW" } }, [
                                 _vm._v("NEW"),
                               ]),
                               _vm._v(" "),
-                              _c("option", { domProps: { value: 2 } }, [
+                              _c("option", { attrs: { value: "RETURNEE" } }, [
                                 _vm._v("RETURNEE"),
                               ]),
                               _vm._v(" "),
-                              _c("option", { domProps: { value: 3 } }, [
+                              _c("option", { attrs: { value: "TRANSFEREE" } }, [
                                 _vm._v("TRANSFEREE"),
                               ]),
                             ]
@@ -67476,7 +67504,7 @@ var render = function () {
                   ),
                 ]),
                 _vm._v(" "),
-                _vm.learner.grade_level.curriculum === "SHS"
+                _vm.learner.grade_level.curriculum_code === "SHS"
                   ? _c("div", [
                       _c("div", { staticClass: "columns" }, [
                         _c(
@@ -67667,6 +67695,142 @@ var render = function () {
               ]),
               _vm._v(" "),
               _c("hr"),
+              _vm._v(" "),
+              _vm.learner.grade_level.curriculum_code === "SHS"
+                ? _c(
+                    "div",
+                    { staticClass: "my-4" },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "has-text-weight-bold mb-4 info-header",
+                        },
+                        [_vm._v("SUBJECTS TO ENROLL")]
+                      ),
+                      _vm._v(" "),
+                      _c("b-field", {
+                        attrs: {
+                          type: this.errors.subjects ? "is-danger" : "",
+                          message: this.errors.subjects
+                            ? this.errors.subjects[0]
+                            : "",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _vm._l(_vm.learner.subjects, function (item, index) {
+                        return _c(
+                          "div",
+                          { key: index, staticClass: "subject-card" },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "buttons is-right m-2" },
+                              [
+                                _c("b-button", {
+                                  staticClass: "is-danger is-small is-outlined",
+                                  attrs: { "icon-right": "delete" },
+                                  on: {
+                                    click: function ($event) {
+                                      return _vm.removeSubject(index)
+                                    },
+                                  },
+                                }),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "columns" }, [
+                              _c(
+                                "div",
+                                { staticClass: "column" },
+                                [
+                                  _c(
+                                    "b-field",
+                                    {
+                                      attrs: {
+                                        label: "Subjet Name",
+                                        "label-position": "on-border",
+                                      },
+                                    },
+                                    [
+                                      _c("b-input", {
+                                        attrs: {
+                                          type: "text",
+                                          readonly: "",
+                                          placeholder: "Subjet Name",
+                                        },
+                                        model: {
+                                          value: item.subj_name,
+                                          callback: function ($$v) {
+                                            _vm.$set(item, "subj_name", $$v)
+                                          },
+                                          expression: "item.subj_name",
+                                        },
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "column is-2" },
+                                [
+                                  _c(
+                                    "b-field",
+                                    {
+                                      attrs: {
+                                        label: "Class",
+                                        "label-position": "on-border",
+                                      },
+                                    },
+                                    [
+                                      _c("b-input", {
+                                        attrs: {
+                                          type: "text",
+                                          readonly: "",
+                                          placeholder: "Class",
+                                        },
+                                        model: {
+                                          value: item.units,
+                                          callback: function ($$v) {
+                                            _vm.$set(item, "units", $$v)
+                                          },
+                                          expression: "item.units ",
+                                        },
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                ],
+                                1
+                              ),
+                            ]),
+                          ]
+                        )
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "buttons is-right mt-4" },
+                        [
+                          _c("modal-browse-button-subject", {
+                            on: {
+                              browseSubject: function ($event) {
+                                return _vm.emitBrowseSubject($event)
+                              },
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ],
+                    2
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "div",
@@ -69457,7 +69621,12 @@ var render = function () {
                                     "option",
                                     {
                                       key: "g" + ix,
-                                      domProps: { value: item.grade_level },
+                                      domProps: {
+                                        value: {
+                                          grade_level: item.grade_level,
+                                          curriculum_code: item.curriculum_code,
+                                        },
+                                      },
                                     },
                                     [
                                       _vm._v(
@@ -69518,21 +69687,25 @@ var render = function () {
                                   },
                                 },
                                 [
-                                  _c("option", { domProps: { value: 0 } }, [
+                                  _c("option", { attrs: { value: "OLD" } }, [
                                     _vm._v("OLD"),
                                   ]),
                                   _vm._v(" "),
-                                  _c("option", { domProps: { value: 1 } }, [
+                                  _c("option", { attrs: { value: "NEW" } }, [
                                     _vm._v("NEW"),
                                   ]),
                                   _vm._v(" "),
-                                  _c("option", { domProps: { value: 2 } }, [
-                                    _vm._v("RETURNEE"),
-                                  ]),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "RETURNEE" } },
+                                    [_vm._v("RETURNEE")]
+                                  ),
                                   _vm._v(" "),
-                                  _c("option", { domProps: { value: 3 } }, [
-                                    _vm._v("TRANSFEREE"),
-                                  ]),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "TRANSFEREE" } },
+                                    [_vm._v("TRANSFEREE")]
+                                  ),
                                 ]
                               ),
                             ],
@@ -69938,11 +70111,9 @@ var render = function () {
                               attrs: {
                                 label: "Province",
                                 expanded: "",
-                                type: this.errors.current_province
-                                  ? "is-danger"
-                                  : "",
-                                message: this.errors.current_province
-                                  ? this.errors.current_province[0]
+                                type: this.errors.province ? "is-danger" : "",
+                                message: this.errors.province
+                                  ? this.errors.province[0]
                                   : "",
                               },
                             },
@@ -69954,32 +70125,25 @@ var render = function () {
                                     expanded: "",
                                     placeholder: "Province",
                                   },
-                                  on: { input: _vm.loadCurrentCity },
+                                  on: { input: _vm.loadCities },
                                   model: {
-                                    value: _vm.fields.current_province,
+                                    value: _vm.fields.province,
                                     callback: function ($$v) {
-                                      _vm.$set(
-                                        _vm.fields,
-                                        "current_province",
-                                        $$v
-                                      )
+                                      _vm.$set(_vm.fields, "province", $$v)
                                     },
-                                    expression: "fields.current_province",
+                                    expression: "fields.province",
                                   },
                                 },
-                                _vm._l(
-                                  _vm.current_provinces,
-                                  function (item, index) {
-                                    return _c(
-                                      "option",
-                                      {
-                                        key: index,
-                                        domProps: { value: item.provCode },
-                                      },
-                                      [_vm._v(_vm._s(item.provDesc))]
-                                    )
-                                  }
-                                ),
+                                _vm._l(_vm.provinces, function (item, index) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: index,
+                                      domProps: { value: item.provCode },
+                                    },
+                                    [_vm._v(_vm._s(item.provDesc))]
+                                  )
+                                }),
                                 0
                               ),
                             ],
@@ -69999,11 +70163,9 @@ var render = function () {
                               attrs: {
                                 label: "City/Municipality",
                                 expanded: "",
-                                type: this.errors.current_city
-                                  ? "is-danger"
-                                  : "",
-                                message: this.errors.current_city
-                                  ? this.errors.current_city[0]
+                                type: this.errors.city ? "is-danger" : "",
+                                message: this.errors.city
+                                  ? this.errors.city[0]
                                   : "",
                               },
                             },
@@ -70012,28 +70174,25 @@ var render = function () {
                                 "b-select",
                                 {
                                   attrs: { expanded: "", placeholder: "City" },
-                                  on: { input: _vm.loadCurrentBarangay },
+                                  on: { input: _vm.loadBarangays },
                                   model: {
-                                    value: _vm.fields.current_city,
+                                    value: _vm.fields.city,
                                     callback: function ($$v) {
-                                      _vm.$set(_vm.fields, "current_city", $$v)
+                                      _vm.$set(_vm.fields, "city", $$v)
                                     },
-                                    expression: "fields.current_city",
+                                    expression: "fields.city",
                                   },
                                 },
-                                _vm._l(
-                                  _vm.current_cities,
-                                  function (item, index) {
-                                    return _c(
-                                      "option",
-                                      {
-                                        key: index,
-                                        domProps: { value: item.citymunCode },
-                                      },
-                                      [_vm._v(_vm._s(item.citymunDesc))]
-                                    )
-                                  }
-                                ),
+                                _vm._l(_vm.cities, function (item, index) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: index,
+                                      domProps: { value: item.citymunCode },
+                                    },
+                                    [_vm._v(_vm._s(item.citymunDesc))]
+                                  )
+                                }),
                                 0
                               ),
                             ],
@@ -70055,11 +70214,9 @@ var render = function () {
                               attrs: {
                                 label: "Barangay",
                                 expanded: "",
-                                type: this.errors.current_barangay
-                                  ? "is-danger"
-                                  : "",
-                                message: this.errors.current_barangay
-                                  ? this.errors.current_barangay[0]
+                                type: this.errors.barangay ? "is-danger" : "",
+                                message: this.errors.barangay
+                                  ? this.errors.barangay[0]
                                   : "",
                               },
                             },
@@ -70072,30 +70229,23 @@ var render = function () {
                                     placeholder: "Barangay",
                                   },
                                   model: {
-                                    value: _vm.fields.current_barangay,
+                                    value: _vm.fields.barangay,
                                     callback: function ($$v) {
-                                      _vm.$set(
-                                        _vm.fields,
-                                        "current_barangay",
-                                        $$v
-                                      )
+                                      _vm.$set(_vm.fields, "barangay", $$v)
                                     },
-                                    expression: "fields.current_barangay",
+                                    expression: "fields.barangay",
                                   },
                                 },
-                                _vm._l(
-                                  _vm.current_barangays,
-                                  function (item, index) {
-                                    return _c(
-                                      "option",
-                                      {
-                                        key: index,
-                                        domProps: { value: item.brgyCode },
-                                      },
-                                      [_vm._v(_vm._s(item.brgyDesc))]
-                                    )
-                                  }
-                                ),
+                                _vm._l(_vm.barangays, function (item, index) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: index,
+                                      domProps: { value: item.brgyCode },
+                                    },
+                                    [_vm._v(_vm._s(item.brgyDesc))]
+                                  )
+                                }),
                                 0
                               ),
                             ],
@@ -70119,11 +70269,11 @@ var render = function () {
                                   placeholder: "House #. Street",
                                 },
                                 model: {
-                                  value: _vm.fields.current_street,
+                                  value: _vm.fields.street,
                                   callback: function ($$v) {
-                                    _vm.$set(_vm.fields, "current_street", $$v)
+                                    _vm.$set(_vm.fields, "street", $$v)
                                   },
-                                  expression: "fields.current_street",
+                                  expression: "fields.street",
                                 },
                               }),
                             ],
@@ -70850,231 +71000,213 @@ var render = function () {
                       ),
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "divider" }, [
-                      _vm._v("FOR LEARNERS IN SENIOR HIGH SCHOOL"),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Semester",
-                                expanded: "",
-                                type: this.errors.semester_id
-                                  ? "is-danger"
-                                  : "",
-                                message: this.errors.semester_id
-                                  ? this.errors.semester_id[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c(
-                                "b-select",
-                                {
-                                  attrs: {
-                                    expanded: "",
-                                    icon: "account",
-                                    placeholder: "Semester",
-                                  },
-                                  model: {
-                                    value: _vm.fields.semester_id,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.fields, "semester_id", $$v)
+                    _vm.fields.grade_level.curriculum_code === "SHS"
+                      ? _c("div", [
+                          _c("div", { staticClass: "divider" }, [
+                            _vm._v("FOR LEARNERS IN SENIOR HIGH SCHOOL"),
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "columns" }, [
+                            _c(
+                              "div",
+                              { staticClass: "column" },
+                              [
+                                _c(
+                                  "b-field",
+                                  {
+                                    attrs: {
+                                      label: "Semester",
+                                      expanded: "",
+                                      type: this.errors.semester_id
+                                        ? "is-danger"
+                                        : "",
+                                      message: this.errors.semester_id
+                                        ? this.errors.semester_id[0]
+                                        : "",
                                     },
-                                    expression: "fields.semester_id",
                                   },
-                                },
-                                _vm._l(_vm.semesters, function (item, ix) {
-                                  return _c(
-                                    "option",
-                                    {
-                                      key: ix,
-                                      domProps: { value: item.semester_id },
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                            " +
-                                          _vm._s(item.semester) +
-                                          "\n                                        "
+                                  [
+                                    _c(
+                                      "b-select",
+                                      {
+                                        attrs: {
+                                          expanded: "",
+                                          icon: "account",
+                                          placeholder: "Semester",
+                                        },
+                                        model: {
+                                          value: _vm.fields.semester_id,
+                                          callback: function ($$v) {
+                                            _vm.$set(
+                                              _vm.fields,
+                                              "semester_id",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "fields.semester_id",
+                                        },
+                                      },
+                                      _vm._l(
+                                        _vm.semesters,
+                                        function (item, ix) {
+                                          return _c(
+                                            "option",
+                                            {
+                                              key: ix,
+                                              domProps: {
+                                                value: item.semester_id,
+                                              },
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                                " +
+                                                  _vm._s(item.semester) +
+                                                  "\n                                            "
+                                              ),
+                                            ]
+                                          )
+                                        }
                                       ),
-                                    ]
-                                  )
-                                }),
-                                0
-                              ),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "School Id",
-                                type: _vm.errors.senior_high_school_id
-                                  ? "is-danger"
-                                  : "",
-                                message: _vm.errors.senior_high_school_id
-                                  ? _vm.errors.senior_high_school_id[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c("b-input", {
-                                attrs: {
-                                  icon: "account",
-                                  type: "text",
-                                  placeholder: "School Id",
-                                },
-                                model: {
-                                  value: _vm.fields.senior_high_school_id,
-                                  callback: function ($$v) {
-                                    _vm.$set(
-                                      _vm.fields,
-                                      "senior_high_school_id",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "fields.senior_high_school_id",
-                                },
-                              }),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Track",
-                                type: this.errors.track_id ? "is-danger" : "",
-                                message: this.errors.track_id
-                                  ? this.errors.track_id[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c(
-                                "b-select",
-                                {
-                                  attrs: {
-                                    expanded: "",
-                                    icon: "account",
-                                    placeholder: "Track",
-                                  },
-                                  on: { input: _vm.loadStrands },
-                                  model: {
-                                    value: _vm.fields.track_id,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.fields, "track_id", $$v)
+                                      0
+                                    ),
+                                  ],
+                                  1
+                                ),
+                              ],
+                              1
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "columns" }, [
+                            _c(
+                              "div",
+                              { staticClass: "column" },
+                              [
+                                _c(
+                                  "b-field",
+                                  {
+                                    attrs: {
+                                      label: "Track",
+                                      type: this.errors.track_id
+                                        ? "is-danger"
+                                        : "",
+                                      message: this.errors.track_id
+                                        ? this.errors.track_id[0]
+                                        : "",
                                     },
-                                    expression: "fields.track_id",
                                   },
-                                },
-                                _vm._l(_vm.tracks, function (item, ix) {
-                                  return _c(
-                                    "option",
-                                    {
-                                      key: "track" + ix,
-                                      domProps: { value: item.track_id },
+                                  [
+                                    _c(
+                                      "b-select",
+                                      {
+                                        attrs: {
+                                          expanded: "",
+                                          icon: "account",
+                                          placeholder: "Track",
+                                        },
+                                        on: { input: _vm.loadStrands },
+                                        model: {
+                                          value: _vm.fields.track_id,
+                                          callback: function ($$v) {
+                                            _vm.$set(
+                                              _vm.fields,
+                                              "track_id",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "fields.track_id",
+                                        },
+                                      },
+                                      _vm._l(_vm.tracks, function (item, ix) {
+                                        return _c(
+                                          "option",
+                                          {
+                                            key: "track" + ix,
+                                            domProps: { value: item.track_id },
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                                " +
+                                                _vm._s(item.track) +
+                                                "\n                                            "
+                                            ),
+                                          ]
+                                        )
+                                      }),
+                                      0
+                                    ),
+                                  ],
+                                  1
+                                ),
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "column" },
+                              [
+                                _c(
+                                  "b-field",
+                                  {
+                                    attrs: {
+                                      label: "Strand",
+                                      type: this.errors.strand_id
+                                        ? "is-danger"
+                                        : "",
+                                      message: this.errors.strand_id
+                                        ? this.errors.strand_id[0]
+                                        : "",
                                     },
-                                    [
-                                      _vm._v(
-                                        "\n                                            " +
-                                          _vm._s(item.track) +
-                                          "\n                                        "
-                                      ),
-                                    ]
-                                  )
-                                }),
-                                0
-                              ),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Strand",
-                                type: this.errors.strand_id ? "is-danger" : "",
-                                message: this.errors.strand_id
-                                  ? this.errors.strand_id[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c(
-                                "b-select",
-                                {
-                                  attrs: {
-                                    expanded: "",
-                                    icon: "account",
-                                    placeholder: "Strand",
                                   },
-                                  model: {
-                                    value: _vm.fields.strand_id,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.fields, "strand_id", $$v)
-                                    },
-                                    expression: "fields.strand_id",
-                                  },
-                                },
-                                _vm._l(_vm.strands, function (item, ix) {
-                                  return _c(
-                                    "option",
-                                    {
-                                      key: "strand" + ix,
-                                      domProps: { value: item.strand_id },
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                            " +
-                                          _vm._s(item.strand) +
-                                          "\n                                        "
-                                      ),
-                                    ]
-                                  )
-                                }),
-                                0
-                              ),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                    ]),
+                                  [
+                                    _c(
+                                      "b-select",
+                                      {
+                                        attrs: {
+                                          expanded: "",
+                                          icon: "account",
+                                          placeholder: "Strand",
+                                        },
+                                        model: {
+                                          value: _vm.fields.strand_id,
+                                          callback: function ($$v) {
+                                            _vm.$set(
+                                              _vm.fields,
+                                              "strand_id",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "fields.strand_id",
+                                        },
+                                      },
+                                      _vm._l(_vm.strands, function (item, ix) {
+                                        return _c(
+                                          "option",
+                                          {
+                                            key: "strand" + ix,
+                                            domProps: { value: item.strand_id },
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                                " +
+                                                _vm._s(item.strand) +
+                                                "\n                                            "
+                                            ),
+                                          ]
+                                        )
+                                      }),
+                                      0
+                                    ),
+                                  ],
+                                  1
+                                ),
+                              ],
+                              1
+                            ),
+                          ]),
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
                     _c("hr"),
                     _vm._v(" "),
@@ -71264,62 +71396,6 @@ var render = function () {
                       [
                         _c(
                           "b-field",
-                          { attrs: { label: "Academic Year", expanded: "" } },
-                          [
-                            _c(
-                              "b-select",
-                              {
-                                attrs: {
-                                  expanded: "",
-                                  placeholder: "Academic Year",
-                                },
-                                model: {
-                                  value: _vm.fields.academic_year_id,
-                                  callback: function ($$v) {
-                                    _vm.$set(
-                                      _vm.fields,
-                                      "academic_year_id",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "fields.academic_year_id",
-                                },
-                              },
-                              _vm._l(_vm.academicYears, function (item, ix) {
-                                return _c(
-                                  "option",
-                                  {
-                                    key: "ay" + ix,
-                                    domProps: { value: item.academic_year_id },
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                                            " +
-                                        _vm._s(item.academic_year_code) +
-                                        " - " +
-                                        _vm._s(item.academic_year_desc) +
-                                        "\n                                        "
-                                    ),
-                                  ]
-                                )
-                              }),
-                              0
-                            ),
-                          ],
-                          1
-                        ),
-                      ],
-                      1
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "columns" }, [
-                    _c(
-                      "div",
-                      { staticClass: "column" },
-                      [
-                        _c(
-                          "b-field",
                           {
                             attrs: {
                               label: "Grade Level",
@@ -71357,7 +71433,7 @@ var render = function () {
                                     domProps: {
                                       value: {
                                         grade_level: item.grade_level,
-                                        curriculum: item.curriculum,
+                                        curriculum_code: item.curriculum_code,
                                       },
                                     },
                                   },
@@ -71438,197 +71514,6 @@ var render = function () {
                       1
                     ),
                   ]),
-                  _vm._v(" "),
-                  _vm.fields.grade_level.curriculum === "SHS"
-                    ? _c("div", [
-                        _c("div", { staticClass: "columns" }, [
-                          _c(
-                            "div",
-                            { staticClass: "column" },
-                            [
-                              _c(
-                                "b-field",
-                                {
-                                  attrs: {
-                                    label: "Semester",
-                                    expanded: "",
-                                    type: this.errors.semester_id
-                                      ? "is-danger"
-                                      : "",
-                                    message: this.errors.semester_id
-                                      ? this.errors.semester_id[0]
-                                      : "",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "b-select",
-                                    {
-                                      attrs: {
-                                        expanded: "",
-                                        icon: "account",
-                                        placeholder: "Semester",
-                                      },
-                                      model: {
-                                        value: _vm.fields.semester_id,
-                                        callback: function ($$v) {
-                                          _vm.$set(
-                                            _vm.fields,
-                                            "semester_id",
-                                            $$v
-                                          )
-                                        },
-                                        expression: "fields.semester_id",
-                                      },
-                                    },
-                                    _vm._l(_vm.semesters, function (item, ix) {
-                                      return _c(
-                                        "option",
-                                        {
-                                          key: ix,
-                                          domProps: { value: item.semester_id },
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                                " +
-                                              _vm._s(item.semester) +
-                                              "\n                                            "
-                                          ),
-                                        ]
-                                      )
-                                    }),
-                                    0
-                                  ),
-                                ],
-                                1
-                              ),
-                            ],
-                            1
-                          ),
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "columns" }, [
-                          _c(
-                            "div",
-                            { staticClass: "column" },
-                            [
-                              _c(
-                                "b-field",
-                                {
-                                  attrs: {
-                                    label: "Track",
-                                    type: this.errors.track_id
-                                      ? "is-danger"
-                                      : "",
-                                    message: this.errors.track_id
-                                      ? this.errors.track_id[0]
-                                      : "",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "b-select",
-                                    {
-                                      attrs: {
-                                        expanded: "",
-                                        icon: "account",
-                                        placeholder: "Track",
-                                      },
-                                      on: { input: _vm.loadStrands },
-                                      model: {
-                                        value: _vm.fields.track_id,
-                                        callback: function ($$v) {
-                                          _vm.$set(_vm.fields, "track_id", $$v)
-                                        },
-                                        expression: "fields.track_id",
-                                      },
-                                    },
-                                    _vm._l(_vm.tracks, function (item, ix) {
-                                      return _c(
-                                        "option",
-                                        {
-                                          key: "track" + ix,
-                                          domProps: { value: item.track_id },
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                                " +
-                                              _vm._s(item.track) +
-                                              "\n                                            "
-                                          ),
-                                        ]
-                                      )
-                                    }),
-                                    0
-                                  ),
-                                ],
-                                1
-                              ),
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "column" },
-                            [
-                              _c(
-                                "b-field",
-                                {
-                                  attrs: {
-                                    label: "Strand",
-                                    type: this.errors.strand_id
-                                      ? "is-danger"
-                                      : "",
-                                    message: this.errors.strand_id
-                                      ? this.errors.strand_id[0]
-                                      : "",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "b-select",
-                                    {
-                                      attrs: {
-                                        expanded: "",
-                                        icon: "account",
-                                        placeholder: "Strand",
-                                      },
-                                      model: {
-                                        value: _vm.fields.strand_id,
-                                        callback: function ($$v) {
-                                          _vm.$set(_vm.fields, "strand_id", $$v)
-                                        },
-                                        expression: "fields.strand_id",
-                                      },
-                                    },
-                                    _vm._l(_vm.strands, function (item, ix) {
-                                      return _c(
-                                        "option",
-                                        {
-                                          key: "strand" + ix,
-                                          domProps: { value: item.strand_id },
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                                " +
-                                              _vm._s(item.strand) +
-                                              "\n                                            "
-                                          ),
-                                        ]
-                                      )
-                                    }),
-                                    0
-                                  ),
-                                ],
-                                1
-                              ),
-                            ],
-                            1
-                          ),
-                        ]),
-                      ])
-                    : _vm._e(),
                 ]),
                 _vm._v(" "),
                 _c("hr"),
@@ -74525,97 +74410,6 @@ var render = function () {
                                   expression: "fields.units",
                                 },
                               }),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Fee",
-                                "label-position": "on-border",
-                                type: this.errors.fee ? "is-danger" : "",
-                                message: this.errors.fee
-                                  ? this.errors.fee[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c("b-numberinput", {
-                                attrs: {
-                                  type: "number",
-                                  controls: false,
-                                  placeholder: "Fee",
-                                  required: "",
-                                },
-                                model: {
-                                  value: _vm.fields.fee,
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.fields, "fee", $$v)
-                                  },
-                                  expression: "fields.fee",
-                                },
-                              }),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Class",
-                                "label-position": "on-border",
-                                type: this.errors.class ? "is-danger" : "",
-                                message: this.errors.class
-                                  ? this.errors.class[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c(
-                                "b-select",
-                                {
-                                  attrs: {
-                                    placeholder: "Class",
-                                    required: "",
-                                    expanded: "",
-                                  },
-                                  model: {
-                                    value: _vm.fields.class,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.fields, "class", $$v)
-                                    },
-                                    expression: "fields.class",
-                                  },
-                                },
-                                [
-                                  _c("option", { attrs: { value: "LEC" } }, [
-                                    _vm._v("LEC"),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("option", { attrs: { value: "LAB" } }, [
-                                    _vm._v("LAB"),
-                                  ]),
-                                ]
-                              ),
                             ],
                             1
                           ),

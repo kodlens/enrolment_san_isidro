@@ -28,7 +28,7 @@
                                             placeholder="Grade Level"
                                             v-model="fields.grade_level"
                                             required>
-                                            <option :value="item.grade_level"
+                                            <option :value="{ grade_level: item.grade_level, curriculum_code: item.curriculum_code }"
                                                     v-for="(item, ix) in gradeLevels" :key="`g${ix}`">
                                                 {{ item.grade_level }}
                                             </option>
@@ -45,10 +45,10 @@
                                             icon="account"
                                             placeholder="Learner Status"
                                             v-model="fields.learner_status">
-                                            <option :value="0">OLD</option>
-                                            <option :value="1">NEW</option>
-                                            <option :value="2">RETURNEE</option>
-                                            <option :value="3">TRANSFEREE</option>
+                                            <option value="OLD">OLD</option>
+                                            <option value="NEW">NEW</option>
+                                            <option value="RETURNEE">RETURNEE</option>
+                                            <option value="TRANSFEREE">TRANSFEREE</option>
 
                                         </b-select>
                                     </b-field>
@@ -169,19 +169,19 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Province" expanded
-                                             :type="this.errors.current_province ? 'is-danger':''"
-                                             :message="this.errors.current_province ? this.errors.current_province[0] : ''">
-                                        <b-select v-model="fields.current_province" expanded placeholder="Province" @input="loadCurrentCity">
-                                            <option v-for="(item, index) in current_provinces" :key="index" :value="item.provCode">{{ item.provDesc }}</option>
+                                             :type="this.errors.province ? 'is-danger':''"
+                                             :message="this.errors.province ? this.errors.province[0] : ''">
+                                        <b-select v-model="fields.province" expanded placeholder="Province" @input="loadCities">
+                                            <option v-for="(item, index) in provinces" :key="index" :value="item.provCode">{{ item.provDesc }}</option>
                                         </b-select>
                                     </b-field>
                                 </div>
                                 <div class="column">
                                     <b-field label="City/Municipality" expanded
-                                             :type="this.errors.current_city ? 'is-danger':''"
-                                             :message="this.errors.current_city ? this.errors.current_city[0] : ''">
-                                        <b-select expanded v-model="fields.current_city" placeholder="City" @input="loadCurrentBarangay">
-                                            <option v-for="(item, index) in current_cities" :key="index" :value="item.citymunCode">{{ item.citymunDesc }}</option>
+                                             :type="this.errors.city ? 'is-danger':''"
+                                             :message="this.errors.city ? this.errors.city[0] : ''">
+                                        <b-select expanded v-model="fields.city" placeholder="City" @input="loadBarangays">
+                                            <option v-for="(item, index) in cities" :key="index" :value="item.citymunCode">{{ item.citymunDesc }}</option>
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -190,28 +190,28 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Barangay" expanded
-                                             :type="this.errors.current_barangay ? 'is-danger':''"
-                                             :message="this.errors.current_barangay ? this.errors.current_barangay[0] : ''">
-                                        <b-select v-model="fields.current_barangay" expanded placeholder="Barangay">
-                                            <option v-for="(item, index) in current_barangays" :key="index" :value="item.brgyCode">{{ item.brgyDesc }}</option>
+                                             :type="this.errors.barangay ? 'is-danger':''"
+                                             :message="this.errors.barangay ? this.errors.barangay[0] : ''">
+                                        <b-select v-model="fields.barangay" expanded placeholder="Barangay">
+                                            <option v-for="(item, index) in barangays" :key="index" :value="item.brgyCode">{{ item.brgyDesc }}</option>
                                         </b-select>
                                     </b-field>
                                 </div>
                                 <div class="column">
                                     <b-field label="House #. Street">
                                         <b-input type="text"
-                                                 v-model="fields.current_street"
+                                                 v-model="fields.street"
                                                  placeholder="House #. Street"></b-input>
                                     </b-field>
                                 </div>
 
                                 <div class="column">
                                     <b-field label="Zip Code"
-                                             :type="this.errors.current_zipcode ? 'is-danger':''"
-                                             :message="this.errors.current_zipcode ? this.errors.current_zipcode[0] : ''">
+                                        :type="this.errors.current_zipcode ? 'is-danger':''"
+                                        :message="this.errors.current_zipcode ? this.errors.current_zipcode[0] : ''">
                                         <b-input type="text"
-                                                 v-model="fields.current_zipcode"
-                                                 placeholder="Zip Code"></b-input>
+                                            v-model="fields.current_zipcode"
+                                            placeholder="Zip Code"></b-input>
                                     </b-field>
                                 </div>
                             </div>
@@ -309,12 +309,12 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Mother Maiden Middle Name"
-                                             :type="this.errors.mother_maiden_mname ? 'is-danger':''"
-                                             :message="this.errors.mother_maiden_mname ? this.errors.mother_maiden_mname[0] : ''">
+                                        :type="this.errors.mother_maiden_mname ? 'is-danger':''"
+                                        :message="this.errors.mother_maiden_mname ? this.errors.mother_maiden_mname[0] : ''">
                                         <b-input v-model="fields.mother_maiden_mname"
-                                                 type="text"
-                                                 icon="account"
-                                                 placeholder="Mother Maiden Middle Name"></b-input>
+                                            type="text"
+                                            icon="account"
+                                            placeholder="Mother Maiden Middle Name"></b-input>
                                     </b-field>
                                 </div>
 
@@ -394,65 +394,66 @@
                             </div>
 
 
+                            <div v-if="fields.grade_level.curriculum_code === 'SHS'">
+                                <!-- LEARNER IN SHS -->
+                                <div class="divider">FOR LEARNERS IN SENIOR HIGH SCHOOL</div>
 
-                            <!-- LEARNER IN SHS -->
-                            <div class="divider">FOR LEARNERS IN SENIOR HIGH SCHOOL</div>
+                                <div class="columns">
+                                    <div class="column">
+                                        <b-field label="Semester" expanded
+                                            :type="this.errors.semester_id ? 'is-danger':''"
+                                            :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
+                                            <b-select v-model="fields.semester_id" expanded
+                                                icon="account"
+                                                placeholder="Semester">
+                                                <option :value="item.semester_id" v-for="(item, ix) in semesters" :key="ix">
+                                                    {{  item.semester }}
+                                                </option>
+                                            </b-select>
+                                        </b-field>
+                                    </div>
 
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Semester" expanded
-                                        :type="this.errors.semester_id ? 'is-danger':''"
-                                        :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
-                                        <b-select v-model="fields.semester_id" expanded
-                                            icon="account"
-                                            placeholder="Semester">
-                                            <option :value="item.semester_id" v-for="(item, ix) in semesters" :key="ix">
-                                                {{  item.semester }}
-                                            </option>
-                                        </b-select>
-                                    </b-field>
+                                    <!-- <div class="column">
+                                        <b-field label="School Id"
+                                            :type="errors.senior_high_school_id ? 'is-danger':''"
+                                            :message="errors.senior_high_school_id ? errors.senior_high_school_id[0] : ''">
+                                            <b-input v-model="fields.senior_high_school_id"
+                                                icon="account"
+                                                type="text" placeholder="School Id"></b-input>
+                                        </b-field>
+                                    </div> -->
                                 </div>
 
-                                <div class="column">
-                                    <b-field label="School Id"
-                                        :type="errors.senior_high_school_id ? 'is-danger':''"
-                                        :message="errors.senior_high_school_id ? errors.senior_high_school_id[0] : ''">
-                                        <b-input v-model="fields.senior_high_school_id"
-                                            icon="account"
-                                            type="text" placeholder="School Id"></b-input>
-                                    </b-field>
-                                </div>
-                            </div>
 
+                                <div class="columns">
+                                    <div class="column">
+                                        <b-field label="Track"
+                                                :type="this.errors.track_id ? 'is-danger':''"
+                                                :message="this.errors.track_id ? this.errors.track_id[0] : ''">
+                                            <b-select v-model="fields.track_id" expanded
+                                                    icon="account"
+                                                    placeholder="Track"
+                                                    @input="loadStrands">
+                                                <option :value="item.track_id" v-for="(item, ix) in tracks" :key="`track${ix}`">
+                                                    {{  item.track }}
+                                                </option>
+                                            </b-select>
+                                        </b-field>
+                                    </div>
 
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Track"
-                                             :type="this.errors.track_id ? 'is-danger':''"
-                                             :message="this.errors.track_id ? this.errors.track_id[0] : ''">
-                                        <b-select v-model="fields.track_id" expanded
-                                                  icon="account"
-                                                  placeholder="Track"
-                                                  @input="loadStrands">
-                                            <option :value="item.track_id" v-for="(item, ix) in tracks" :key="`track${ix}`">
-                                                {{  item.track }}
-                                            </option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
-
-                                <div class="column">
-                                    <b-field label="Strand"
-                                             :type="this.errors.strand_id ? 'is-danger':''"
-                                             :message="this.errors.strand_id ? this.errors.strand_id[0] : ''">
-                                        <b-select v-model="fields.strand_id" expanded
-                                                  icon="account"
-                                                  placeholder="Strand">
-                                            <option :value="item.strand_id" v-for="(item, ix) in strands" :key="`strand${ix}`">
-                                                {{  item.strand }}
-                                            </option>
-                                        </b-select>
-                                    </b-field>
+                                    <div class="column">
+                                        <b-field label="Strand"
+                                                :type="this.errors.strand_id ? 'is-danger':''"
+                                                :message="this.errors.strand_id ? this.errors.strand_id[0] : ''">
+                                            <b-select v-model="fields.strand_id" expanded
+                                                    icon="account"
+                                                    placeholder="Strand">
+                                                <option :value="item.strand_id" v-for="(item, ix) in strands" :key="`strand${ix}`">
+                                                    {{  item.strand }}
+                                                </option>
+                                            </b-select>
+                                        </b-field>
+                                    </div>
                                 </div>
                             </div>
 
@@ -483,7 +484,10 @@ export default {
             fields: {
 
                 lrn: null,
-                grade_level: null,
+                grade_level: {
+                    grade_level: null,
+                    curriculum_code: null
+                },
                 learner_status: null,
                
                 lname: null,
@@ -498,11 +502,11 @@ export default {
 
                 last_school_attended: null,
 
-                current_province: null,
-                current_city: null,
-                current_barangay: null,
-                current_street: null,
-                current_zipcode: null,
+                province: null,
+                city: null,
+                barangay: null,
+                street: null,
+                zipcode: null,
 
                 father_fname: null,
                 father_lname: null,
@@ -528,13 +532,10 @@ export default {
             errors: {},
 
             gradeLevels: [],
-            current_provinces: [],
-            current_cities: [],
-            current_barangays: [],
-
-            permanent_provinces: [],
-            permanent_cities: [],
-            permanent_barangays: [],
+  
+            provinces: [],
+            cities: [],
+            barangays: [],
 
             semesters: [],
             tracks: [],
@@ -550,37 +551,20 @@ export default {
     },
     methods: {
         //ADDRESS
-        loadCurrentProvince: function(){
+        loadProvinces: function(){
             axios.get('/load-provinces').then(res=>{
-                this.current_provinces = res.data;
+                this.provinces = res.data;
             })
         },
-        loadCurrentCity: function(){
-            axios.get('/load-cities?prov=' + this.fields.current_province).then(res=>{
-                this.current_cities = res.data;
-            })
-        },
-
-        loadCurrentBarangay: function(){
-            axios.get('/load-barangays?prov=' + this.fields.current_province + '&city_code='+this.fields.current_city).then(res=>{
-                this.current_barangays = res.data;
+        loadCities: function(){
+            axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
+                this.cities = res.data;
             })
         },
 
-        loadPermanentProvince: function(){
-            axios.get('/load-provinces').then(res=>{
-                this.permanent_provinces = res.data;
-            })
-        },
-        loadPermanentCity: function(){
-            axios.get('/load-cities?prov=' + this.fields.permanent_province).then(res=>{
-                this.permanent_cities = res.data;
-            })
-        },
-
-        loadPermanentBarangay: function(){
-            axios.get('/load-barangays?prov=' + this.fields.permanent_province + '&city_code='+this.fields.permanent_city).then(res=>{
-                this.permanent_barangays = res.data;
+        loadBarangays: function(){
+            axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
+                this.barangays = res.data;
             })
         },
         //ADDRESS
@@ -603,20 +587,12 @@ export default {
         loadGradeLevels(){
             axios.get('/load-grade-levels').then(res=>{
                 this.gradeLevels = res.data;
+                console.log(this.gradeLevels);
             })
         },
 
 
-        //copy current address
-        copyCurrentAddress(){
-            this.fields.permanent_province = this.fields.current_province;
-            this.loadPermanentCity();
-            this.fields.permanent_city = this.fields.current_city;
-            this.loadPermanentBarangay();
-            this.fields.permanent_barangay = this.fields.current_barangay;
-            this.fields.permanent_street = this.fields.current_street;
-            this.fields.permanent_zipcode = this.fields.current_zipcode;
-        },
+       
 
 
         submit(){
@@ -694,9 +670,8 @@ export default {
         initData(){
 
 
-            this.loadCurrentProvince();
-            this.loadPermanentProvince();
-
+            this.loadProvinces();
+ 
             this.loadSemesters()
             this.loadTracks()
             this.loadGradeLevels()
@@ -708,7 +683,7 @@ export default {
 
         },
 
-        setData(){
+        async setData(){
             this.btnClass['is-loading'] = true
 
             let data = JSON.parse(this.propData)
@@ -716,41 +691,37 @@ export default {
 
             console.log(data)
 
-            this.fields.grade_level = data.grade_level
-            this.fields.is_returnee = data.is_returnee
-            this.fields.psa = data.psa
+            this.fields.grade_level = { grade_level: data.grade_level.grade_level, curriculum_code: data.grade_level.curriculum_code }
+            console.log(data.grade_level);
+            //this.fields.is_returnee = data.is_returnee
+            //this.fields.psa = data.psa
+            this.fields.learner_status = data.learner_status
+
             this.fields.lrn = data.lrn
             this.fields.lname = data.lname
             this.fields.fname = data.fname
             this.fields.mname = data.mname
             this.fields.extension = data.extension
             this.fields.sex = data.sex
-            //this.fields.birthdate = new Date(data.birthdate)
+            this.fields.birthdate = new Date(data.birthdate)
             this.fields.birthplace = data.birthplace
             this.fields.age = data.age
-            this.fields.mother_tongue = data.mother_tongue
-            this.fields.is_indigenous = data.is_indigenous
-            this.fields.if_yes_indigenous = data.if_yes_indigenous
-            this.fields.is_4ps = data.is_4ps
-            this.fields.household_4ps_id_no = data.household_4ps_id_no
+            // this.fields.mother_tongue = data.mother_tongue
+            // this.fields.is_indigenous = data.is_indigenous
+            // this.fields.if_yes_indigenous = data.if_yes_indigenous
+            // this.fields.is_4ps = data.is_4ps
+            // this.fields.household_4ps_id_no = data.household_4ps_id_no
+            this.fields.last_school_attended = data.last_school_attended
 
+            this.fields.province = data.province ? data.province.provCode : null
+            await this.loadCities()
+            this.fields.city = data.city ? data.city.citymunCode : null
+            await this.loadBarangays()
+            this.fields.barangay = data.barangay ? data.barangay.brgyCode : null
+            this.fields.street = data.street
+            this.fields.zipcode = data.zipcode
 
-            this.fields.current_province = data.current_province ? data.current_province.provCode : null
-            this.loadCurrentCity()
-            this.fields.current_city = data.current_city ? data.current_city.citymunCode : null
-            this.loadCurrentBarangay()
-            this.fields.current_barangay = data.current_barangay ? data.current_barangay.brgyCode : null
-            this.fields.current_street = data.current_street
-            this.fields.current_zipcode = data.current_zipcode
-
-            this.fields.permanent_province = data.permanent_province ? data.permanent_province.provCode : null
-            this.loadPermanentCity()
-            this.fields.permanent_city = data.permanent_city ? data.permanent_city.citymunCode : null
-            this.loadPermanentBarangay()
-            this.fields.permanent_barangay = data.permanent_barangay ? data.permanent_barangay.brgyCode : null
-            this.fields.permanent_street = data.permanent_street
-            this.fields.permanent_zipcode = data.permanent_zipcode
-
+       
             this.fields.father_lname = data.father_lname
             this.fields.father_fname = data.father_fname
             this.fields.father_mname = data.father_mname
@@ -767,23 +738,21 @@ export default {
             this.fields.guardian_mname = data.guardian_mname
             this.fields.guardian_contact_no = data.guardian_contact_no
 
-            this.fields.last_school_year_completed = data.last_school_year_completed
-            this.fields.last_school_attended = data.last_school_attended
-            this.fields.last_schoold_id = data.last_schoold_id
-
             this.fields.semester_id = data.semester_id
-            this.fields.senior_high_school_id = data.senior_high_school_id
+            //this.fields.senior_high_school_id = data.senior_high_school_id
 
             this.fields.track_id = data.track_id
+            await this.loadStrands()
             this.fields.strand_id = data.strand_id
+            
             this.btnClass['is-loading'] = false
 
         },
 
         debug(){
 
-            this.fields.grade_level = 'GRADE 11'
-            this.fields.learner_status = 1
+            this.fields.grade_level = { grade_level: 'GRADE 11', curriculum_code: 'SHS'}
+            this.fields.learner_status = 'NEW'
 
             this.fields.lrn = '20221123231'
             this.fields.lname = 'LABAJO'
@@ -817,12 +786,12 @@ export default {
            
             this.fields.last_school_year_completed = '2021-2022'
 
-            this.fields.last_schoold_id = '2022-2211'
+            //this.fields.last_schoold_id = '2022-2211'
 
-            this.fields.semester_id = 1
-            this.fields.senior_high_school_id = '200222'
-            this.fields.track_id = 1
-            this.fields.strand_id = 1
+            // this.fields.semester_id = 1
+            // this.fields.senior_high_school_id = '200222'
+            // this.fields.track_id = 1
+            // this.fields.strand_id = 1
 
         }
     },

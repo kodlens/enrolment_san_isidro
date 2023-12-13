@@ -23,7 +23,7 @@ class CreateLearnersTable extends Migration
             $table->string('student_id', 20)->nullable();
             $table->string('grade_level', 15)->nullable();
         
-            $table->tinyInteger('learner_status')->nullable(0);
+            $table->string('learner_status', 15)->nullable();
 
             //$table->string('psa_cert')->nullable();
             $table->string('lrn', 30)->nullable();
@@ -39,11 +39,11 @@ class CreateLearnersTable extends Migration
             $table->string('last_school_attended')->nullable();
       
             $table->string('current_country')->nullable();
-            $table->string('current_province')->nullable();
-            $table->string('current_city')->nullable();
-            $table->string('current_barangay')->nullable();
-            $table->string('current_street')->nullable();
-            $table->string('current_zipcode')->nullable();
+            $table->string('province')->nullable();
+            $table->string('city')->nullable();
+            $table->string('barangay')->nullable();
+            $table->string('street')->nullable();
+            $table->string('zipcode')->nullable();
 
             //$table->string('email')->nullable();
             $table->string('contact_no', 50)->nullable();
@@ -74,13 +74,10 @@ class CreateLearnersTable extends Migration
             $table->string('guardian_contact_no', 50)->nullable();
 
 
-            $table->unsignedBigInteger('semester_id')->default(0)
-                ->nullable();
-                
-            $table->string('senior_high_school_id', 30)->nullable();
-
-            $table->unsignedBigInteger('track_id')->default(0);
-            $table->unsignedBigInteger('strand_id')->default(0);
+            $table->unsignedBigInteger('semester_id')->nullable();
+            //$table->string('senior_high_school_id', 30)->nullable();
+            $table->unsignedBigInteger('track_id')->nullable();
+            $table->unsignedBigInteger('strand_id')->nullable();
 
             $table->string('administer_by', 30)->nullable();
 

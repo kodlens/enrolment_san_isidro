@@ -14,12 +14,10 @@ class SectionSubject extends Model
     protected $primaryKey = 'section_subject_id';
 
     protected $fillable = [
-        'academic_year_id',
+       
         'grade_level',
         'section_id', 
-        'track_id',
-        'semester_id',
-        'strand_id',
+        
         'subject_id'
     ];
 

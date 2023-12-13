@@ -75,10 +75,6 @@
                         Subjects
                     </b-navbar-item>
 
-                    <b-navbar-item href="/section-subjects">
-                        Section Subjects
-                    </b-navbar-item>
-
                     <b-navbar-item href="/tracks">
                         Tracks
                     </b-navbar-item>
@@ -107,36 +103,33 @@
                         Sections
                     </b-navbar-item>
 
+                    <b-navbar-item href="/section-subjects">
+                        Section Subjects
+                    </b-navbar-item>
+
                 </b-navbar-dropdown>
 
 
-                <b-navbar-item href="/manage-learners">
-                    Learners
-                </b-navbar-item>
+               
 
-                <b-navbar-dropdown label="Enrollee">
+                <b-navbar-dropdown label="Enrollment">
 
-                    <b-navbar-item href="/enrollment">
-                        Enrollment
+                    <b-navbar-item href="/manage-learners">
+                        Learners
                     </b-navbar-item>
-                  
+                    <b-navbar-item href="/enrollment">
+                        Admission
+                    </b-navbar-item>
+                    <b-navbar-item href="/billing-subjects">
+                        Assess Subjects
+                    </b-navbar-item>
                     <b-navbar-item href="/enrollee">
                         Enrollee
                     </b-navbar-item>
                     
                 </b-navbar-dropdown>
 
-                <b-navbar-dropdown label="Cashier">
-
-                    <b-navbar-item href="/billing-subjects">
-                        Billing Subjects
-                    </b-navbar-item>
-                  
-                    <!-- <b-navbar-item href="/billing-payment">
-                        Billing Payment
-                    </b-navbar-item> -->
-                    
-                </b-navbar-dropdown>
+               
                 
                 <b-navbar-dropdown label="Records">
 

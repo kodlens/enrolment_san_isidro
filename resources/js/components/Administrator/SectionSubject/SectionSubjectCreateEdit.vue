@@ -14,7 +14,7 @@
                         <div class="has-text-weight-bold mb-4 info-header">SECTION INFORMATION</div>
                         
                         <div>
-                            <div class="columns">
+                            <!-- <div class="columns">
                                 <div class="column">
                                     <b-field label="Academic Year" expanded>
                                         <b-select v-model="fields.academic_year_id" 
@@ -27,7 +27,7 @@
                                         </b-select>
                                     </b-field>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Grade Level"
@@ -41,7 +41,7 @@
                                             v-model="fields.grade_level"
                                             @input="loadSection"
                                             required>
-                                            <option :value="{ grade_level: item.grade_level, curriculum: item.curriculum }"
+                                            <option :value="{ grade_level: item.grade_level, curriculum_code: item.curriculum_code }"
                                                     v-for="(item, ix) in gradeLevels" :key="`g${ix}`">
                                                 {{ item.grade_level }}
                                             </option>
@@ -70,7 +70,7 @@
                             </div> <!--cols-->
 
 
-                            <div v-if="fields.grade_level.curriculum === 'SHS'">
+                            <!-- <div v-if="fields.grade_level.curriculum_code === 'SHS'">
                                 <div class="columns">
                                     <div class="column">
                                         <b-field label="Semester" expanded
@@ -117,7 +117,7 @@
                                         </b-field>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             
 
                         </div>
@@ -192,6 +192,21 @@ export default{
     methods: {
 
         emitBrowseSubject(row, ix){
+            let flagFound = false
+            this.fields.subjects.forEach(item => {
+                console.log(item.subject_id);
+                if(item.subject_id === row.subject_id){
+                    flagFound = true;
+                }
+            });
+            
+            if(flagFound){
+                this.$buefy.toast.open({
+                    message: 'Already added in the subject list.',
+                    type: 'is-danger'
+                })
+                return;
+            }
 
             this.fields.subjects.push({
                 subject_id: row.subject_id,

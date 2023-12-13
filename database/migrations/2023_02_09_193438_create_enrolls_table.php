@@ -22,7 +22,7 @@ class CreateEnrollsTable extends Migration
 
 
             $table->string('grade_level', 20)->nullable();
-            $table->tinyInteger('learner_status')->default(0);
+            $table->string('learner_status', 15)->nullable();
 
             $table->unsignedBigInteger('learner_id');
             $table->foreign('learner_id')->references('learner_id')->on('learners')
@@ -33,9 +33,9 @@ class CreateEnrollsTable extends Migration
             //$table->unsignedBigInteger('track_id')->default(0);
             //$table->unsignedBigInteger('strand_id')->default(0);
 
-            $table->unsignedBigInteger('semester_id')->default(0)->nullabe();
-            $table->unsignedBigInteger('track_id')->default(0)->nullabe();
-            $table->unsignedBigInteger('strand_id')->default(0)->nullabe();
+            $table->unsignedBigInteger('semester_id')->nullabe();
+            $table->unsignedBigInteger('track_id')->nullabe();
+            $table->unsignedBigInteger('strand_id')->nullabe();
 
             $table->unsignedBigInteger('section_id');
             $table->foreign('section_id')->references('section_id')->on('sections')

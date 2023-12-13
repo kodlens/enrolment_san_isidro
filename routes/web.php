@@ -62,6 +62,7 @@ Route::get('/load-strands', [App\Http\Controllers\OpenController::class, 'loadSt
 Route::get('/load-section', [App\Http\Controllers\OpenController::class, 'loadSection']);
 Route::get('/load-other-fees', [App\Http\Controllers\OpenController::class, 'loadOtherFees']);
 Route::get('/load-curriculums', [App\Http\Controllers\OpenController::class, 'loadCurriculums']);
+Route::get('/load-section-subjects/{sectionId}', [App\Http\Controllers\OpenController::class, 'loadSectionSubjects']);
 
 //open links
 Route::get('/load-academic-years', [App\Http\Controllers\OpenController::class, 'loadAcademicYears']);
