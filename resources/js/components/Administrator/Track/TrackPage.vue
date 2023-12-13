@@ -51,10 +51,12 @@
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small mr-1" tag="a" icon-right="pencil" @click="getData(props.row.track_id)"></b-button>
+                                        <b-button class="button is-small mr-1" tag="a" icon-right="pencil" 
+                                            @click="getData(props.row.track_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small mr-1" icon-right="delete" @click="confirmDelete(props.row.track_id)"></b-button>
+                                        <b-button class="button is-small mr-1" icon-right="delete" 
+                                            @click="confirmDelete(props.row.track_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
@@ -222,7 +224,7 @@ export default{
         submit: function(){
             if(this.global_id > 0){
                 //update
-                axios.put('/track/'+this.global_id, this.fields).then(res=>{
+                axios.put('/tracks/'+this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -243,7 +245,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/track', this.fields).then(res=>{
+                axios.post('/tracks', this.fields).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -280,7 +282,7 @@ export default{
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/track/' + delete_id).then(res => {
+            axios.delete('/tracks/' + delete_id).then(res => {
                 this.loadAsyncData();
                 this.clearFields()
             }).catch(err => {
@@ -299,7 +301,6 @@ export default{
         },
 
     
-
         //update code here
         getData: function(data_id){
             this.clearFields();
@@ -307,7 +308,7 @@ export default{
             this.isModalCreate = true;
 
             //nested axios for getting the address 1 by 1 or request by request
-            axios.get('/track/'+data_id).then(res=>{
+            axios.get('/tracks/'+data_id).then(res=>{
                 this.fields = res.data;
             });
         },

@@ -7,7 +7,7 @@
                 <div class="column is-8-widescreen is-10-desktop is-10-tablet">
 
                     <div class="box">
-                        <div class="has-text-weight-bold is-size-4">ENROLLE GRADE</div>
+                        <div class="has-text-weight-bold is-size-4">ENROLLEE GRADE</div>
                         <div class="has-text-weight-bold mb-4 is-size-6">
                             Grade entry for learner.
                         </div>
