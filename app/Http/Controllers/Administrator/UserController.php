@@ -20,7 +20,7 @@ class UserController extends Controller
         return view('administrator.users');
     }
 
-    public function getAccounts(Request $req){
+    public function getUsers(Request $req){
         $sort = explode('.', $req->sort_by);
 
         $users = User::where('lname', 'like', $req->lname . '%')
@@ -43,7 +43,6 @@ class UserController extends Controller
             'lname' => ['required', 'string', 'max:100'],
             'fname' => ['required', 'string', 'max:100'],
             'sex' => ['required', 'string', 'max:20'],
-            'email' => ['required', 'unique:users'],
             'password' => ['required', 'string', 'confirmed'],
             'role' => ['required', 'string'],
            
@@ -57,8 +56,6 @@ class UserController extends Controller
             'mname' => strtoupper($req->mname),
             'extension' => strtoupper($req->extension),
             'sex' => $req->sex,
-            'email' => $req->email,
-            'contact_no' => $req->contact_no,
             'role' => $req->role,
        
         ]);
@@ -74,7 +71,7 @@ class UserController extends Controller
             'lname' => ['required', 'string', 'max:100'],
             'fname' => ['required', 'string', 'max:100'],
             'sex' => ['required', 'string', 'max:20'],
-            'email' => ['required', 'unique:users,email,' . $id . ',user_id'],
+            //'email' => ['required', 'unique:users,email,' . $id . ',user_id'],
             'role' => ['required', 'string'],
 
         ]);
@@ -86,8 +83,8 @@ class UserController extends Controller
         $data->mname = strtoupper($req->mname);
         $data->extension = strtoupper($req->extension);
         $data->sex = $req->sex;
-        $data->email = $req->email;
-        $data->contact_no = $req->contact_no;
+        //$data->email = $req->email;
+        //$data->contact_no = $req->contact_no;
         $data->role = $req->role;
         $data->save();
 

@@ -171,27 +171,7 @@
                                 </div>
                             </div>
 
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Contact No" label-position="on-border"
-                                             :type="this.errors.contact_no ? 'is-danger':''"
-                                             :message="this.errors.contact_no ? this.errors.contact_no[0] : ''">
-                                        <b-input type="number" v-model="fields.contact_no"
-                                                 placeholder="Contact No" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                                <div class="column">
-                                    <b-field label="Email" label-position="on-border"
-                                             :type="this.errors.email ? 'is-danger':''"
-                                             :message="this.errors.email ? this.errors.email[0] : ''">
-                                        <b-input type="email" v-model="fields.email" icon="email"
-                                                 placeholder="Email" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            
-                            </div>
+                          
 
                             <div class="columns" v-if="global_id < 1">
                                 <div class="column">
@@ -367,7 +347,7 @@ export default{
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-accounts?${params}`)
+            axios.get(`/get-users?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -419,7 +399,7 @@ export default{
         submit: function(){
             if(this.global_id > 0){
                 //update
-                axios.put('/accounts/'+this.global_id, this.fields).then(res=>{
+                axios.put('/users/'+this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -440,7 +420,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/accounts', this.fields).then(res=>{
+                axios.post('/users', this.fields).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -471,13 +451,13 @@ export default{
                 type: 'is-danger',
                 message: 'Are you sure you want to delete this data?',
                 cancelText: 'Cancel',
-                confirmText: 'Delete user account?',
+                confirmText: 'Delete',
                 onConfirm: () => this.deleteSubmit(delete_id)
             });
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/accounts/' + delete_id).then(res => {
+            axios.delete('/users/' + delete_id).then(res => {
                 this.loadAsyncData();
                 this.clearFields()
             }).catch(err => {
@@ -513,7 +493,7 @@ export default{
             this.isModalCreate = true;
 
             //nested axios for getting the address 1 by 1 or request by request
-            axios.get('/accounts/'+data_id).then(res=>{
+            axios.get('/users/'+data_id).then(res=>{
                 this.fields = res.data;
             });
         },

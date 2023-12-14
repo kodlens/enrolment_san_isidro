@@ -17149,26 +17149,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -17211,7 +17191,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "lname=".concat(this.search.lname), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("/get-accounts?".concat(params)).then(function (_ref) {
+      axios.get("/get-users?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.data = [];
         var currentTotal = data.total;
@@ -17259,7 +17239,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.global_id > 0) {
         //update
-        axios.put('/accounts/' + this.global_id, this.fields).then(function (res) {
+        axios.put('/users/' + this.global_id, this.fields).then(function (res) {
           if (res.data.status === 'updated') {
             _this2.$buefy.dialog.alert({
               title: 'UPDATED!',
@@ -17282,7 +17262,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         //INSERT HERE
-        axios.post('/accounts', this.fields).then(function (res) {
+        axios.post('/users', this.fields).then(function (res) {
           if (res.data.status === 'saved') {
             _this2.$buefy.dialog.alert({
               title: 'SAVED!',
@@ -17316,7 +17296,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 'is-danger',
         message: 'Are you sure you want to delete this data?',
         cancelText: 'Cancel',
-        confirmText: 'Delete user account?',
+        confirmText: 'Delete',
         onConfirm: function onConfirm() {
           return _this3.deleteSubmit(delete_id);
         }
@@ -17326,7 +17306,7 @@ __webpack_require__.r(__webpack_exports__);
     deleteSubmit: function deleteSubmit(delete_id) {
       var _this4 = this;
 
-      axios["delete"]('/accounts/' + delete_id).then(function (res) {
+      axios["delete"]('/users/' + delete_id).then(function (res) {
         _this4.loadAsyncData();
 
         _this4.clearFields();
@@ -17360,7 +17340,7 @@ __webpack_require__.r(__webpack_exports__);
       this.global_id = data_id;
       this.isModalCreate = true; //nested axios for getting the address 1 by 1 or request by request
 
-      axios.get('/accounts/' + data_id).then(function (res) {
+      axios.get('/users/' + data_id).then(function (res) {
         _this5.fields = res.data;
       });
     },
@@ -76424,85 +76404,6 @@ var render = function () {
                                     _vm.$set(_vm.fields, "suffix", $$v)
                                   },
                                   expression: "fields.suffix",
-                                },
-                              }),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Contact No",
-                                "label-position": "on-border",
-                                type: this.errors.contact_no ? "is-danger" : "",
-                                message: this.errors.contact_no
-                                  ? this.errors.contact_no[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c("b-input", {
-                                attrs: {
-                                  type: "number",
-                                  placeholder: "Contact No",
-                                  required: "",
-                                },
-                                model: {
-                                  value: _vm.fields.contact_no,
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.fields, "contact_no", $$v)
-                                  },
-                                  expression: "fields.contact_no",
-                                },
-                              }),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Email",
-                                "label-position": "on-border",
-                                type: this.errors.email ? "is-danger" : "",
-                                message: this.errors.email
-                                  ? this.errors.email[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c("b-input", {
-                                attrs: {
-                                  type: "email",
-                                  icon: "email",
-                                  placeholder: "Email",
-                                  required: "",
-                                },
-                                model: {
-                                  value: _vm.fields.email,
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.fields, "email", $$v)
-                                  },
-                                  expression: "fields.email",
                                 },
                               }),
                             ],

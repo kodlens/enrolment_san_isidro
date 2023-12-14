@@ -144,7 +144,7 @@ Route::middleware(['auth', 'admin'])->group(function(){
     
 
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
-    Route::get('/get-accounts', [App\Http\Controllers\Administrator\UserController::class, 'getAccounts']);
+    Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);
 
     Route::post('/user-reset-password/{userid}', [App\Http\Controllers\Administrator\UserController::class, 'resetPassword']);
 
