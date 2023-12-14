@@ -33,9 +33,9 @@ class CreateEnrollsTable extends Migration
             //$table->unsignedBigInteger('track_id')->default(0);
             //$table->unsignedBigInteger('strand_id')->default(0);
 
-            $table->unsignedBigInteger('semester_id')->nullabe();
-            $table->unsignedBigInteger('track_id')->nullabe();
-            $table->unsignedBigInteger('strand_id')->nullabe();
+            $table->unsignedBigInteger('semester_id')->nullable();
+            $table->unsignedBigInteger('track_id')->nullable();
+            $table->unsignedBigInteger('strand_id')->nullable();
 
             $table->unsignedBigInteger('section_id');
             $table->foreign('section_id')->references('section_id')->on('sections')

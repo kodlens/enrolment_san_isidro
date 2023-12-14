@@ -60,6 +60,15 @@ class Enroll extends Model
         return $this->hasMany(SectionSubject::class, 'section_id', 'section_id');
     }
 
+    
+    public function subjects(){
+        return $this->hasMany(EnrollSubject::class, 'enroll_id', 'enroll_id');
+    }
+
+    public function grades(){
+
+        return $this->hasMany(EnrolleeGrade::class, 'enroll_id', 'enroll_id');
+    }
     public function billing(){
         return $this->hasOne(Billing::class, 'enroll_id', 'enroll_id');
     }

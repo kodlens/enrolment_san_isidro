@@ -143,7 +143,11 @@
 
                 </b-navbar-dropdown>
 
-
+                <b-navbar-dropdown label="Report">
+                    <b-navbar-item href="/report-class-list">
+                        Class List
+                    </b-navbar-item>
+                </b-navbar-dropdown>
 
                 <b-navbar-item href="/users">
                     Users

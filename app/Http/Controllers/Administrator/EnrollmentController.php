@@ -18,7 +18,8 @@ class EnrollmentController extends Controller
     }
 
     public function store(Request $req){
-     
+        
+
         $req->validate([
             'learner_id' => ['required'],
             'grade_level' => ['required'],
@@ -38,7 +39,7 @@ class EnrollmentController extends Controller
         $ay = AcademicYear::where('is_active', 1)->first();
         $user = Auth::user();
 
-
+      
         //check if already enrol
         $exist = Enroll::where('learner_id', $req->learner_id)
             ->where('academic_year_id', $ay->academic_year_id)

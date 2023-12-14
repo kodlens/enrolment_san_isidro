@@ -24,6 +24,10 @@ class OpenController extends Controller
             ->get();
     }
 
+    public function loadAcademicYear(){
+        return AcademicYear::where('is_active', 1)
+            ->first();
+    }
 
     public function loadSemesters(){
         return Semester::orderBy('semester', 'asc')

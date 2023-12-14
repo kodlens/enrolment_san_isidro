@@ -66,6 +66,8 @@ Route::get('/load-section-subjects/{sectionId}', [App\Http\Controllers\OpenContr
 
 //open links
 Route::get('/load-academic-years', [App\Http\Controllers\OpenController::class, 'loadAcademicYears']);
+Route::get('/load-academic-year', [App\Http\Controllers\OpenController::class, 'loadAcademicYear']);
+
 Route::get('/load-open-religions', [App\Http\Controllers\OpenController::class, 'loadReligions']);
 
 
@@ -136,9 +138,6 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/get-enrollee-grades-by-learner', [App\Http\Controllers\Administrator\EnrolleeGradeController::class, 'getEnrolleeGradeByLearner']);
     Route::get('/check-already-have-grade/{enrollId}', [App\Http\Controllers\Administrator\EnrolleeGradeController::class, 'checkAlreadyHaveGrade']);
     
-    
-   
-
 
     Route::resource('/enrollee-credentials', App\Http\Controllers\Administrator\EnrolleeCredentialController::class);
     Route::get('/get-enrollee-credentials', [App\Http\Controllers\Administrator\EnrolleeCredentialController::class, 'getData']);
@@ -148,6 +147,11 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/get-accounts', [App\Http\Controllers\Administrator\UserController::class, 'getAccounts']);
 
     Route::post('/user-reset-password/{userid}', [App\Http\Controllers\Administrator\UserController::class, 'resetPassword']);
+
+    Route::get('/report-class-list', [App\Http\Controllers\Administrator\ReportClassListController::class, 'index']);
+    Route::get('/get-report-class-list', [App\Http\Controllers\Administrator\ReportClassListController::class, 'getReportClassList']);
+
+
 
 });
 
