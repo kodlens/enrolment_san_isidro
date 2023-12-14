@@ -292,9 +292,6 @@ export default{
                 }
             })
 
-            
-
-
             let learnerGrades = []
             const params = [
                 `enroll=${this.enrollee.enroll_id}`
