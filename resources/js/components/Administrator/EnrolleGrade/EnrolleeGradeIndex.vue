@@ -11,6 +11,10 @@
                         <div class="has-text-weight-bold mb-4 is-size-6">
                             Grade entry for learner.
                         </div>
+
+                        <!-- <div class="buttons my-4">
+                            <b-button size="is-small" label="" icon-left="printer"></b-button>
+                        </div> -->
                         <div class="has-text-weight-bold mb-4 info-header">LEARNER INFORMATON</div>
                         
                         <div>
@@ -44,7 +48,7 @@
                                             placeholder="Grade Level"
                                             v-model="enrollee.grade_level"
                                             disabled>
-                                            <option :value="item.grade_level"
+                                            <option :value="{ grade_level: item.grade_level, curriculum_code: item.curriculum_code }"
                                                 v-for="(item, ix) in gradeLevels" :key="`g${ix}`">
                                                 {{ item.grade_level }}
                                             </option>
@@ -80,10 +84,10 @@
                                             icon="account"
                                             placeholder="Learner Status"
                                             v-model="enrollee.learner_status">
-                                            <option :value="1">NEW</option>
-                                            <option :value="0">OLD</option>
-                                            <option :value="2">RETURNEE</option>
-                                            <option :value="3">TRANSFEREE</option>
+                                            <option value="OLD">OLD</option>
+                                            <option value="NEW">NEW</option>
+                                            <option value="RETURNEE">RETURNEE</option>
+                                            <option value="TRANSFEREE">TRANSFEREE</option>
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -91,7 +95,7 @@
                             </div>
 
 
-                            <div v-if="enrollee.grade_level.curriculum === 'SHS'">
+                            <div v-if="enrollee.grade_level.curriculum_code === 'SHS'">
                                 <div class="columns">
                                     <div class="column">
                                         <b-field label="Semester" expanded
@@ -99,6 +103,7 @@
                                             :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
                                             <b-select v-model="enrollee.semester_id" expanded
                                                 icon="account"
+                                                disabled
                                                 placeholder="Semester">
                                                 <option :value="item.semester_id" v-for="(item, ix) in semesters" :key="`sem${ix}`">
                                                     {{  item.semester }}
@@ -117,9 +122,10 @@
                                                 :type="this.errors.track_id ? 'is-danger':''"
                                                 :message="this.errors.track_id ? this.errors.track_id[0] : ''">
                                             <b-select v-model="enrollee.track_id" expanded
-                                                    icon="account"
-                                                    placeholder="Track"
-                                                    @input="loadStrands">
+                                                disabled
+                                                icon="account"
+                                                placeholder="Track"
+                                                @input="loadStrands">
                                                 <option :value="item.track_id" v-for="(item, ix) in tracks" :key="`track${ix}`">
                                                     {{  item.track }}
                                                 </option>
@@ -132,8 +138,9 @@
                                                 :type="this.errors.strand_id ? 'is-danger':''"
                                                 :message="this.errors.strand_id ? this.errors.strand_id[0] : ''">
                                             <b-select v-model="enrollee.strand_id" expanded
-                                                    icon="account"
-                                                    placeholder="Strand">
+                                                disabled
+                                                icon="account"
+                                                placeholder="Strand">
                                                 <option :value="item.strand_id" v-for="(item, ix) in strands" :key="`strand${ix}`">
                                                     {{  item.strand }}
                                                 </option>
@@ -244,8 +251,8 @@ export default{
  
             this.enrollee.name = row.learner.lname + ', ' + row.learner.fname + ' ' + row.learner.mname
     
-            this.enrollee.grade_level = row.grade_level.grade_level
-            this.enrollee.curriculum = row.grade_level.curriculum
+            this.enrollee.grade_level = { grade_level: row.grade_level.grade_level, curriculum_code: row.grade_level.curriculum_code }
+            this.enrollee.curriculum_code = row.grade_level.curriculum_code
 
             this.enrollee.learner_status = row.learner_status
             this.enrollee.semester_id = row.semester_id
@@ -255,17 +262,37 @@ export default{
 
             this.enrollee.section_id = row.section_id
          
-            await this.loadStrands().then(()=>{
-                this.enrollee.strand_id = row.strand_id
+            await this.loadStrands()
+            this.enrollee.strand_id = row.strand_id
+
+            //check if already have grade entry
+            axios.get('/check-already-have-grade/' + this.enrollee.enroll_id).then(res=>{
+                const exist = res.data
+
+                if(exist.length > 0){
+                    console.log('exist');
+                    exist.forEach(item => {
+                        this.enrollee.section_subjects.push({
+                            'subject_id': item.subject_id,
+                            'subject_code': item.subject.subject_code,
+                            'subject_description': item.subject.subject_description,
+                            'grade': item.grade
+                        });
+                    });
+                }else{
+                    console.log('wala');
+                    row.section_subjects.forEach(item => {
+                        this.enrollee.section_subjects.push({
+                            'subject_id': item.subject_id,
+                            'subject_code': item.subject.subject_code,
+                            'subject_description': item.subject.subject_description,
+                            'grade': 0
+                        });
+                    });
+                }
             })
-            row.section_subjects.forEach(item => {
-                this.enrollee.section_subjects.push({
-                    'subject_id': item.subject_id,
-                    'subject_code': item.subject.subject_code,
-                    'subject_description': item.subject.subject_description,
-                    'grade': 0
-                });
-            });
+
+            
 
 
             let learnerGrades = []
@@ -278,14 +305,10 @@ export default{
             })
 
             
-
-           
        
             //this.loadOtherFees()
         },
 
-
-      
 
         loadOtherFees(){
             axios.get('/load-other-fees').then(res=>{
@@ -295,7 +318,7 @@ export default{
 
         submit(){
             this.errors = {}
-            this.enrollee.fee_balance = this.finalTotalFee
+           // this.enrollee.fee_balance = this.finalTotalFee
             axios.post('/enrollee-grades', this.enrollee).then(res=>{
                 if(res.data.status === 'saved'){
                     this.$buefy.dialog.alert({
@@ -320,10 +343,7 @@ export default{
             })
         },
 
-    
-
-
-
+  
         //mga init data
         loadSemesters(){
             axios.get('/load-semesters').then(res=>{
@@ -346,7 +366,7 @@ export default{
             })
         },
         loadSection(){
-            axios.get('/load-section?grade=' + this.enrollee.grade_level).then(res=>{
+            axios.get('/load-section?grade=' + this.enrollee.grade_level.grade_level).then(res=>{
                 this.sections = res.data;
             })
         },
@@ -357,22 +377,15 @@ export default{
                 name: null,
                 learner_id: null,
                 date_admission: new Date(),
-                grade_level: null,
-
+                grade_level: {},
                 learner_status: null,
-
                 semester_id: null,
                 track_id: null,
                 strand_id: null,
-                section: 0,
-
-                fee_balance: 0,
-                subjects: []
+                section: null,
+                section_subjects: []
 
             };
-
-            this.otherFees = []
-
         },
 
     },

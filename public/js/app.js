@@ -8463,7 +8463,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -8502,8 +8501,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.enrollee.enroll_id = row.enroll_id;
                 _this.enrollee.academic_year_id = row.academic_year_id;
                 _this.enrollee.name = row.learner.lname + ', ' + row.learner.fname + ' ' + row.learner.mname;
-                _this.enrollee.grade_level = row.grade_level.grade_level;
-                _this.enrollee.curriculum = row.grade_level.curriculum;
+                _this.enrollee.grade_level = {
+                  grade_level: row.grade_level.grade_level,
+                  curriculum_code: row.grade_level.curriculum_code
+                };
+                _this.enrollee.curriculum_code = row.grade_level.curriculum_code;
                 _this.enrollee.learner_status = row.learner_status;
                 _this.enrollee.semester_id = row.semester_id;
                 _this.enrollee.track_id = row.track_id;
@@ -8513,15 +8515,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 11:
                 _this.enrollee.section_id = row.section_id;
                 _context.next = 14;
-                return _this.loadStrands().then(function () {
-                  _this.enrollee.strand_id = row.strand_id;
-                });
+                return _this.loadStrands();
 
               case 14:
+                _this.enrollee.strand_id = row.strand_id;
                 _this.enrollee.section_subjects = row.section_subjects;
                 console.log(row.section_subjects); //this.loadOtherFees()
 
-              case 16:
+              case 17:
               case "end":
                 return _context.stop();
             }
@@ -8611,7 +8612,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadSection: function loadSection() {
       var _this8 = this;
 
-      axios.get('/load-section?grade=' + this.enrollee.grade_level).then(function (res) {
+      axios.get('/load-section?grade=' + this.enrollee.grade_level.grade_level).then(function (res) {
         _this8.sections = res.data;
       });
     },
@@ -8620,7 +8621,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         name: null,
         learner_id: null,
         date_admission: new Date(),
-        grade_level: null,
+        grade_level: {},
         learner_status: null,
         semester_id: null,
         track_id: null,
@@ -9583,6 +9584,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -9622,8 +9630,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.enrollee.enroll_id = row.enroll_id;
                 _this.enrollee.academic_year_id = row.academic_year_id;
                 _this.enrollee.name = row.learner.lname + ', ' + row.learner.fname + ' ' + row.learner.mname;
-                _this.enrollee.grade_level = row.grade_level.grade_level;
-                _this.enrollee.curriculum = row.grade_level.curriculum;
+                _this.enrollee.grade_level = {
+                  grade_level: row.grade_level.grade_level,
+                  curriculum_code: row.grade_level.curriculum_code
+                };
+                _this.enrollee.curriculum_code = row.grade_level.curriculum_code;
                 _this.enrollee.learner_status = row.learner_status;
                 _this.enrollee.semester_id = row.semester_id;
                 _this.enrollee.track_id = row.track_id;
@@ -9633,18 +9644,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 11:
                 _this.enrollee.section_id = row.section_id;
                 _context.next = 14;
-                return _this.loadStrands().then(function () {
-                  _this.enrollee.strand_id = row.strand_id;
-                });
+                return _this.loadStrands();
 
               case 14:
-                row.section_subjects.forEach(function (item) {
-                  _this.enrollee.section_subjects.push({
-                    'subject_id': item.subject_id,
-                    'subject_code': item.subject.subject_code,
-                    'subject_description': item.subject.subject_description,
-                    'grade': 0
-                  });
+                _this.enrollee.strand_id = row.strand_id; //check if already have grade entry
+
+                axios.get('/check-already-have-grade/' + _this.enrollee.enroll_id).then(function (res) {
+                  var exist = res.data;
+
+                  if (exist.length > 0) {
+                    console.log('exist');
+                    exist.forEach(function (item) {
+                      _this.enrollee.section_subjects.push({
+                        'subject_id': item.subject_id,
+                        'subject_code': item.subject.subject_code,
+                        'subject_description': item.subject.subject_description,
+                        'grade': item.grade
+                      });
+                    });
+                  } else {
+                    console.log('wala');
+                    row.section_subjects.forEach(function (item) {
+                      _this.enrollee.section_subjects.push({
+                        'subject_id': item.subject_id,
+                        'subject_code': item.subject.subject_code,
+                        'subject_description': item.subject.subject_description,
+                        'grade': 0
+                      });
+                    });
+                  }
                 });
                 learnerGrades = [];
                 params = ["enroll=".concat(_this.enrollee.enroll_id)].join('&');
@@ -9653,7 +9681,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   console.log(learnerGrades);
                 }); //this.loadOtherFees()
 
-              case 18:
+              case 19:
               case "end":
                 return _context.stop();
             }
@@ -9671,8 +9699,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     submit: function submit() {
       var _this3 = this;
 
-      this.errors = {};
-      this.enrollee.fee_balance = this.finalTotalFee;
+      this.errors = {}; // this.enrollee.fee_balance = this.finalTotalFee
+
       axios.post('/enrollee-grades', this.enrollee).then(function (res) {
         if (res.data.status === 'saved') {
           _this3.$buefy.dialog.alert({
@@ -9743,7 +9771,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadSection: function loadSection() {
       var _this8 = this;
 
-      axios.get('/load-section?grade=' + this.enrollee.grade_level).then(function (res) {
+      axios.get('/load-section?grade=' + this.enrollee.grade_level.grade_level).then(function (res) {
         _this8.sections = res.data;
       });
     },
@@ -9752,16 +9780,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         name: null,
         learner_id: null,
         date_admission: new Date(),
-        grade_level: null,
+        grade_level: {},
         learner_status: null,
         semester_id: null,
         track_id: null,
         strand_id: null,
-        section: 0,
-        fee_balance: 0,
-        subjects: []
+        section: null,
+        section_subjects: []
       };
-      this.otherFees = [];
     }
   },
   mounted: function mounted() {
@@ -11640,6 +11666,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -11703,11 +11733,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     emitBrowseSubject: function emitBrowseSubject(row, ix) {
-      console.log(row.subject_id);
       var flagFound = false;
       this.learner.subjects.forEach(function (item) {
-        console.log(item.subject_id);
-
         if (item.subject_id === row.subject_id) {
           flagFound = true;
         }
@@ -11761,6 +11788,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       axios.get('/load-section-subjects/' + this.learner.section_id).then(function (res) {
         var sectionSubjects = res.data;
+        _this3.learner.subjects = [];
         sectionSubjects.forEach(function (row) {
           _this3.learner.subjects.push({
             subject_id: row.subject_id,
@@ -11811,7 +11839,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         learner_status: null,
         semester_id: null,
         track_id: null,
-        strand_id: null
+        strand_id: null,
+        subjects: []
       };
     },
     //mga init data
@@ -62239,7 +62268,12 @@ var render = function () {
                                   "option",
                                   {
                                     key: "g" + ix,
-                                    domProps: { value: item.grade_level },
+                                    domProps: {
+                                      value: {
+                                        grade_level: item.grade_level,
+                                        curriculum_code: item.curriculum_code,
+                                      },
+                                    },
                                   },
                                   [
                                     _vm._v(
@@ -62360,21 +62394,23 @@ var render = function () {
                                 },
                               },
                               [
-                                _c("option", { domProps: { value: 1 } }, [
-                                  _vm._v("NEW"),
-                                ]),
-                                _vm._v(" "),
-                                _c("option", { domProps: { value: 0 } }, [
+                                _c("option", { attrs: { value: "OLD" } }, [
                                   _vm._v("OLD"),
                                 ]),
                                 _vm._v(" "),
-                                _c("option", { domProps: { value: 2 } }, [
+                                _c("option", { attrs: { value: "NEW" } }, [
+                                  _vm._v("NEW"),
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "RETURNEE" } }, [
                                   _vm._v("RETURNEE"),
                                 ]),
                                 _vm._v(" "),
-                                _c("option", { domProps: { value: 3 } }, [
-                                  _vm._v("TRANSFEREE"),
-                                ]),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "TRANSFEREE" } },
+                                  [_vm._v("TRANSFEREE")]
+                                ),
                               ]
                             ),
                           ],
@@ -62385,7 +62421,7 @@ var render = function () {
                     ),
                   ]),
                   _vm._v(" "),
-                  _vm.enrollee.grade_level.curriculum === "SHS"
+                  _vm.enrollee.grade_level.curriculum_code === "SHS"
                     ? _c("div", [
                         _c("div", { staticClass: "columns" }, [
                           _c(
@@ -62412,6 +62448,7 @@ var render = function () {
                                     {
                                       attrs: {
                                         expanded: "",
+                                        disabled: "",
                                         icon: "account",
                                         placeholder: "Semester",
                                       },
@@ -62477,6 +62514,7 @@ var render = function () {
                                     {
                                       attrs: {
                                         expanded: "",
+                                        disabled: "",
                                         icon: "account",
                                         placeholder: "Track",
                                       },
@@ -62541,6 +62579,7 @@ var render = function () {
                                     {
                                       attrs: {
                                         expanded: "",
+                                        disabled: "",
                                         icon: "account",
                                         placeholder: "Strand",
                                       },
@@ -63903,7 +63942,12 @@ var render = function () {
                                   "option",
                                   {
                                     key: "g" + ix,
-                                    domProps: { value: item.grade_level },
+                                    domProps: {
+                                      value: {
+                                        grade_level: item.grade_level,
+                                        curriculum_code: item.curriculum_code,
+                                      },
+                                    },
                                   },
                                   [
                                     _vm._v(
@@ -64024,21 +64068,23 @@ var render = function () {
                                 },
                               },
                               [
-                                _c("option", { domProps: { value: 1 } }, [
-                                  _vm._v("NEW"),
-                                ]),
-                                _vm._v(" "),
-                                _c("option", { domProps: { value: 0 } }, [
+                                _c("option", { attrs: { value: "OLD" } }, [
                                   _vm._v("OLD"),
                                 ]),
                                 _vm._v(" "),
-                                _c("option", { domProps: { value: 2 } }, [
+                                _c("option", { attrs: { value: "NEW" } }, [
+                                  _vm._v("NEW"),
+                                ]),
+                                _vm._v(" "),
+                                _c("option", { attrs: { value: "RETURNEE" } }, [
                                   _vm._v("RETURNEE"),
                                 ]),
                                 _vm._v(" "),
-                                _c("option", { domProps: { value: 3 } }, [
-                                  _vm._v("TRANSFEREE"),
-                                ]),
+                                _c(
+                                  "option",
+                                  { attrs: { value: "TRANSFEREE" } },
+                                  [_vm._v("TRANSFEREE")]
+                                ),
                               ]
                             ),
                           ],
@@ -64049,7 +64095,7 @@ var render = function () {
                     ),
                   ]),
                   _vm._v(" "),
-                  _vm.enrollee.grade_level.curriculum === "SHS"
+                  _vm.enrollee.grade_level.curriculum_code === "SHS"
                     ? _c("div", [
                         _c("div", { staticClass: "columns" }, [
                           _c(
@@ -64077,6 +64123,7 @@ var render = function () {
                                       attrs: {
                                         expanded: "",
                                         icon: "account",
+                                        disabled: "",
                                         placeholder: "Semester",
                                       },
                                       model: {
@@ -64141,6 +64188,7 @@ var render = function () {
                                     {
                                       attrs: {
                                         expanded: "",
+                                        disabled: "",
                                         icon: "account",
                                         placeholder: "Track",
                                       },
@@ -64205,6 +64253,7 @@ var render = function () {
                                     {
                                       attrs: {
                                         expanded: "",
+                                        disabled: "",
                                         icon: "account",
                                         placeholder: "Strand",
                                       },
@@ -67723,23 +67772,6 @@ var render = function () {
                           "div",
                           { key: index, staticClass: "subject-card" },
                           [
-                            _c(
-                              "div",
-                              { staticClass: "buttons is-right m-2" },
-                              [
-                                _c("b-button", {
-                                  staticClass: "is-danger is-small is-outlined",
-                                  attrs: { "icon-right": "delete" },
-                                  on: {
-                                    click: function ($event) {
-                                      return _vm.removeSubject(index)
-                                    },
-                                  },
-                                }),
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
                             _c("div", { staticClass: "columns" }, [
                               _c(
                                 "div",
@@ -67808,6 +67840,26 @@ var render = function () {
                                 ],
                                 1
                               ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "column is-1" }, [
+                                _c(
+                                  "div",
+                                  { staticClass: "buttons is-right m-2" },
+                                  [
+                                    _c("b-button", {
+                                      staticClass:
+                                        "is-danger is-small is-outlined",
+                                      attrs: { "icon-right": "delete" },
+                                      on: {
+                                        click: function ($event) {
+                                          return _vm.removeSubject(index)
+                                        },
+                                      },
+                                    }),
+                                  ],
+                                  1
+                                ),
+                              ]),
                             ]),
                           ]
                         )

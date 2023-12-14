@@ -52,7 +52,12 @@ class EnrolleeController extends Controller
         $ayId = $req->ayid;
         $studentId = $req->student;
 
-        $data = Enroll::with(['learner', 'semester', 'track', 'strand', 'section', 'grade_level', 'section_subjects.subject'])
+        $data = Enroll::with(['learner', 'semester', 'track', 'strand', 
+            'section', 
+            'grade_level', 
+            'section_subjects.subject'
+
+            ])
             ->where('academic_year_id', $ayId)
             ->whereHas('learner', function($q) use ($req){
                 $q->where('student_id', 'like', $req->student_id . '%')

@@ -16,6 +16,7 @@ class EnrollSubject extends Model
     protected $fillable = [
         'enroll_id',
         'subject_id',
+        'grade'
     ];
 
 

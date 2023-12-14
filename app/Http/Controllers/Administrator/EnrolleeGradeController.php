@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Administrator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EnrolleeGrade;
+use App\Models\EnrollSubject;
+use App\Models\AcademicYear;
 
 class EnrolleeGradeController extends Controller
 {
@@ -17,7 +19,7 @@ class EnrolleeGradeController extends Controller
 
 
     public function store(Request $req){
-
+        //return $req->academic_year_id;
         $req->validate([
             'academic_year_id' => ['required'],
             'learner_id' => ['required'],
@@ -28,7 +30,7 @@ class EnrolleeGradeController extends Controller
             'strand_id' => ['required_if:curriculum,SHS'],
 
         ],[
-            'academic_year_id.required' => 'Please select academic year.',
+            //'academic_year_id.required' => 'Please select academic year.',
             'learner_id.required' => 'Please select learner.',
             'enroll_id.required' => 'Please select learner.',
             'section_id.required' => 'Please select section.',
@@ -37,27 +39,18 @@ class EnrolleeGradeController extends Controller
             'strand_id.required_if' => 'Curriculum is SHS, strand is required.',
         ]);
         
- 
         foreach($req->section_subjects as $item){
+      
             EnrolleeGrade::updateOrCreate([
-                'academic_year_id' => $req->academic_year_id,
-                'section_id' => $req->section_id,
+                'enroll_id' => $req->enroll_id,
                 'subject_id' => $item['subject_id']
             ],[
-                'academic_year_id' => $req->academic_year_id,
-                'learner_id' => $req->learner_id,
-                'grade_level' => $req->grade_level,
                 'enroll_id' => $req->enroll_id,
-                'section_id' => $req->section_id,
-                'semester_id' => $req->curriculum == 'SHS' ? $req->semester_id : 0,
-                'track_id' => $req->curriculum == 'SHS' ? $req->track_id : 0,
-                'strand_id' => $req->curriculum == 'SHS' ? $req->strand_id : 0,
                 'subject_id' => $item['subject_id'],
                 'grade' => $item['grade']
             ]);
         }
 
-        return $req;
 
         return response()->json([
             'status' => 'saved'
@@ -76,6 +69,20 @@ class EnrolleeGradeController extends Controller
             ->get();
 
         return $data;
+    }
+
+
+    public function checkAlreadyHaveGrade($enrollId){
+        $exist = EnrolleeGrade::where('enroll_id', $enrollId)
+            ->exists();
+
+        if($exist){
+            return EnrolleeGrade::with('subject')
+                ->where('enroll_id', $enrollId)
+                ->get();
+        }else{
+            return 0;
+        }
     }
     
 }

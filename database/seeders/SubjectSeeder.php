@@ -17,6 +17,14 @@ class SubjectSeeder extends Seeder
 
         $data = [
             [
+                'subject_code' => 'ICT 1',
+                'subject_description' => 'FUNDAMENTAL OF PROGRAMMING',
+                'units' => 3,
+                'class' => 'LEC',
+                'fee' => 150
+
+            ],
+            [
                 'subject_code' => 'EP',
                 'subject_description' => 'EDUKASYON SA PAGKATAO',
                 'units' => 3,

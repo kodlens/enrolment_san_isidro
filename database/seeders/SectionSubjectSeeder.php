@@ -43,25 +43,25 @@ class SectionSubjectSeeder extends Seeder
 
 
             [
-                'grade_level' => 'GRADE 10',
-                'section_id' => 11,
+                'grade_level' => 'GRADE 11',
+                'section_id' => 15,
                 'subject_id' => 3,
 
             ],
             [
-                'grade_level' => 'GRADE 10',
-                'section_id' => 11,
+                'grade_level' => 'GRADE 11',
+                'section_id' => 15,
                 'subject_id' => 4,
 
             ],
             [
-                'grade_level' => 'GRADE 10',
-                'section_id' => 11,
+                'grade_level' => 'GRADE 11',
+                'section_id' => 15,
                 'subject_id' => 5,
             ],
             [
-                'grade_level' => 'GRADE 10',
-                'section_id' => 11,
+                'grade_level' => 'GRADE 11',
+                'section_id' => 15,
                 'subject_id' => 6,
             ],
         ];

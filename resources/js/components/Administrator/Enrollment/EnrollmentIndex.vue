@@ -157,10 +157,7 @@
                             </b-field>
                             <div class="subject-card"
                                 v-for="(item, index) in learner.subjects" :key="index">
-                                <div class="buttons is-right m-2">
-                                    <b-button class="is-danger is-small is-outlined"
-                                        icon-right="delete" @click="removeSubject(index)"></b-button>
-                                </div>
+                                
                                 <div class="columns">
                                     <div class="column">
                                         <b-field label="Subjet Name" label-position="on-border">
@@ -172,6 +169,13 @@
                                             <b-input type="text" readonly v-model="item.units " 
                                                 placeholder="Class" /></b-field>
                                     </div> 
+
+                                    <div class="column is-1">
+                                        <div class="buttons is-right m-2">
+                                            <b-button class="is-danger is-small is-outlined"
+                                                icon-right="delete" @click="removeSubject(index)"></b-button>
+                                        </div>
+                                    </div>
                                     
                                 </div> 
 
@@ -258,10 +262,8 @@ export default{
         },
 
         emitBrowseSubject(row, ix){
-            console.log(row.subject_id);
             let flagFound = false
             this.learner.subjects.forEach(item => {
-                console.log(item.subject_id);
                 if(item.subject_id === row.subject_id){
                     flagFound = true;
                 }
@@ -315,6 +317,7 @@ export default{
         loadSectionSubjects(){
             axios.get('/load-section-subjects/' + this.learner.section_id).then(res=>{
                 const sectionSubjects = res.data
+                this.learner.subjects = []
                 sectionSubjects.forEach(row => {
 
                     this.learner.subjects.push({
@@ -370,6 +373,8 @@ export default{
                 semester_id: null,
                 track_id: null,
                 strand_id: null,
+
+                subjects: []
        
 
             };

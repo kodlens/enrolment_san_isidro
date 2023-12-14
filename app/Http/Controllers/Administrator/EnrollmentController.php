@@ -33,7 +33,7 @@ class EnrollmentController extends Controller
             'track_id.required_if' => 'Curriculum is SHS, track is required.',
             'strand_id.required_if' => 'Curriculum is SHS, strand is required.',
         ]);
-        return $req;
+        //return $req;
         
         $ay = AcademicYear::where('is_active', 1)->first();
         $user = Auth::user();
@@ -57,9 +57,9 @@ class EnrollmentController extends Controller
             'grade_level' => $req->grade_level['grade_level'],
             'learner_status' => $req->learner_status,
             'learner_id' => $req->learner_id,
-            'semester_id' => $req->grade_level['curriculum'] == 'SHS' ? $req->semester_id : null,
-            'track_id' => $req->grade_level['curriculum'] == 'SHS' ? $req->track_id : null,
-            'strand_id' => $req->grade_level['curriculum'] == 'SHS' ? $req->strand_id : null,
+            'semester_id' => $req->grade_level['curriculum_code'] == 'SHS' ? $req->semester_id : null,
+            'track_id' => $req->grade_level['curriculum_code'] == 'SHS' ? $req->track_id : null,
+            'strand_id' => $req->grade_level['curriculum_code'] == 'SHS' ? $req->strand_id : null,
             'section_id' => $req->section_id,
             'admission_date' => date('Y-m-d', strtotime($req->admission_date)),
             'administer_by' => $user->username

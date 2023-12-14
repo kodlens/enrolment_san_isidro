@@ -44,7 +44,7 @@
                                             placeholder="Grade Level"
                                             v-model="enrollee.grade_level"
                                             disabled>
-                                            <option :value="item.grade_level"
+                                            <option :value="{ grade_level: item.grade_level, curriculum_code: item.curriculum_code }"
                                                 v-for="(item, ix) in gradeLevels" :key="`g${ix}`">
                                                 {{ item.grade_level }}
                                             </option>
@@ -80,10 +80,10 @@
                                             icon="account"
                                             placeholder="Learner Status"
                                             v-model="enrollee.learner_status">
-                                            <option :value="1">NEW</option>
-                                            <option :value="0">OLD</option>
-                                            <option :value="2">RETURNEE</option>
-                                            <option :value="3">TRANSFEREE</option>
+                                            <option value="OLD">OLD</option>
+                                            <option value="NEW">NEW</option>
+                                            <option value="RETURNEE">RETURNEE</option>
+                                            <option value="TRANSFEREE">TRANSFEREE</option>
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -91,13 +91,14 @@
                             </div>
 
 
-                            <div v-if="enrollee.grade_level.curriculum === 'SHS'">
+                            <div v-if="enrollee.grade_level.curriculum_code === 'SHS'">
                                 <div class="columns">
                                     <div class="column">
                                         <b-field label="Semester" expanded
                                             :type="this.errors.semester_id ? 'is-danger':''"
                                             :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
                                             <b-select v-model="enrollee.semester_id" expanded
+                                                disabled
                                                 icon="account"
                                                 placeholder="Semester">
                                                 <option :value="item.semester_id" v-for="(item, ix) in semesters" :key="`sem${ix}`">
@@ -106,10 +107,7 @@
                                             </b-select>
                                         </b-field>
                                     </div>
-
-                                
                                 </div>
-
 
                                 <div class="columns">
                                     <div class="column">
@@ -117,6 +115,7 @@
                                                 :type="this.errors.track_id ? 'is-danger':''"
                                                 :message="this.errors.track_id ? this.errors.track_id[0] : ''">
                                             <b-select v-model="enrollee.track_id" expanded
+                                                    disabled
                                                     icon="account"
                                                     placeholder="Track"
                                                     @input="loadStrands">
@@ -131,7 +130,7 @@
                                         <b-field label="Strand"
                                                 :type="this.errors.strand_id ? 'is-danger':''"
                                                 :message="this.errors.strand_id ? this.errors.strand_id[0] : ''">
-                                            <b-select v-model="enrollee.strand_id" expanded
+                                            <b-select v-model="enrollee.strand_id" expanded disabled
                                                     icon="account"
                                                     placeholder="Strand">
                                                 <option :value="item.strand_id" v-for="(item, ix) in strands" :key="`strand${ix}`">
@@ -247,8 +246,8 @@ export default{
 
             this.enrollee.name = row.learner.lname + ', ' + row.learner.fname + ' ' + row.learner.mname
     
-            this.enrollee.grade_level = row.grade_level.grade_level
-            this.enrollee.curriculum = row.grade_level.curriculum
+            this.enrollee.grade_level = { grade_level: row.grade_level.grade_level, curriculum_code: row.grade_level.curriculum_code }
+            this.enrollee.curriculum_code = row.grade_level.curriculum_code
 
             this.enrollee.learner_status = row.learner_status
             this.enrollee.semester_id = row.semester_id
@@ -258,9 +257,9 @@ export default{
 
             this.enrollee.section_id = row.section_id
          
-            await this.loadStrands().then(()=>{
-                this.enrollee.strand_id = row.strand_id
-            })
+            await this.loadStrands()
+            this.enrollee.strand_id = row.strand_id
+     
 
             this.enrollee.section_subjects = row.section_subjects
             console.log(row.section_subjects);
@@ -327,7 +326,7 @@ export default{
             })
         },
         loadSection(){
-            axios.get('/load-section?grade=' + this.enrollee.grade_level).then(res=>{
+            axios.get('/load-section?grade=' + this.enrollee.grade_level.grade_level).then(res=>{
                 this.sections = res.data;
             })
         },
@@ -338,7 +337,7 @@ export default{
                 name: null,
                 learner_id: null,
                 date_admission: new Date(),
-                grade_level: null,
+                grade_level: {},
 
                 learner_status: null,
 
