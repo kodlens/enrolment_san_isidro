@@ -112,7 +112,6 @@
                                              :message="this.errors.track_id ? this.errors.track_id[0] : ''">
                                         <b-select v-model="fields.track_id"
                                                   expanded
-                                                  @input="loadStrands"
                                                   placeholder="Track" required>
                                             <option :value="item.track_id" v-for="(item, ix) in tracks" :key="`track${ix}`">
                                                 {{ item.track }}

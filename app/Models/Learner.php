@@ -108,5 +108,9 @@ class Learner extends Model
     }
 
 
+    public function credentials(){
+        return $this->hasMany(EnrolleeCredential::class, 'learner_id', 'learner_id');
+    }
+
 
 }

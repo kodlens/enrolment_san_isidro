@@ -129,8 +129,6 @@
                     
                 </b-navbar-dropdown>
 
-               
-                
                 <b-navbar-dropdown label="Records">
 
                     <b-navbar-item href="/enrollee-grades">
@@ -140,6 +138,11 @@
                     <b-navbar-item href="/enrollee-credentials">
                         Credentials
                     </b-navbar-item>
+
+                    <b-navbar-item href="/enrollee-credential-list">
+                        Credential List
+                    </b-navbar-item>
+
 
                 </b-navbar-dropdown>
 

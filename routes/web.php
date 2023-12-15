@@ -64,12 +64,14 @@ Route::get('/load-other-fees', [App\Http\Controllers\OpenController::class, 'loa
 Route::get('/load-curriculums', [App\Http\Controllers\OpenController::class, 'loadCurriculums']);
 Route::get('/load-section-subjects/{sectionId}', [App\Http\Controllers\OpenController::class, 'loadSectionSubjects']);
 
+
+
+
 //open links
 Route::get('/load-academic-years', [App\Http\Controllers\OpenController::class, 'loadAcademicYears']);
 Route::get('/load-academic-year', [App\Http\Controllers\OpenController::class, 'loadAcademicYear']);
 
 Route::get('/load-open-religions', [App\Http\Controllers\OpenController::class, 'loadReligions']);
-
 
 // -----------------------ADMINISTRATOR-----------------------------------
 
@@ -142,6 +144,8 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('/enrollee-credentials', App\Http\Controllers\Administrator\EnrolleeCredentialController::class);
     Route::get('/get-enrollee-credentials', [App\Http\Controllers\Administrator\EnrolleeCredentialController::class, 'getData']);
     
+    Route::resource('/enrollee-credential-list', App\Http\Controllers\Administrator\EnrolleeCredentialListController::class);
+    Route::get('/get-enrollee-credential-list', [App\Http\Controllers\Administrator\EnrolleeCredentialListController::class, 'getData']);
 
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
     Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);

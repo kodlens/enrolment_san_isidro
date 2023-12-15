@@ -73,4 +73,6 @@ class Enroll extends Model
         return $this->hasOne(Billing::class, 'enroll_id', 'enroll_id');
     }
 
+   
+
 }

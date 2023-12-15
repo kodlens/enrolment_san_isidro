@@ -149,7 +149,7 @@
 
                         <hr>
 
-                        <div v-if="learner.grade_level.curriculum_code === 'SHS'" class="my-4">
+                        <div class="my-4">
                             <div class="has-text-weight-bold mb-4 info-header">SUBJECTS TO ENROLL</div>
                             <b-field
                                 :type="this.errors.subjects ? 'is-danger':''"
@@ -315,11 +315,13 @@ export default{
         },
 
         loadSectionSubjects(){
+
             axios.get('/load-section-subjects/' + this.learner.section_id).then(res=>{
                 const sectionSubjects = res.data
                 this.learner.subjects = []
-                sectionSubjects.forEach(row => {
 
+                sectionSubjects.forEach(row => {
+                   
                     this.learner.subjects.push({
                         subject_id: row.subject_id,
                         subject_code: row.subject.subject_code,
@@ -329,8 +331,6 @@ export default{
                     })
 
                 });
-               
-                
             })
         },
 

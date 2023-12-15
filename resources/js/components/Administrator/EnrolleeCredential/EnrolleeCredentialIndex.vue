@@ -20,13 +20,13 @@
                                         :type="this.errors.learner_id ? 'is-danger':''"
                                         :message="this.errors.learner_id ? this.errors.learner_id[0] : ''">
                                         <modal-browse-enrollee
-                                            :prop-name="enrollee.name"
+                                            :prop-name="fields.name"
                                             @browseEnrollee="emitBrowseEnrollee"></modal-browse-enrollee>
                                     </b-field>
                                 </div> <!--col--> 
                                 <div class="column">
                                     <b-field label="Date Process">
-                                        <b-datepicker v-model="enrollee.date_enrolled" 
+                                        <b-datepicker v-model="fields.date_enrolled" 
                                             placeholder="Date Enrolled"></b-datepicker>
                                     </b-field>
                                 </div>
@@ -42,7 +42,7 @@
                                             expanded
                                             icon="account"
                                             placeholder="Grade Level"
-                                            v-model="enrollee.grade_level"
+                                            v-model="fields.grade_level"
                                             disabled>
                                             <option :value="item.grade_level"
                                                 v-for="(item, ix) in gradeLevels" :key="`g${ix}`">
@@ -61,7 +61,7 @@
                                             expanded
                                             icon="account"
                                             placeholder="Section"
-                                            v-model="enrollee.section_id"
+                                            v-model="fields.section_id"
                                             required>
                                             <option :value="item.section_id"
                                                     v-for="(item, ix) in sections" :key="`section${ix}`">
@@ -79,11 +79,11 @@
                                             disabled
                                             icon="account"
                                             placeholder="Learner Status"
-                                            v-model="enrollee.learner_status">
-                                            <option :value="1">NEW</option>
-                                            <option :value="0">OLD</option>
-                                            <option :value="2">RETURNEE</option>
-                                            <option :value="3">TRANSFEREE</option>
+                                            v-model="fields.learner_status">
+                                            <option value="OLD">OLD</option>
+                                            <option value="NEW">NEW</option>
+                                            <option value="RETURNEE">RETURNEE</option>
+                                            <option value="TRANSFEREE">TRANSFEREE</option>
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -91,13 +91,13 @@
                             </div>
 
 
-                            <div v-if="enrollee.grade_level.curriculum === 'SHS'">
+                            <div v-if="fields.grade_level.curriculum === 'SHS'">
                                 <div class="columns">
                                     <div class="column">
                                         <b-field label="Semester" expanded
                                             :type="this.errors.semester_id ? 'is-danger':''"
                                             :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
-                                            <b-select v-model="enrollee.semester_id" expanded
+                                            <b-select v-model="fields.semester_id" expanded
                                                 icon="account"
                                                 placeholder="Semester">
                                                 <option :value="item.semester_id" v-for="(item, ix) in semesters" :key="`sem${ix}`">
@@ -116,7 +116,7 @@
                                         <b-field label="Track"
                                                 :type="this.errors.track_id ? 'is-danger':''"
                                                 :message="this.errors.track_id ? this.errors.track_id[0] : ''">
-                                            <b-select v-model="enrollee.track_id" expanded
+                                            <b-select v-model="fields.track_id" expanded
                                                     icon="account"
                                                     placeholder="Track"
                                                     @input="loadStrands">
@@ -131,7 +131,7 @@
                                         <b-field label="Strand"
                                                 :type="this.errors.strand_id ? 'is-danger':''"
                                                 :message="this.errors.strand_id ? this.errors.strand_id[0] : ''">
-                                            <b-select v-model="enrollee.strand_id" expanded
+                                            <b-select v-model="fields.strand_id" expanded
                                                     icon="account"
                                                     placeholder="Strand">
                                                 <option :value="item.strand_id" v-for="(item, ix) in strands" :key="`strand${ix}`">
@@ -149,15 +149,50 @@
                         <hr>
 
                         <div class="has-text-weight-bold mb-4 info-header">CREDENTIALS</div>
+                        <div style="color: red; font-weight: bold;">PDF Format only.</div>
                         <b-field
-                            :type="this.errors.subjects ? 'is-danger':''"
-                            :message="this.errors.subjects ? this.errors.subjects[0] : ''">
+                            :type="this.errors.credentials ? 'is-danger':''"
+                            :message="this.errors.credentials ? this.errors.credentials[0] : ''">
                         </b-field>
                         <!-- subjects loop -->
 
-
                         <div class="subject-card">
                             <div class="has-text-weight-bold">CREDENTIALS</div>
+
+                         
+                            <div v-for="(item,index) in fields.credentials" :key="`cred${index}`">
+                                <div class="columns">
+                                    <div class="column">
+                                        <b-field class="file is-primary" :class="{'has-name': !!item.credential}">
+                                            <b-upload v-model="item.credential" accept=".pdf" 
+                                                class="file-label">
+                                                <span class="file-cta">
+                                                    <b-icon class="file-icon" icon="upload"></b-icon>
+                                                    <span class="file-label">Click to upload</span>
+                                                </span>
+                                                <span class="file-name" v-if="item.credential">
+                                                    {{ item.credential.name }}
+                                                </span>
+                                            </b-upload>
+                                        </b-field>
+                                    </div>
+                                    <div class="column">
+                                        <b-field label="Description" label-position="on-border">
+                                            <b-input type="text" placeholder="File Description"
+                                                v-model="item.credential_name"></b-input>
+                                        </b-field>
+                                    </div>
+                                    <div class="column is-1">
+                                        <b-button type="is-danger" @click="removeFile(index)" icon-left="delete"></b-button>
+                                    </div>
+                                </div>
+                               
+
+                            </div>
+                            
+                            <div class="buttons is-right mt-4">
+                                <b-button label="New Credential" @click="newCredential"></b-button>
+                            </div>
 
                             <!-- <table class="table">
                                 <tr>
@@ -182,6 +217,8 @@
                             <div>TOTAL SUBJECT FEE: <span>0</span></div>
                             <div class="has-text-weight-bold">TOTAL FEE: <span>0.00</span></div>
                            -->
+
+
                         </div>
                   
 
@@ -207,7 +244,7 @@ export default{
     data(){
         return {
 
-            enrollee: {
+            fields: {
                 name: null,
                 learner_id: null,
                 date_enrolled: new Date(),
@@ -218,12 +255,11 @@ export default{
                 semester_id: null,
                 track_id: null,
                 strand_id: null,
-                section_id: 0,
-                section_subjects: [],
+                section_id: null,
+
+                credentials: [],
                
             },
-
-            finalTotalFee: 0,
 
             errors: {},
 
@@ -234,7 +270,6 @@ export default{
             sections: [],
 
             otherFees: [],
-
         }
 
         
@@ -244,49 +279,89 @@ export default{
         
         async emitBrowseEnrollee(row){
            
-            this.enrollee.learner_id = row.learner.learner_id
-            this.enrollee.enroll_id = row.enroll_id
-            this.enrollee.academic_year_id = row.academic_year_id
-
-            this.enrollee.name = row.learner.lname + ', ' + row.learner.fname + ' ' + row.learner.mname
-    
-            this.enrollee.grade_level = row.grade_level.grade_level
-            this.enrollee.curriculum = row.grade_level.curriculum
-
-            this.enrollee.learner_status = row.learner_status
-            this.enrollee.semester_id = row.semester_id
-            this.enrollee.track_id = row.track_id
+            this.fields.learner_id = row.learner.learner_id
+            this.fields.enroll_id = row.enroll_id
+            this.fields.academic_year_id = row.academic_year_id
+            this.fields.name = row.learner.lname + ', ' + row.learner.fname + ' ' + row.learner.mname
+            this.fields.grade_level = row.grade_level.grade_level
+            this.fields.curriculum = row.grade_level.curriculum
+            this.fields.learner_status = row.learner_status
+            this.fields.semester_id = row.semester_id
+            this.fields.track_id = row.track_id
             
             await this.loadSection()
 
-            this.enrollee.section_id = row.section_id
+            this.fields.section_id = row.section_id
          
             await this.loadStrands().then(()=>{
-                this.enrollee.strand_id = row.strand_id
+                this.fields.strand_id = row.strand_id
             })
 
-            this.enrollee.section_subjects = row.section_subjects
-            console.log(row.section_subjects);
-       
             //this.loadOtherFees()
         },
 
-        loadOtherFees(){
-            axios.get('/load-other-fees').then(res=>{
-                this.otherFees = res.data
-            })
+
+        
+
+
+        newCredential(){
+            this.fields.credentials.push({
+                credential_name: null,
+                credential: {}
+            });
+        },
+        removeFile(ix){
+            this.$buefy.dialog.confirm({
+                title: 'DELETE?',
+                message: 'Are you sure you want to remove this subject?',
+                type: 'is-danger',
+
+                onConfirm: ()=>{
+                    let id = this.fields.credentials[ix].credential_id;
+
+                    if(id > 0){
+                        axios.delete('/credential-delete/' + id).then(res=>{
+                            if(res.data.status === 'deleted'){
+                                this.$buefy.toast.open({
+                                    message: `Credential removed successfully.`,
+                                    type: 'is-primary'
+                                })
+                            }
+                        });
+                    }
+
+                    this.fields.credentials.splice(ix, 1);
+                }
+            });
         },
 
         submit(){
             this.errors = {}
-            this.enrollee.fee_balance = this.finalTotalFee
-            axios.post('/billing-subjects', this.enrollee).then(res=>{
+
+            let formData =  new FormData();
+
+            formData.append('learner_id', this.fields.learner_id ? this.fields.learner_id : '');
+            //formData.append('date_time', this.fields.academic_year_id ? this.$formatDateAndTime(this.fields.academic_year_id) : '');
+
+            //doc attachment
+
+            if(this.fields.credentials.length > 0){
+                this.fields.credentials.forEach((doc, index) =>{
+                    console.log(doc.credential_name);
+                    if(doc.credential.name){
+                        formData.append(`credentials[${index}][credential_name]`, doc.credential_name ? doc.credential_name : '');
+                        formData.append(`credentials[${index}][credential]`, doc.credential);
+                    }
+                });
+            }
+        
+            axios.post('/enrollee-credentials', formData).then(res=>{
                 if(res.data.status === 'saved'){
                     this.$buefy.dialog.alert({
                         title: "Saved!",
                         message: 'Data successfully saved.',
                         type: 'is-success',
-                        onConfirm: ()=>  this.clearFields()
+                        onConfirm: ()=>  window.location = 'enrollee-credentials'
                     });
                 }
             }).catch(err=>{
@@ -320,7 +395,7 @@ export default{
             })
         },
         async loadStrands() {
-            axios.get('/load-strands?trackid=' +  this.enrollee.track_id).then(res=>{
+            axios.get('/load-strands?trackid=' +  this.fields.track_id).then(res=>{
                 this.strands = res.data;
             })
         },
@@ -330,14 +405,14 @@ export default{
             })
         },
         loadSection(){
-            axios.get('/load-section?grade=' + this.enrollee.grade_level).then(res=>{
+            axios.get('/load-section?grade=' + this.fields.grade_level).then(res=>{
                 this.sections = res.data;
             })
         },
 
 
         clearFields(){
-            this.enrollee = {
+            this.fields = {
                 name: null,
                 learner_id: null,
                 date_admission: new Date(),
