@@ -73,6 +73,12 @@
                                         <b-button class="button is-small mr-1" icon-right="delete" 
                                             @click="confirmDelete(props.row.curriculum_id)"></b-button>
                                     </b-tooltip>
+                                    <b-tooltip label="Delete" type="is-info">
+                                        <b-button class="button is-small mr-1" 
+                                            tag="a"
+                                            icon-right="home" 
+                                            :href="`/manage-curriculum-page/${props.row.curriculum_id}`"></b-button>
+                                    </b-tooltip>
                                   
                                 </div>
                             </b-table-column>

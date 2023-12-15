@@ -86,6 +86,12 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('/manage-curriculums', App\Http\Controllers\Administrator\CurriculumController::class);
     Route::get('/get-curriculums', [App\Http\Controllers\Administrator\CurriculumController::class, 'getData']);
 
+    Route::get('/manage-curriculum-page/{curId}', [App\Http\Controllers\Administrator\CurriculumPageController::class, 'index']);
+    Route::get('/get-grade-levels-shs', [App\Http\Controllers\Administrator\CurriculumPageController::class, 'getGradeLevelSHS']);
+
+
+
+
     Route::resource('/grade-levels', App\Http\Controllers\Administrator\GradeLevelController::class);
     Route::get('/get-grade-levels', [App\Http\Controllers\Administrator\GradeLevelController::class, 'getData']);
 
