@@ -64815,7 +64815,7 @@ var render = function () {
                                     "b-tooltip",
                                     {
                                       attrs: {
-                                        label: "Delete",
+                                        label: "Visit",
                                         type: "is-info",
                                       },
                                     },
