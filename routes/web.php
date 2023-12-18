@@ -115,8 +115,8 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/get-sections', [App\Http\Controllers\Administrator\SectionController::class, 'getSections']);
 
     
-    Route::resource('/section-subjects', App\Http\Controllers\Administrator\SectionSubjectController::class);
-    Route::get('/get-section-subjects', [App\Http\Controllers\Administrator\SectionSubjectController::class, 'getData']);
+    Route::resource('/grade-level-subjects', App\Http\Controllers\Administrator\GradeLevelSubjectController::class);
+    Route::get('/get-grade-level-subjects', [App\Http\Controllers\Administrator\GradeLevelSubjectController::class, 'getData']);
 
     Route::resource('/enrollee', App\Http\Controllers\Administrator\EnrolleeController::class);
     Route::get('/get-enrollees', [App\Http\Controllers\Administrator\EnrolleeController::class, 'getEnrollees']);

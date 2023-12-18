@@ -100,7 +100,7 @@
                     </b-navbar-item>
 
                     
-                    <b-navbar-item href="/section-subjects">
+                    <b-navbar-item href="/grade-level-subjects">
                         Setup Grade Level Subjects
                     </b-navbar-item>
 

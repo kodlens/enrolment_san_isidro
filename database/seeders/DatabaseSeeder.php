@@ -25,7 +25,6 @@ class DatabaseSeeder extends Seeder
             ReligionSeeder::class,
             SubjectSeeder::class,
             SectionSeeder::class,
-            SectionSubjectSeeder::class,
             CurriculumSeeder::class
 
         ]);
