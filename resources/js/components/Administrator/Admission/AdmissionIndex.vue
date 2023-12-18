@@ -43,7 +43,7 @@
                                             icon="account"
                                             placeholder="Grade Level"
                                             v-model="learner.grade_level"
-                                            @input="loadSection"
+                                            @input="loadInitData"
                                             required>
                                             <option :value="{ grade_level: item.grade_level, curriculum_code: item.curriculum_code }"
                                                     v-for="(item, ix) in gradeLevels" :key="`g${ix}`">
@@ -62,7 +62,6 @@
                                             icon="account"
                                             placeholder="Section"
                                             v-model="learner.section_id"
-                                            @input="loadSectionSubjects"
                                             required>
                                             <option :value="item.section_id"
                                                     v-for="(item, ix) in sections" :key="`section${ix}`">
@@ -246,7 +245,8 @@ export default{
          
             this.learner.grade_level.grade_level = row.grade_level.grade_level
             this.learner.grade_level.curriculum_code = row.grade_level.curriculum_code
-            await this.loadSection();
+            await this.loadSections();
+            await this.loadGradeLevelSubjects()
 
             this.learner.learner_status = row.learner_status
             this.learner.semester_id = row.semester_id
@@ -258,7 +258,11 @@ export default{
             await this.loadStrands().then(()=>{
                 this.learner.strand_id = row.strand_id
             })
+        },
 
+        loadInitData(){
+            this.loadGradeLevelSubjects()
+            this.loadSections()
         },
 
         emitBrowseSubject(row, ix){
@@ -314,13 +318,13 @@ export default{
             });
         },
 
-        loadSectionSubjects(){
+        loadGradeLevelSubjects(){
 
-            axios.get('/load-section-subjects/' + this.learner.section_id).then(res=>{
-                const sectionSubjects = res.data
+            axios.get('/load-grade-level-subjects/' + this.learner.grade_level['grade_level']).then(res=>{
+                const subjects = res.data
                 this.learner.subjects = []
 
-                sectionSubjects.forEach(row => {
+                subjects.forEach(row => {
                    
                     this.learner.subjects.push({
                         subject_id: row.subject_id,
@@ -403,7 +407,7 @@ export default{
                 this.gradeLevels = res.data;
             })
         },
-        loadSection(){
+        loadSections(){
             axios.get('/load-section?grade=' + this.learner.grade_level.grade_level).then(res=>{
                 this.sections = res.data;
             })

@@ -14,7 +14,7 @@ class Section extends Model
     protected $primaryKey = 'section_id';
 
     protected $fillable = [
-        'grave_level',
+        'grade_level',
         'section', 
         'max'
     ];

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-    <enrollment-index></enrollment-index>
+    <admission-index></admission-index>
 @endsection
 

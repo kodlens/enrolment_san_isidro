@@ -5,17 +5,40 @@
                 <div class="column is-8">
                     <div class="box">
                         <div class="has-text-weight-bold subtitle is-4">SECTIONS</div>
-                        <b-field label="Search">
-                            <b-input type="text"
-                                     v-model="search.section" placeholder="Search Section"
-                                     @keyup.native.enter="loadAsyncData"/>
-                            <p class="control">
-                                <b-tooltip label="Search" type="is-success">
-                                    <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
-                                </b-tooltip>
-                            </p>
-                        </b-field>
 
+                        <div class="columns">
+                            <div class="column">
+                                <b-field label="Grade Level"
+                                    expanded>
+                                    <b-select
+                                        expanded
+                                        icon="account"
+                                        placeholder="Grade Level"
+                                        v-model="search.grade"
+                                        @input="loadAsyncData">
+                                        <option value="">ALL</option>
+                                        <option :value="item.grade_level"
+                                                v-for="(item, ix) in gradeLevels" :key="`g${ix}`">
+                                            {{ item.grade_level }}
+                                        </option>
+                                    </b-select >
+                                </b-field>
+                            </div>
+                            <div class="column">
+                                <b-field label="Search">
+                                    <b-input type="text"
+                                            v-model="search.section" placeholder="Search Section"
+                                            @keyup.native.enter="loadAsyncData"/>
+                                    <p class="control">
+                                        <b-tooltip label="Search" type="is-success">
+                                            <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
+                                        </b-tooltip>
+                                    </p>
+                                </b-field>
+
+                            </div>
+                        </div>
+                      
 
 
                         <div class="buttons is-right mt-3">
@@ -181,7 +204,8 @@ export default{
             global_id : 0,
 
             search: {
-                section: '',
+                grade: '',
+                section: ''
             },
 
             isModalCreate: false,
@@ -206,6 +230,7 @@ export default{
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
                 `section=${this.search.section}`,
+                `grade=${this.search.grade}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')

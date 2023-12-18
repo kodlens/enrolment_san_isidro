@@ -14,7 +14,7 @@ class EnrollmentController extends Controller
     //
 
     public function index(){
-        return view('administrator.enrollment.enrollment-index');
+        return view('administrator.admission.admission-index');
     }
 
     public function store(Request $req){

@@ -25,6 +25,7 @@ class SectionController extends Controller
         $sort = explode('.', $req->sort_by);
 
         $data = Section::where('section', 'like', $req->section . '%')
+            ->where('grade_level', 'like', $req->grade . '%')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
 
@@ -32,7 +33,7 @@ class SectionController extends Controller
     }
 
     public function store(Request $req){
-
+     
         $req->validate([
             'grade_level' => ['required'],
             'section' => ['required', 'unique:sections']
@@ -43,7 +44,7 @@ class SectionController extends Controller
             'section' => strtoupper($req->section),
             'max' => $req->max,
         ]);
-
+        
         return response()->json([
             'status' => 'saved'
         ], 200);

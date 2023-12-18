@@ -12,7 +12,7 @@ use App\Models\GradeLevel;
 use App\Models\Section;
 use App\Models\Miscellaneous;
 use App\Models\Curriculum;
-use App\Models\SectionSubject;
+use App\Models\GradeLevelSubject;
 
 
 class OpenController extends Controller
@@ -73,10 +73,10 @@ class OpenController extends Controller
     }
 
 
-    public function loadSectionSubjects($sectionId){
+    public function loadGradeLevelSubjects($grade){
 
-        return SectionSubject::with('subject')
-            ->where('section_id', $sectionId)
+        return GradeLevelSubject::with('subject')
+            ->where('grade_level', $grade)
             ->get();
     }
 
