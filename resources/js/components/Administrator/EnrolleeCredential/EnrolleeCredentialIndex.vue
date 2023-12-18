@@ -225,7 +225,7 @@
                         <div class="has-text-weight-bold mb-4 info-header">CONTROLS/ACTION</div>
 
                         <div class="buttons mt-4 is-right">
-                            <b-button class="is-primary has-text-weight-bold"
+                            <b-button :class="btnClass"
                                 @click="submit"
                                 label="SAVE STUDENT CREDENTIAL" icon-right="arrow-right"></b-button>
                         </div>
@@ -270,6 +270,12 @@ export default{
             sections: [],
 
             otherFees: [],
+
+            btnClass: {
+                'is-primary': true,
+                'has-text-weight-bold': true,
+                'is-loading': false
+            }
         }
 
         
@@ -336,6 +342,7 @@ export default{
         },
 
         submit(){
+            this.btnClass['is-loading'] = true
             this.errors = {}
 
             let formData =  new FormData();
@@ -356,6 +363,9 @@ export default{
             }
         
             axios.post('/enrollee-credentials', formData).then(res=>{
+                this.btnClass['is-loading'] = false
+
+
                 if(res.data.status === 'saved'){
                     this.$buefy.dialog.alert({
                         title: "Saved!",
@@ -365,6 +375,8 @@ export default{
                     });
                 }
             }).catch(err=>{
+                this.btnClass['is-loading'] = false
+
                 if(err.response.status === 422){
                     this.errors = err.response.data.errors
 
@@ -375,6 +387,16 @@ export default{
                             type: 'is-danger'
                         });
                     }
+
+                    // console.log(this.errors['credentials.0.credential_name']);
+
+                    // if(this.errors.credentials){
+                    //     this.$buefy.dialog.alert({
+                    //         title: "Invalid data!",
+                    //         message: 'Invalid input or empty fields, please check your credentials information.',
+                    //         type: 'is-danger'
+                    //     });
+                    // }
                 }
             })
         },

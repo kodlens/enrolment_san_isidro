@@ -128,6 +128,7 @@
                                         <td>
                                             <b-button class="" size="is-small"
                                                 type="is-info" label="View File"
+                                                target="_blank"
                                                 tag="a"
                                                 :href="`/storage/credentials/${item.file_path}`"></b-button>
                                         </td>

@@ -239,7 +239,7 @@ export default{
     methods: {
         
         async emitBrowseEnrollee(row){
-           
+            console.log(row);
             this.enrollee.learner_id = row.learner.learner_id
             this.enrollee.enroll_id = row.enroll_id
             this.enrollee.academic_year_id = row.academic_year_id

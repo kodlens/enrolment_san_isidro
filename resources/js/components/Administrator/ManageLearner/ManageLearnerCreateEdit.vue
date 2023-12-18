@@ -11,8 +11,8 @@
 
                         <div class="panel-body">
 
-                            <b-button class="button is-info is-outlined"
-                                    @click="debug">DEBUG</b-button>
+                            <!-- <b-button class="button is-info is-outlined"
+                                    @click="debug">DEBUG</b-button> -->
                                     
                             <div class="divider">LEARNER INFORMATION</div>
 

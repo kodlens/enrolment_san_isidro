@@ -30,5 +30,9 @@ class Section extends Model
         return $this->hasOne(Enroll::class, 'section_id', 'section_id');
     }
 
+    public function enrollees(){
+        return $this->hasMany(Enroll::class, 'section_id', 'section_id');
+    }
+
 
 }

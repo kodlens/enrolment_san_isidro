@@ -18,13 +18,13 @@ class ReportClassListController extends Controller
 
     public function getReportClassList(Request $req){
 
-        return Section::with(['enroll.learner', 
-            'enroll.subjects.subject',
-            'enroll.academic_year',
-            'enroll.track',
-            'enroll.strand',
-            'enroll.semester',
-            'enroll.grades'])
+        return Section::with(['enrollees.learner', 
+            'enrollees.subjects.subject',
+            'enrollees.academic_year',
+            'enrollees.track',
+            'enrollees.strand',
+            'enrollees.semester',
+            'enrollees.grades'])
             ->get();
     }
 }

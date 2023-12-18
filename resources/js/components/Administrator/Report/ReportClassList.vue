@@ -9,33 +9,53 @@
                 {{ academicYear.academic_year_code }} - {{ academicYear.academic_year_desc }}
             </div>
 
+          
+            
             <div class="mt-5" v-for="(item, index) in classLists" :key="index">
-                <div v-if="item.enroll">
+
+                <div v-if="item.enrollees.academic_year">
+                    
                     <div class="has-text-centered has-text-weight-bold">
                         {{ item.grade_level }} - {{ item.section }}
                     </div>
                     <div class="mb-4 has-text-centered">
-                        {{ item.enroll.academic_year.academic_year_code }}
+                        {{ item.academic_year[0].academic_year_code }}
                         -
-                        {{ item.enroll.academic_year.academic_year_desc  }}
+                        {{ item.academic_year[0].academic_year_desc  }}
                     </div>
+                </div>
 
+                
+                
+                <div v-if="item.enrollees.length > 0">
+                    
                     <div class="columns">
+                        
                         <div class="column">
                             <div class="has-text-weight-bold">MALE</div>
-                            <div v-if="item.enroll.learner.sex === 'MALE'">
-                                {{ item.enroll.learner.lname }},  {{ item.enroll.learner.fname }} {{ item.enroll.learner.fname }} 
+                            <div v-for="(enroll, index) in item.enrollees" :key="`$enrolleesMale${index}`">
+                                <div v-if="enroll.learner.sex === 'MALE'">
+                                    {{ enroll.learner.lname }},  {{ enroll.learner.fname }} {{ enroll.learner.mname }}
+                                </div>
                             </div>
                         </div>
+
                         <div class="column">
                             <div class="has-text-weight-bold">FEMALE</div>
-                            <div v-if="item.enroll.learner.sex === 'FEMALE'">
-                                {{ item.enroll.learner.lname }},  {{ item.enroll.learner.fname }} {{ item.enroll.learner.fname }} 
+                            <div v-for="(enroll, index) in item.enrollees" :key="`$enrolleesFemale${index}`">
+                                <div v-if="enroll.learner.sex === 'FEMALE'">
+                                    {{ enroll.learner.lname }},  {{ enroll.learner.fname }} {{ enroll.learner.mname }}
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="has-text-centered">**END SECTION**</div>
+                    
+                   
+                </div>
+                
+                <div v-if="item.enrollees.length > 0" class="has-text-centered">
                     <hr>
+                    **END SECTION**
                 </div>
             </div><!--loop-->
 

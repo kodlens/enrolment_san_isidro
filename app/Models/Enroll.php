@@ -57,7 +57,7 @@ class Enroll extends Model
     }
 
     public function section_subjects(){
-        return $this->hasMany(SectionSubject::class, 'section_id', 'section_id');
+        return $this->hasMany(EnrollSubject::class, 'enroll_id', 'enroll_id');
     }
 
     
