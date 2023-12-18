@@ -99,12 +99,13 @@
                         Grade Level
                     </b-navbar-item>
 
-                    <b-navbar-item href="/sections">
-                        Sections
+                    
+                    <b-navbar-item href="/section-subjects">
+                        Setup Grade Level Subjects
                     </b-navbar-item>
 
-                    <b-navbar-item href="/section-subjects">
-                        Section Subjects
+                    <b-navbar-item href="/sections">
+                        Sections
                     </b-navbar-item>
 
                 </b-navbar-dropdown>
@@ -120,14 +121,21 @@
                     <b-navbar-item href="/enrollment">
                         Admission
                     </b-navbar-item>
-                    <b-navbar-item href="/billing-subjects">
-                        Assess Subjects
-                    </b-navbar-item>
+                   
                     <b-navbar-item href="/enrollee">
                         Enrollee
                     </b-navbar-item>
                     
                 </b-navbar-dropdown>
+
+
+                <b-navbar-dropdown label="Cashier">
+                    <b-navbar-item href="/billing-subjects">
+                        Billing Subject
+                    </b-navbar-item>
+
+                </b-navbar-dropdown>
+                
 
                 <b-navbar-dropdown label="Records">
 
