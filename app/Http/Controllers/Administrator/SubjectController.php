@@ -30,7 +30,7 @@ class SubjectController extends Controller
 
     public function store(Request $req){
         $req->validate([
-            'subject_code' => ['required'],
+            'subject_code' => ['required','unique:subjects'],
             'subject_description' => ['required']
         ]);
 
@@ -38,6 +38,7 @@ class SubjectController extends Controller
             'subject_code' => strtoupper($req->subject_code),
             'subject_description' => strtoupper($req->subject_description),
             'units' => strtoupper($req->units),
+            'fee' => $req->fee,
             'class' => strtoupper($req->class)
         ]);
 
@@ -51,15 +52,15 @@ class SubjectController extends Controller
     public function update(Request $req, $id){
 
         $req->validate([
-            'subject_code' => ['required'],
+            'subject_code' => ['required', 'unique:subjects,subject_code,' . $id . ',subject_id'],
             'subject_description' => ['required']
-
         ]);
 
         $data = Subject::find($id);
         $data->subject_code = strtoupper($req->subject_code);
         $data->subject_description = strtoupper($req->subject_description);
         $data->units = strtoupper($req->units);
+        $data->fee = strtoupper($req->fee);
         $data->class = strtoupper($req->class);
 
         $data->save();

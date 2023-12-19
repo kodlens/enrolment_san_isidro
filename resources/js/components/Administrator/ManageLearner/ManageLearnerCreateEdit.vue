@@ -125,6 +125,7 @@
                                              :type="this.errors.birthdate ? 'is-danger':''"
                                              :message="this.errors.birthdate ? this.errors.birthdate[0] : ''">
                                         <b-datepicker v-model="fields.birthdate" 
+                                            @input="computeAge"
                                             editable
                                             placeholder="Birthdate"
                                             required></b-datepicker>
@@ -143,6 +144,7 @@
                                         :message="this.errors.age ? this.errors.age[0] : ''">
                                         <b-input type="number" v-model="fields.age"
                                             max="120"
+                                            readonly
                                             placeholder="Age"></b-input>
                                     </b-field>
                                 </div>
@@ -589,6 +591,18 @@ export default {
                 this.gradeLevels = res.data;
                 console.log(this.gradeLevels);
             })
+        },
+
+        computeAge() {
+            var today = new Date();
+            var birthDate = new Date(this.fields.birthdate);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+
+            this.fields.age = age
         },
 
 

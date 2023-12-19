@@ -49,6 +49,10 @@
                                 {{ props.row.subject_description }}
                             </b-table-column>
 
+                            <b-table-column field="fee" label="Fee" v-slot="props">
+                                {{ props.row.fee }}
+                            </b-table-column>
+
                             <b-table-column field="units" label="Units" sortable v-slot="props">
                                 {{ props.row.units }}
                             </b-table-column>
@@ -139,6 +143,16 @@
                                         <b-numberinput v-model="fields.units"
                                             type="number" :controls="false"
                                             placeholder="Units" required>
+                                        </b-numberinput>
+                                    </b-field>
+                                </div>
+                                <div class="column">
+                                    <b-field label="Fee" label-position="on-border"
+                                        :type="this.errors.fee ? 'is-danger':''"
+                                        :message="this.errors.fee ? this.errors.fee[0] : ''">
+                                        <b-numberinput v-model="fields.fee"
+                                            type="number" :controls="false"
+                                            placeholder="Fee" required>
                                         </b-numberinput>
                                     </b-field>
                                 </div>

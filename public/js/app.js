@@ -14730,6 +14730,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['propData', 'propDataId'],
   data: function data() {
@@ -14821,6 +14823,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this7.gradeLevels = res.data;
         console.log(_this7.gradeLevels);
       });
+    },
+    computeAge: function computeAge() {
+      var today = new Date();
+      var birthDate = new Date(this.fields.birthdate);
+      var age = today.getFullYear() - birthDate.getFullYear();
+      var m = today.getMonth() - birthDate.getMonth();
+
+      if (m < 0 || m === 0 && today.getDate() < birthDate.getDate()) {
+        age--;
+      }
+
+      this.fields.age = age;
     },
     submit: function submit() {
       var _this8 = this;
@@ -16426,6 +16440,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -72804,6 +72832,7 @@ var render = function () {
                                   placeholder: "Birthdate",
                                   required: "",
                                 },
+                                on: { input: _vm.computeAge },
                                 model: {
                                   value: _vm.fields.birthdate,
                                   callback: function ($$v) {
@@ -72875,6 +72904,7 @@ var render = function () {
                                 attrs: {
                                   type: "number",
                                   max: "120",
+                                  readonly: "",
                                   placeholder: "Age",
                                 },
                                 model: {
@@ -76310,6 +76340,24 @@ var render = function () {
                     }),
                     _vm._v(" "),
                     _c("b-table-column", {
+                      attrs: { field: "fee", label: "Fee" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(props.row.fee) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
                       attrs: { field: "units", label: "Units", sortable: "" },
                       scopedSlots: _vm._u([
                         {
@@ -76632,6 +76680,45 @@ var render = function () {
                                     _vm.$set(_vm.fields, "units", $$v)
                                   },
                                   expression: "fields.units",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Fee",
+                                "label-position": "on-border",
+                                type: this.errors.fee ? "is-danger" : "",
+                                message: this.errors.fee
+                                  ? this.errors.fee[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c("b-numberinput", {
+                                attrs: {
+                                  type: "number",
+                                  controls: false,
+                                  placeholder: "Fee",
+                                  required: "",
+                                },
+                                model: {
+                                  value: _vm.fields.fee,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.fields, "fee", $$v)
+                                  },
+                                  expression: "fields.fee",
                                 },
                               }),
                             ],
