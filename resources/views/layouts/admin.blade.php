@@ -83,8 +83,8 @@
                         Strands
                     </b-navbar-item>    
                     
-                    <b-navbar-item href="/faculty">
-                        Faculty
+                    <b-navbar-item href="/teachers">
+                        Teachers
                     </b-navbar-item>
 
                 </b-navbar-dropdown>

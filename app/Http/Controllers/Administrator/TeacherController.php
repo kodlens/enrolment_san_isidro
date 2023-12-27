@@ -4,21 +4,21 @@ namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Faculty;
+use App\Models\Teacher;
 
 
-class FacultyController extends Controller
+class TeacherController extends Controller
 {
     //
 
     public function index(){
-        return view('administrator.faculty.faculty-index');
+        return view('administrator.teacher.teacher-index');
     }
 
     public function getData(Request $req){
         $sort = explode('.', $req->sort_by);
 
-        $data = Faculty::where('lname', 'like', $req->name . '%')
+        $data = Teacher::where('lname', 'like', $req->name . '%')
             ->where('fname', 'like', $req->name . '%')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
@@ -27,7 +27,7 @@ class FacultyController extends Controller
     }
 
     public function show($id){
-        $data = Faculty::find($id);
+        $data = Teacher::find($id);
         return $data;
     }
 
@@ -39,7 +39,7 @@ class FacultyController extends Controller
             'sex' => ['required', 'string'],
         ]);
 
-        Faculty::create([
+        Teacher::create([
             'lname' => strtoupper($req->lname),
             'fname' => strtoupper($req->fname),
             'mname' => strtoupper($req->mname),
@@ -61,7 +61,7 @@ class FacultyController extends Controller
         ]);
 
 
-        $data = Faculty::find($id);
+        $data = Teacher::find($id);
         $data->lname = strtoupper($req->lname);
         $data->fname = strtoupper($req->fname);
         $data->mname = strtoupper($req->mname);
