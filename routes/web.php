@@ -73,6 +73,22 @@ Route::get('/load-academic-year', [App\Http\Controllers\OpenController::class, '
 
 Route::get('/load-open-religions', [App\Http\Controllers\OpenController::class, 'loadReligions']);
 
+
+//TEACHER ROUTES
+Route::middleware(['auth', 'teacher'])->group(function(){
+
+    Route::get('/teacher-home', [App\Http\Controllers\Teacher\TeacherHomeController::class, 'index']);
+
+
+    Route::get('/my-subjects', [App\Http\Controllers\Teacher\MySubjectController::class, 'index']);
+
+
+});
+
+
+
+
+
 // -----------------------ADMINISTRATOR-----------------------------------
 
 Route::middleware(['auth', 'admin'])->group(function(){

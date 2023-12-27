@@ -28,7 +28,9 @@ class RedirectIfAuthenticated
                     return redirect('/admin-dashboard');
                 }
                 
-             
+                if($user->role === 'TEACHER'){
+                    return redirect('/teacher-home');
+                }
 
                 //return redirect(RouteServiceProvider::HOME);
             }
