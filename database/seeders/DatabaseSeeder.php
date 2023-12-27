@@ -25,8 +25,10 @@ class DatabaseSeeder extends Seeder
             ReligionSeeder::class,
             SubjectSeeder::class,
             SectionSeeder::class,
-            CurriculumSeeder::class
+            CurriculumSeeder::class,
+            GradeLevelSubjectSeeder::class,
 
+            LearnerSeeder::class
         ]);
     }
 }
