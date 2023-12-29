@@ -35,7 +35,10 @@ class CreateBillingPaymentsTable extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
 
             $table->date('date_paid')->nullable();
+            $table->double('current_balance')->default(0);
             $table->double('payment')->default(0);
+            $table->string('remarks')->nullable();
+
             $table->timestamps();
         });
     }

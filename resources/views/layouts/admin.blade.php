@@ -134,6 +134,10 @@
                         Billing Subject
                     </b-navbar-item>
 
+                    <b-navbar-item href="/billing-payment">
+                        Payment
+                    </b-navbar-item>
+
                 </b-navbar-dropdown>
                 
 

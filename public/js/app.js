@@ -8951,6 +8951,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -9038,7 +9039,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             message: 'Data successfully saved.',
             type: 'is-success',
             onConfirm: function onConfirm() {
-              return _this3.clearFields();
+              return window.location = '/billing-subjects';
             }
           });
         }
@@ -9127,18 +9128,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.loadTracks();
     this.loadGradeLevels();
   },
-  computed: {// totalFee(){
-    //     let total = 0
-    //     this.enrollee.section_subjects.forEach(item => {
-    //         total += Number(item.subject.fee)
-    //     });
-    //     let oFees = 0
-    //     this.otherFees.forEach(item =>{
-    //         oFees += item.amount
-    //     })
-    //     this.finalTotalFee = total + oFees
-    //     return total
-    // }
+  computed: {
+    totalFee: function totalFee() {
+      var total = 0;
+      this.enrollee.section_subjects.forEach(function (item) {
+        total += Number(item.subject.fee);
+      });
+      var oFees = 0;
+      this.otherFees.forEach(function (item) {
+        oFees += item.amount;
+      });
+      this.finalTotalFee = total + oFees;
+      return total;
+    }
   }
 });
 
@@ -64496,6 +64498,8 @@ var render = function () {
                                   _vm._s(item.subject.subject_description)
                                 ),
                               ]),
+                              _vm._v(" "),
+                              _c("td", [_vm._v(_vm._s(item.subject.fee))]),
                             ])
                           }
                         ),
@@ -64515,9 +64519,15 @@ var render = function () {
                       ])
                     }),
                     _vm._v(" "),
-                    _vm._m(1),
+                    _c("div", [
+                      _vm._v("TOTAL SUBJECT FEE: "),
+                      _c("span", [_vm._v(_vm._s(_vm.totalFee))]),
+                    ]),
                     _vm._v(" "),
-                    _vm._m(2),
+                    _c("div", { staticClass: "has-text-weight-bold" }, [
+                      _vm._v("TOTAL FEE: "),
+                      _c("span", [_vm._v(_vm._s(_vm.finalTotalFee))]),
+                    ]),
                   ],
                   2
                 ),
@@ -64561,21 +64571,8 @@ var staticRenderFns = [
       _c("th", [_vm._v("Subject Code")]),
       _vm._v(" "),
       _c("th", [_vm._v("Subject Description")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_vm._v("TOTAL SUBJECT FEE: "), _c("span", [_vm._v("0")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "has-text-weight-bold" }, [
-      _vm._v("TOTAL FEE: "),
-      _c("span", [_vm._v("0.00")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Fee")]),
     ])
   },
 ]

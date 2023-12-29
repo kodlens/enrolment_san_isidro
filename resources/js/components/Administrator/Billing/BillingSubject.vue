@@ -162,20 +162,21 @@
                                 <tr>
                                     <th>Subject Code</th>
                                     <th>Subject Description</th>
+                                    <th>Fee</th>
               
                                 </tr>
                                 <tr v-for="(item, index) in enrollee.section_subjects" :key="index">
                                     <td>{{  item.subject.subject_code }}</td>
                                     <td>{{  item.subject.subject_description }}</td>
-                                  
+                                    <td>{{  item.subject.fee }}</td>
                                 </tr>
                             </table>
                           
                             <div v-for="(item, ix) in otherFees" :key="`other${ix}`">
                                 <div>{{ item.description }} - {{ item.amount }}</div>
                             </div>
-                            <div>TOTAL SUBJECT FEE: <span>0</span></div>
-                            <div class="has-text-weight-bold">TOTAL FEE: <span>0.00</span></div>
+                            <div>TOTAL SUBJECT FEE: <span>{{ totalFee }}</span></div>
+                            <div class="has-text-weight-bold">TOTAL FEE: <span>{{ finalTotalFee }}</span></div>
                           
                         </div>
                   
@@ -282,7 +283,7 @@ export default{
                         title: "Saved!",
                         message: 'Data successfully saved.',
                         type: 'is-success',
-                        onConfirm: ()=>  this.clearFields()
+                        onConfirm: ()=>  window.location = '/billing-subjects'
                     });
                 }
             }).catch(err=>{
@@ -367,20 +368,20 @@ export default{
 
 
     computed: {
-        // totalFee(){
-        //     let total = 0
-        //     this.enrollee.section_subjects.forEach(item => {
-        //         total += Number(item.subject.fee)
-        //     });
+        totalFee(){
+            let total = 0
+            this.enrollee.section_subjects.forEach(item => {
+                total += Number(item.subject.fee)
+            });
 
-        //     let oFees = 0
-        //     this.otherFees.forEach(item =>{
-        //         oFees += item.amount
-        //     })
+            let oFees = 0
+            this.otherFees.forEach(item =>{
+                oFees += item.amount
+            })
             
-        //     this.finalTotalFee = total + oFees
-        //     return total
-        // }
+            this.finalTotalFee = total + oFees
+            return total
+        }
     }
 }
 </script>
