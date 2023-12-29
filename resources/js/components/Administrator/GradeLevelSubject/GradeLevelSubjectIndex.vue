@@ -90,6 +90,11 @@
                                 </span>
                             </b-table-column>
                             
+                            <b-table-column field="subject" label="Subject" v-slot="props">
+                                <span v-if="props.row.semester">
+                                    {{ props.row.semester.semester }}
+                                </span>
+                            </b-table-column>
                         
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">

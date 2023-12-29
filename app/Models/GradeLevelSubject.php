@@ -26,5 +26,9 @@ class GradeLevelSubject extends Model
         return $this->hasOne(Subject::class, 'subject_id', 'subject_id');
     }
 
+    public function semester(){
+        return $this->hasOne(Semester::class, 'semester_id', 'semester_id');
+    }
+
 
 }

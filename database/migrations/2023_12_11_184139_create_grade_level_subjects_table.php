@@ -19,6 +19,9 @@ class CreateGradeLevelSubjectsTable extends Migration
             $table->string('curriculum_code', 20)->nullable();
 
             $table->unsignedBigInteger('subject_id');
+            $table->unsignedBigInteger('semester_id')->nullable()
+                ->default(0);
+
             $table->foreign('subject_id')->references('subject_id')->on('subjects')
                 ->onUpdate('cascade')->onDelete('cascade');
 

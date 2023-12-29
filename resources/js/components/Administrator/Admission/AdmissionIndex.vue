@@ -100,6 +100,7 @@
                                             :message="this.errors.semester_id ? this.errors.semester_id[0] : ''">
                                             <b-select v-model="learner.semester_id" expanded
                                                 icon="account"
+                                                @input="loadSubjectBySemester"
                                                 placeholder="Semester">
                                                 <option :value="item.semester_id" v-for="(item, ix) in semesters" :key="ix">
                                                     {{  item.semester }}
@@ -249,7 +250,7 @@ export default{
             await this.loadGradeLevelSubjects()
 
             this.learner.learner_status = row.learner_status
-            this.learner.semester_id = row.semester_id
+            //this.learner.semester_id = row.semester_id
             this.learner.track_id = row.track_id
             await this.loadStrands()
             this.learner.strand_id = row.strand_id
@@ -312,7 +313,6 @@ export default{
                             }
                         });
                     }
-
                     this.learner.subjects.splice(index, 1);
                 }
             });
@@ -320,22 +320,47 @@ export default{
 
         loadGradeLevelSubjects(){
 
-            axios.get('/load-grade-level-subjects/' + this.learner.grade_level['grade_level']).then(res=>{
-                const subjects = res.data
-                this.learner.subjects = []
+            if(!["GRADE 11", "GRADE 12"].includes(this.learner.grade_level['grade_level'])){
+                axios.get('/load-grade-level-subjects/' + this.learner.grade_level['grade_level']).then(res=>{
+                    const subjects = res.data
+                    this.learner.subjects = []
 
-                subjects.forEach(row => {
-                   
-                    this.learner.subjects.push({
-                        subject_id: row.subject_id,
-                        subject_code: row.subject.subject_code,
-                        subject_description: row.subject.subject_description,
-                        units: row.subject.units,
-                        subj_name: row.subject.subject_code + ' - ' + row.subject.subject_description
-                    })
+                    subjects.forEach(row => {
+                    
+                        this.learner.subjects.push({
+                            subject_id: row.subject_id,
+                            subject_code: row.subject.subject_code,
+                            subject_description: row.subject.subject_description,
+                            units: row.subject.units,
+                            subj_name: row.subject.subject_code + ' - ' + row.subject.subject_description
+                        })
 
-                });
-            })
+                    });
+                })
+            }else{
+                this.learner.semester_id = null
+            }
+        },
+
+        loadSubjectBySemester(){
+            if(["GRADE 11", "GRADE 12"].includes(this.learner.grade_level['grade_level'])){
+                axios.get('/load-subjects-by-semester/' + this.learner.grade_level['grade_level'] + '/' + this.learner.semester_id).then(res=>{
+                    const subjects = res.data
+                    this.learner.subjects = []
+
+                    subjects.forEach(row => {
+                    
+                        this.learner.subjects.push({
+                            subject_id: row.subject_id,
+                            subject_code: row.subject.subject_code,
+                            subject_description: row.subject.subject_description,
+                            units: row.subject.units,
+                            subj_name: row.subject.subject_code + ' - ' + row.subject.subject_description
+                        })
+
+                    });
+                })
+            }
         },
 
         submit(){

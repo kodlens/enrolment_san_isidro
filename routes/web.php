@@ -64,6 +64,7 @@ Route::get('/load-other-fees', [App\Http\Controllers\OpenController::class, 'loa
 Route::get('/load-curriculums', [App\Http\Controllers\OpenController::class, 'loadCurriculums']);
 Route::get('/load-grade-level-subjects/{gradeLevel}', [App\Http\Controllers\OpenController::class, 'loadGradeLevelSubjects']);
 
+Route::get('/load-subjects-by-semester/{gradeLevel}/{semesterId}', [App\Http\Controllers\OpenController::class, 'loadSubjectsBySemester']);
 
 
 

@@ -80,5 +80,15 @@ class OpenController extends Controller
             ->get();
     }
 
+    public function loadSubjectsBySemester($grade, $sem){
+
+        return GradeLevelSubject::with('subject', 'semester')
+            ->where('grade_level', $grade)
+            ->where('semester_id', $sem)
+            ->get();
+    }
+
+
+    
 
 }

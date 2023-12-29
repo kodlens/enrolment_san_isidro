@@ -8211,6 +8211,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -8255,21 +8256,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _this.loadGradeLevelSubjects();
 
               case 8:
-                _this.learner.learner_status = row.learner_status;
-                _this.learner.semester_id = row.semester_id;
+                _this.learner.learner_status = row.learner_status; //this.learner.semester_id = row.semester_id
+
                 _this.learner.track_id = row.track_id;
-                _context.next = 13;
+                _context.next = 12;
                 return _this.loadStrands();
 
-              case 13:
+              case 12:
                 _this.learner.strand_id = row.strand_id;
                 _this.learner.section_id = row.section_id;
-                _context.next = 17;
+                _context.next = 16;
                 return _this.loadStrands().then(function () {
                   _this.learner.strand_id = row.strand_id;
                 });
 
-              case 17:
+              case 16:
               case "end":
                 return _context.stop();
             }
@@ -8335,41 +8336,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadGradeLevelSubjects: function loadGradeLevelSubjects() {
       var _this3 = this;
 
-      axios.get('/load-grade-level-subjects/' + this.learner.grade_level['grade_level']).then(function (res) {
-        var subjects = res.data;
-        _this3.learner.subjects = [];
-        subjects.forEach(function (row) {
-          _this3.learner.subjects.push({
-            subject_id: row.subject_id,
-            subject_code: row.subject.subject_code,
-            subject_description: row.subject.subject_description,
-            units: row.subject.units,
-            subj_name: row.subject.subject_code + ' - ' + row.subject.subject_description
+      if (!["GRADE 11", "GRADE 12"].includes(this.learner.grade_level['grade_level'])) {
+        axios.get('/load-grade-level-subjects/' + this.learner.grade_level['grade_level']).then(function (res) {
+          var subjects = res.data;
+          _this3.learner.subjects = [];
+          subjects.forEach(function (row) {
+            _this3.learner.subjects.push({
+              subject_id: row.subject_id,
+              subject_code: row.subject.subject_code,
+              subject_description: row.subject.subject_description,
+              units: row.subject.units,
+              subj_name: row.subject.subject_code + ' - ' + row.subject.subject_description
+            });
           });
         });
-      });
+      } else {
+        this.learner.semester_id = null;
+      }
+    },
+    loadSubjectBySemester: function loadSubjectBySemester() {
+      var _this4 = this;
+
+      if (["GRADE 11", "GRADE 12"].includes(this.learner.grade_level['grade_level'])) {
+        axios.get('/load-subjects-by-semester/' + this.learner.grade_level['grade_level'] + '/' + this.learner.semester_id).then(function (res) {
+          var subjects = res.data;
+          _this4.learner.subjects = [];
+          subjects.forEach(function (row) {
+            _this4.learner.subjects.push({
+              subject_id: row.subject_id,
+              subject_code: row.subject.subject_code,
+              subject_description: row.subject.subject_description,
+              units: row.subject.units,
+              subj_name: row.subject.subject_code + ' - ' + row.subject.subject_description
+            });
+          });
+        });
+      }
     },
     submit: function submit() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.errors = {};
       axios.post('/enrollment', this.learner).then(function (res) {
         if (res.data.status === 'saved') {
-          _this4.$buefy.dialog.alert({
+          _this5.$buefy.dialog.alert({
             title: "Saved!",
             message: 'Data successfully saved.',
             type: 'is-success',
             onConfirm: function onConfirm() {
-              return _this4.clearFields();
+              return _this5.clearFields();
             }
           });
         }
       })["catch"](function (err) {
         if (err.response.status === 422) {
-          _this4.errors = err.response.data.errors;
+          _this5.errors = err.response.data.errors;
 
-          if (_this4.errors.message[0] === 'exist') {
-            _this4.$buefy.dialog.alert({
+          if (_this5.errors.message[0] === 'exist') {
+            _this5.$buefy.dialog.alert({
               title: "Exist!",
               message: 'Learner already admitted.',
               type: 'is-danger'
@@ -8394,29 +8418,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     //mga init data
     loadSemesters: function loadSemesters() {
-      var _this5 = this;
+      var _this6 = this;
 
       axios.get('/load-semesters').then(function (res) {
-        _this5.semesters = res.data;
+        _this6.semesters = res.data;
       });
     },
     loadTracks: function loadTracks() {
-      var _this6 = this;
+      var _this7 = this;
 
       axios.get('/load-tracks').then(function (res) {
-        _this6.tracks = res.data;
+        _this7.tracks = res.data;
       });
     },
     loadStrands: function loadStrands() {
-      var _this7 = this;
+      var _this8 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                axios.get('/load-strands?trackid=' + _this7.learner.track_id).then(function (res) {
-                  _this7.strands = res.data;
+                axios.get('/load-strands?trackid=' + _this8.learner.track_id).then(function (res) {
+                  _this8.strands = res.data;
                 });
 
               case 1:
@@ -8428,17 +8452,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     loadGradeLevels: function loadGradeLevels() {
-      var _this8 = this;
+      var _this9 = this;
 
       axios.get('/load-grade-levels').then(function (res) {
-        _this8.gradeLevels = res.data;
+        _this9.gradeLevels = res.data;
       });
     },
     loadSections: function loadSections() {
-      var _this9 = this;
+      var _this10 = this;
 
       axios.get('/load-section?grade=' + this.learner.grade_level.grade_level).then(function (res) {
-        _this9.sections = res.data;
+        _this10.sections = res.data;
       });
     }
   },
@@ -12974,6 +12998,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
 //
 //
 //
@@ -63377,6 +63406,7 @@ var render = function () {
                                       icon: "account",
                                       placeholder: "Semester",
                                     },
+                                    on: { input: _vm.loadSubjectBySemester },
                                     model: {
                                       value: _vm.learner.semester_id,
                                       callback: function ($$v) {
@@ -70667,6 +70697,28 @@ var render = function () {
                                       _vm._s(
                                         props.row.subject.subject_description
                                       ) +
+                                      "\n                            "
+                                  ),
+                                ])
+                              : _vm._e(),
+                          ]
+                        },
+                      },
+                    ]),
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { field: "subject", label: "Subject" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function (props) {
+                          return [
+                            props.row.semester
+                              ? _c("span", [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(props.row.semester.semester) +
                                       "\n                            "
                                   ),
                                 ])

@@ -24,7 +24,7 @@ class GradeLevelSubjectController extends Controller
     public function getData(Request $req){
         $sort = explode('.', $req->sort_by);
 
-        $data = GradeLevelSubject::with(['subject'])
+        $data = GradeLevelSubject::with(['subject', 'semester'])
             ->whereHas('subject', function($q)use($req){
                 $q->where('subject_code', 'like', $req->subject . '%')
                     ->where('subject_description', 'like', $req->subject . '%');
