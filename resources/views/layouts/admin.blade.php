@@ -73,7 +73,7 @@
 
                     <b-navbar-item href="/subjects">
                         Subjects
-                    </b-navbar-item>
+                    </b-navbar-item>                                                                                                                                    
 
                     <b-navbar-item href="/tracks">
                         Tracks
