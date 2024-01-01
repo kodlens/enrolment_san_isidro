@@ -32,8 +32,8 @@
                                 <div class="column">
                                     <b-field label="Grade Level"
                                         expanded
-                                        :type="this.errors.grade_level ? 'is-danger':''"
-                                        :message="this.errors.grade_level ? this.errors.grade_level[0] : ''" >
+                                        :type="errors.grade_level ? 'is-danger':''"
+                                        :message="errors.grade_level ? errors.grade_level[0] : ''" >
                                         <b-select
                                             expanded
                                             icon="account"
@@ -47,9 +47,26 @@
                                         </b-select >
                                     </b-field>
                                 </div> <!--col--> 
-                            </div> <!--cols-->
 
-                            
+                                <div class="column" v-if="fields.grade_level['curriculum_code'] === 'SHS'">
+                                    <b-field label="Semester"
+                                        expanded
+                                        :type="errors.semester_id ? 'is-danger':''"
+                                        :message="errors.semester_id ? errors.semester_id[0] : ''" >
+                                        <b-select
+                                            expanded
+                                            icon="account"
+                                            placeholder="Semester"
+                                            v-model="fields.semester_id"
+                                            required>
+                                            <option :value="item.semester_id"
+                                                    v-for="(item, ix) in semesters" :key="`sem${ix}`">
+                                                {{ item.semester }}
+                                            </option>
+                                        </b-select >
+                                    </b-field>
+                                </div> <!--col--> 
+                            </div> <!--cols-->
 
                         </div>
 
@@ -111,6 +128,7 @@ export default{
             errors: {},
 
             gradeLevels: [],
+            semesters: [],
 
 
         }
@@ -202,6 +220,13 @@ export default{
             axios.get('/load-grade-levels').then(res=>{
                 this.gradeLevels = res.data;
             })
+        },
+
+        
+        loadSemesters(){
+            axios.get('/load-semesters').then(res=>{
+                this.semesters = res.data;
+            })
         }
 
     },
@@ -209,6 +234,7 @@ export default{
     mounted(){
 
         this.loadGradeLevels()
+        this.loadSemesters()
 
     }
 }

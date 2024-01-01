@@ -18,7 +18,8 @@ class GradeLevelSubject extends Model
        
         'grade_level',
         'curriculum_code',
-        'subject_id'
+        'subject_id',
+        'semester_id'
     ];
 
 

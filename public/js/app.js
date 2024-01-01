@@ -12883,6 +12883,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -12892,7 +12909,8 @@ __webpack_require__.r(__webpack_exports__);
         subjects: []
       },
       errors: {},
-      gradeLevels: []
+      gradeLevels: [],
+      semesters: []
     };
   },
   methods: {
@@ -12980,10 +12998,18 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/load-grade-levels').then(function (res) {
         _this3.gradeLevels = res.data;
       });
+    },
+    loadSemesters: function loadSemesters() {
+      var _this4 = this;
+
+      axios.get('/load-semesters').then(function (res) {
+        _this4.semesters = res.data;
+      });
     }
   },
   mounted: function mounted() {
     this.loadGradeLevels();
+    this.loadSemesters();
   }
 });
 
@@ -70238,9 +70264,9 @@ var render = function () {
                             attrs: {
                               label: "Grade Level",
                               expanded: "",
-                              type: this.errors.grade_level ? "is-danger" : "",
-                              message: this.errors.grade_level
-                                ? this.errors.grade_level[0]
+                              type: _vm.errors.grade_level ? "is-danger" : "",
+                              message: _vm.errors.grade_level
+                                ? _vm.errors.grade_level[0]
                                 : "",
                             },
                           },
@@ -70291,6 +70317,69 @@ var render = function () {
                       ],
                       1
                     ),
+                    _vm._v(" "),
+                    _vm.fields.grade_level["curriculum_code"] === "SHS"
+                      ? _c(
+                          "div",
+                          { staticClass: "column" },
+                          [
+                            _c(
+                              "b-field",
+                              {
+                                attrs: {
+                                  label: "Semester",
+                                  expanded: "",
+                                  type: _vm.errors.semester_id
+                                    ? "is-danger"
+                                    : "",
+                                  message: _vm.errors.semester_id
+                                    ? _vm.errors.semester_id[0]
+                                    : "",
+                                },
+                              },
+                              [
+                                _c(
+                                  "b-select",
+                                  {
+                                    attrs: {
+                                      expanded: "",
+                                      icon: "account",
+                                      placeholder: "Semester",
+                                      required: "",
+                                    },
+                                    model: {
+                                      value: _vm.fields.semester_id,
+                                      callback: function ($$v) {
+                                        _vm.$set(_vm.fields, "semester_id", $$v)
+                                      },
+                                      expression: "fields.semester_id",
+                                    },
+                                  },
+                                  _vm._l(_vm.semesters, function (item, ix) {
+                                    return _c(
+                                      "option",
+                                      {
+                                        key: "sem" + ix,
+                                        domProps: { value: item.semester_id },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                            " +
+                                            _vm._s(item.semester) +
+                                            "\n                                        "
+                                        ),
+                                      ]
+                                    )
+                                  }),
+                                  0
+                                ),
+                              ],
+                              1
+                            ),
+                          ],
+                          1
+                        )
+                      : _vm._e(),
                   ]),
                 ]),
                 _vm._v(" "),
@@ -70656,7 +70745,7 @@ var render = function () {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { field: "subject", label: "Subject" },
+                    attrs: { field: "subject", sortable: "", label: "Subject" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
@@ -70705,7 +70794,7 @@ var render = function () {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { field: "subject", label: "Subject" },
+                    attrs: { field: "semester", label: "Semester" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",

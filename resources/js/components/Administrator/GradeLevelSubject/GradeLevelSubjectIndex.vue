@@ -78,7 +78,7 @@
                                 {{ props.row.grade_level }}
                             </b-table-column>
 
-                            <b-table-column field="subject" label="Subject" v-slot="props">
+                            <b-table-column field="subject" sortable label="Subject" v-slot="props">
                                 <span v-if="props.row.subject">
                                     {{ props.row.subject.subject_code }}
                                 </span>
@@ -90,7 +90,7 @@
                                 </span>
                             </b-table-column>
                             
-                            <b-table-column field="subject" label="Subject" v-slot="props">
+                            <b-table-column field="semester" label="Semester" v-slot="props">
                                 <span v-if="props.row.semester">
                                     {{ props.row.semester.semester }}
                                 </span>

@@ -47,22 +47,12 @@ class GradeLevelSubjectController extends Controller
             //'academic_year_id' => ['required'],
             'grade_level' => ['required'],
             'subjects' => ['required'],
-         
+            'semester_id' => ['required_if:grade_level.curriculum_code,SHS']
+        ],[
+            'semester_id.required_if' => 'Curriculum is SHS, semester is required.',
         ]);
 
-        // $exist = SectionSubject::where('academic_year_id', $req->academic_year_id)
-        //     ->where('section_id', $req->section_id)
-        //     ->exists();
-
-        // if($exist){
-        //     return response()->json([
-        //         'errors' => [
-        //             'exist',
-        //             'message' => ['Already had subjects.']
-        //         ]
-        //     ], 422);
-        // }
-
+        //return $req;
 
         foreach($req->subjects as $item){
             GradeLevelSubject::updateOrCreate([
@@ -73,7 +63,7 @@ class GradeLevelSubjectController extends Controller
                 //'academic_year_id' => $req->academic_year_id,
                 'grade_level' => $req->grade_level['grade_level'],
                 'curriculum_code' => $req->grade_level['curriculum_code'],
-                // 'semester_id' => $req->grade_level['curriculum_code'] == 'SHS' ? $req->semester_id : 0,
+                'semester_id' => $req->grade_level['curriculum_code'] == 'SHS' ? $req->semester_id : 0,
                 // 'track_id' => $req->grade_level['curriculum_code'] == 'SHS' ? $req->track_id : 0,
                 // 'strand_id' => $req->grade_level['curriculum_code'] == 'SHS' ? $req->strand_id : 0,
                 'subject_id' => $item['subject_id']
