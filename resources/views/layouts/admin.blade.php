@@ -125,6 +125,10 @@
                     <b-navbar-item href="/enrollee">
                         Enrollee
                     </b-navbar-item>
+
+                    <b-navbar-item href="/assign-teacher">
+                        Assign Teacher
+                    </b-navbar-item>
                     
                 </b-navbar-dropdown>
 

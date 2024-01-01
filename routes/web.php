@@ -141,6 +141,10 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/print-coe/{learnerId}/{ayid}', [App\Http\Controllers\Administrator\EnrolleeController::class, 'coeIndex']);
     Route::get('/get-report-learner/{learnerId}/{ayid}', [App\Http\Controllers\Administrator\EnrolleeController::class, 'getReportLearner']);
 
+    Route::resource('/assign-teacher', App\Http\Controllers\Administrator\AssignTeacherController::class);
+    Route::get('/get-enroll-section-subjects', [App\Http\Controllers\Administrator\AssignTeacherController::class, 'getData']);
+
+    
     
     Route::resource('/enrollment', App\Http\Controllers\Administrator\EnrollmentController::class);
   
