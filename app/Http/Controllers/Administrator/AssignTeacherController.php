@@ -18,7 +18,7 @@ class AssignTeacherController extends Controller
     public function getData(){
 
         $sort = explode('.', $req->sort_by);
-
+        
         $data = EnrollSubject::where('')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
