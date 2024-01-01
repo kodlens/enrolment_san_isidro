@@ -126,15 +126,15 @@
                                     <b-tooltip label="Payment History" type="is-warning">
                                         <b-button class="button is-small mr-1" 
                                             tag="a" icon-right="history" 
-                                            @click="getData(props.row.billing_id)"></b-button>
+                                            @click="getData(props.row.learner_id)"></b-button>
                                     </b-tooltip>
-                                    <b-tooltip label="Delete" type="is-danger">
+                                    <!-- <b-tooltip label="Delete" type="is-danger">
                                         <b-button class="button is-small mr-1" 
                                             icon-right="delete" 
                                             @click="confirmDelete(props.row.enroll_id)"></b-button>
-                                    </b-tooltip>
+                                    </b-tooltip> -->
 
-                                    <b-tooltip label="More options">
+                                    <!-- <b-tooltip label="More options">
                                         <b-dropdown aria-role="list">
                                             <template #trigger="{ active }">
                                                 <b-button
@@ -148,12 +148,48 @@
                                             <b-dropdown-item aria-role="listitem">Another action</b-dropdown-item>
                                             <b-dropdown-item aria-role="listitem">Something else</b-dropdown-item>
                                         </b-dropdown>
-                                    </b-tooltip>
+                                    </b-tooltip> -->
                                 </div>
                             </b-table-column>
 
                             <template #detail="props">
-                                <p class="has-text-weight-bold is-size-6">SUBJECTS</p>
+                                <div class="columns">
+                                    <div class="column">
+                                        <div class="has-text-weight-bold is-size-6">SECTION: {{ props.row.section.section }}</div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="has-text-weight-bold is-size-6">TRACK: 
+                                            <span v-if="props.row.track">
+                                                {{ props.row.track.track }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="columns">
+                                   
+                                    <div class="column">
+                                        <div class="has-text-weight-bold is-size-6">STRAND: 
+                                            <span v-if="props.row.strand">
+                                                {{ props.row.track.strand }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="has-text-weight-bold is-size-6">
+                                            SEMESTER: 
+                                            <span v-if="props.row.semester">
+                                                {{ props.row.semester.semester }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                              
+                               
+                    
+
+                                <p class="has-text-weight-bold is-size-6 mb-4">SUBJECTS</p>
                                 <table class="table">
                                     <tr>
                                         <th>Code</th>
@@ -316,7 +352,7 @@ export default{
 
         //update code here
         getData: function(data_id){
-            window.location = '/manage-learners/' + data_id + '/edit'
+            window.location = '/payment-history/' + data_id
         },
 
 
@@ -373,15 +409,7 @@ export default{
 
 <style scoped>
 
-.table > tbody > tr {
-    /* background-color: blue; */
-    transition: background-color 0.5s ease;
-}
 
-.table > tbody > tr:hover {
-    background-color: rgb(233, 233, 233);
-
-}
 
 .enroled{
     font-weight: bold;

@@ -39,5 +39,10 @@ class Billing extends Model
             ->orderBy('billing_payment_id', 'asc');
     }
 
+    public function payment_history(){
+        return $this->hasMany(BillingPayment::class, 'billing_id', 'billing_id')
+            ->orderBy('date_paid', 'desc');
+    }
+
 
 }

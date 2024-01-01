@@ -158,6 +158,10 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('/billing-payment', App\Http\Controllers\Administrator\BillingPaymentController::class);
     Route::get('/get-billing-payment', [App\Http\Controllers\Administrator\BillingPaymentController::class, 'getData']);
     
+    Route::get('/payment-history/{learnerId}', [App\Http\Controllers\Administrator\PaymentHistoryController::class, 'index']);
+    Route::get('/get-payment-history', [App\Http\Controllers\Administrator\PaymentHistoryController::class, 'getData']);
+    
+
     Route::resource('/enrollee-grades', App\Http\Controllers\Administrator\EnrolleeGradeController::class);
     Route::get('/get-enrollee-grades', [App\Http\Controllers\Administrator\EnrolleeGradeController::class, 'getData']);
     Route::get('/get-enrollee-grades-by-learner', [App\Http\Controllers\Administrator\EnrolleeGradeController::class, 'getEnrolleeGradeByLearner']);

@@ -25,4 +25,8 @@ class BillingPayment extends Model
     ];
  
 
+    public function billing(){
+        return $this->hasOne(Billing::class, 'billing_id', 'billing_id');
+    }
+
 }
