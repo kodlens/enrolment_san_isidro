@@ -11742,6 +11742,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -11760,7 +11777,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       isModalCreate: false,
       errors: {},
-      academicYears: []
+      academicYears: [],
+      gradeLevels: [],
+      semesters: []
     };
   },
   methods: {
@@ -11867,13 +11886,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    loadGradeLevels: function loadGradeLevels() {
+      var _this5 = this;
+
+      axios.get('/load-grade-levels').then(function (res) {
+        _this5.gradeLevels = res.data;
+      });
+    },
+    loadSemesters: function loadSemesters() {
+      var _this6 = this;
+
+      axios.get('/load-grade-levels').then(function (res) {
+        _this6.gradeLevels = res.data;
+      });
     }
   },
   mounted: function mounted() {
-    var _this5 = this;
+    var _this7 = this;
 
     this.loadAcademicYears().then(function () {
-      _this5.loadAsyncData();
+      _this7.loadAsyncData();
+
+      _this7.loadGradeLevels();
     });
   }
 });
@@ -67938,62 +67973,146 @@ var render = function () {
                 ]
               ),
               _vm._v(" "),
-              _c(
-                "b-field",
-                { attrs: { label: "Academic Year" } },
-                [
-                  _c(
-                    "b-select",
-                    {
-                      attrs: { placeholder: "Academic Year" },
-                      nativeOn: {
-                        keyup: function ($event) {
-                          if (
-                            !$event.type.indexOf("key") &&
-                            _vm._k(
-                              $event.keyCode,
-                              "enter",
-                              13,
-                              $event.key,
-                              "Enter"
+              _c("div", { staticClass: "columns" }, [
+                _c(
+                  "div",
+                  { staticClass: "column" },
+                  [
+                    _c(
+                      "b-field",
+                      { attrs: { label: "Academic Year" } },
+                      [
+                        _c(
+                          "b-select",
+                          {
+                            attrs: { placeholder: "Academic Year" },
+                            nativeOn: {
+                              keyup: function ($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.loadAsyncData.apply(null, arguments)
+                              },
+                            },
+                            model: {
+                              value: _vm.search.ayid,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.search, "ayid", $$v)
+                              },
+                              expression: "search.ayid",
+                            },
+                          },
+                          _vm._l(_vm.academicYears, function (item, ix) {
+                            return _c(
+                              "option",
+                              {
+                                key: "ay" + ix,
+                                domProps: { value: item.academic_year_id },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                        " +
+                                    _vm._s(item.academic_year_code) +
+                                    " - " +
+                                    _vm._s(item.academic_year_desc) +
+                                    "\n                                    "
+                                ),
+                              ]
                             )
-                          ) {
-                            return null
-                          }
-                          return _vm.loadAsyncData.apply(null, arguments)
-                        },
-                      },
-                      model: {
-                        value: _vm.search.ayid,
-                        callback: function ($$v) {
-                          _vm.$set(_vm.search, "ayid", $$v)
-                        },
-                        expression: "search.ayid",
-                      },
-                    },
-                    _vm._l(_vm.academicYears, function (item, ix) {
-                      return _c(
-                        "option",
-                        {
-                          key: "ay" + ix,
-                          domProps: { value: item.academic_year_id },
-                        },
-                        [
-                          _vm._v(
-                            "\n                                " +
-                              _vm._s(item.academic_year_code) +
-                              " - " +
-                              _vm._s(item.academic_year_desc) +
-                              "\n                            "
-                          ),
-                        ]
-                      )
-                    }),
-                    0
-                  ),
-                ],
-                1
-              ),
+                          }),
+                          0
+                        ),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "column" },
+                  [
+                    _c(
+                      "b-field",
+                      { attrs: { label: "Grade Level" } },
+                      [
+                        _c(
+                          "b-select",
+                          {
+                            attrs: { placeholder: "Academic Year" },
+                            nativeOn: {
+                              keyup: function ($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.loadAsyncData.apply(null, arguments)
+                              },
+                            },
+                            model: {
+                              value: _vm.search.ayid,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.search, "ayid", $$v)
+                              },
+                              expression: "search.ayid",
+                            },
+                          },
+                          [
+                            _c("option", { attrs: { value: "" } }, [
+                              _vm._v("ALL"),
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.gradeLevels, function (item, ix) {
+                              return _c(
+                                "option",
+                                {
+                                  key: "ay" + ix,
+                                  domProps: {
+                                    value: {
+                                      grade_level: item.grade_level,
+                                      curriculom_code: item.curriculom_code,
+                                    },
+                                  },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                        " +
+                                      _vm._s(item.grade_level) +
+                                      " (" +
+                                      _vm._s(item.curriculom_code) +
+                                      ")\n                                    "
+                                  ),
+                                ]
+                              )
+                            }),
+                          ],
+                          2
+                        ),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+              ]),
               _vm._v(" "),
               _c(
                 "b-field",

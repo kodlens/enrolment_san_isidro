@@ -10,19 +10,36 @@
                             List of enrollees of the selected Academic Year.
                         </div>
 
-                        <b-field label="Academic Year">
-                            <b-select v-model="search.ayid" 
-                                placeholder="Academic Year"
-                                @keyup.native.enter="loadAsyncData">
-                                <option v-for="(item, ix) in academicYears" :key="`ay${ix}`" 
-                                    :value="item.academic_year_id">
-                                    {{ item.academic_year_code }} - {{ item.academic_year_desc }}
-                                </option>
-                            </b-select>
-                                
-               
-                        </b-field>
 
+                        <div class="columns">
+                            <div class="column">
+                                <b-field label="Academic Year">
+                                    <b-select v-model="search.ayid" 
+                                        placeholder="Academic Year"
+                                        @keyup.native.enter="loadAsyncData">
+                                        <option v-for="(item, ix) in academicYears" :key="`ay${ix}`" 
+                                            :value="item.academic_year_id">
+                                            {{ item.academic_year_code }} - {{ item.academic_year_desc }}
+                                        </option>
+                                    </b-select>
+                                        
+                                </b-field>
+                            </div>
+                            <div class="column">
+                                <b-field label="Grade Level">
+                                    <b-select v-model="search.ayid" 
+                                        placeholder="Academic Year"
+                                        @keyup.native.enter="loadAsyncData">
+                                        <option value="">ALL</option>
+                                        <option v-for="(item, ix) in gradeLevels" :key="`ay${ix}`" 
+                                            :value="{ grade_level: item.grade_level, curriculom_code: item.curriculom_code }">
+                                            {{ item.grade_level }} ({{ item.curriculom_code }})
+                                        </option>
+                                    </b-select>
+                                        
+                                </b-field>
+                            </div>
+                        </div>
 
                         <b-field label="Search">
                             <b-input type="text"
@@ -196,6 +213,8 @@ export default{
             errors: {},
 
             academicYears: [],
+            gradeLevels: [],
+            semesters: [],
         }
 
     },
@@ -295,6 +314,18 @@ export default{
             }).catch(err=>{
             
             })
+        },
+
+        loadGradeLevels(){
+            axios.get('/load-grade-levels').then(res=>{
+                this.gradeLevels = res.data
+            })
+        },
+
+        loadSemesters(){
+            axios.get('/load-grade-levels').then(res=>{
+                this.gradeLevels = res.data
+            })
         }
 
 
@@ -303,6 +334,7 @@ export default{
     mounted() {
         this.loadAcademicYears().then(()=>{
             this.loadAsyncData()
+            this.loadGradeLevels()
         })
   
     }
