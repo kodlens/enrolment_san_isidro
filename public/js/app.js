@@ -11759,6 +11759,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -11773,7 +11787,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       global_id: 0,
       search: {
         ayid: '',
-        name: ''
+        name: '',
+        grade_level: {},
+        semester: null
       },
       isModalCreate: false,
       errors: {},
@@ -11789,7 +11805,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadAsyncData: function loadAsyncData() {
       var _this = this;
 
-      var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "name=".concat(this.search.name), "ayid=".concat(this.search.ayid), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
+      var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "name=".concat(this.search.name), "ayid=".concat(this.search.ayid), "grade=".concat(this.search.grade_level.grade_level), "semester=".concat(this.search.semester), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
       this.loading = true;
       axios.get("/get-enrollees?".concat(params)).then(function (_ref) {
         var data = _ref.data;
@@ -11892,14 +11908,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       axios.get('/load-grade-levels').then(function (res) {
         _this5.gradeLevels = res.data;
+        _this5.search.grade_level.grade_level = '';
       });
     },
     loadSemesters: function loadSemesters() {
       var _this6 = this;
 
-      axios.get('/load-grade-levels').then(function (res) {
-        _this6.gradeLevels = res.data;
-      });
+      if (this.search.grade_level.curriculum_code === 'SHS') {
+        axios.get('/load-semesters').then(function (res) {
+          _this6.semesters = res.data;
+        });
+      } else {
+        this.search.semester = null;
+      }
     }
   },
   mounted: function mounted() {
@@ -17103,13 +17124,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['propAcademicYears'],
   data: function data() {
     return {
       data: [],
       total: 0,
       loading: false,
-      sortField: 'faculty_id',
+      sortField: 'user_id',
       sortOrder: 'desc',
       page: 1,
       perPage: 10,
@@ -17134,7 +17154,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "name=".concat(this.search.name), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("/get-faculty?".concat(params)).then(function (_ref) {
+      axios.get("/get-teachers?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.data = [];
         var currentTotal = data.total;
@@ -39003,7 +39023,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.table > tbody > tr[data-v-aa4b017e] {\r\n    /* background-color: blue; */\r\n    transition: background-color 0.5s ease;\n}\n.table > tbody > tr[data-v-aa4b017e]:hover {\r\n    background-color: rgb(233, 233, 233);\n}\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.table > tbody > tr[data-v-aa4b017e] {\r\n    /* background-color: blue; */\r\n    transition: background-color 0.5s ease;\n}\n.table > tbody > tr[data-v-aa4b017e]:hover {\r\n    background-color: rgb(233, 233, 233);\n}\n.enroled[data-v-aa4b017e]{\r\n    font-weight: bold;\r\n    font-size: 12px;\r\n    padding: 5px;\r\n    border-radius: 5px;\r\n    background-color: green;\r\n    color: white;\n}\n.admitted[data-v-aa4b017e]{\r\n    font-weight: bold;\r\n    font-size: 12px;\r\n    padding: 5px;\r\n    border-radius: 5px;\r\n    background-color: #2335a0;\r\n    color: #ffffff;\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -67980,12 +68000,15 @@ var render = function () {
                   [
                     _c(
                       "b-field",
-                      { attrs: { label: "Academic Year" } },
+                      { attrs: { label: "Academic Year", expanded: "" } },
                       [
                         _c(
                           "b-select",
                           {
-                            attrs: { placeholder: "Academic Year" },
+                            attrs: {
+                              expanded: "",
+                              placeholder: "Academic Year",
+                            },
                             nativeOn: {
                               keyup: function ($event) {
                                 if (
@@ -68044,51 +68067,44 @@ var render = function () {
                   [
                     _c(
                       "b-field",
-                      { attrs: { label: "Grade Level" } },
+                      { attrs: { label: "Grade Level", expanded: "" } },
                       [
                         _c(
                           "b-select",
                           {
-                            attrs: { placeholder: "Academic Year" },
-                            nativeOn: {
-                              keyup: function ($event) {
-                                if (
-                                  !$event.type.indexOf("key") &&
-                                  _vm._k(
-                                    $event.keyCode,
-                                    "enter",
-                                    13,
-                                    $event.key,
-                                    "Enter"
-                                  )
-                                ) {
-                                  return null
-                                }
-                                return _vm.loadAsyncData.apply(null, arguments)
-                              },
-                            },
+                            attrs: { expanded: "", placeholder: "Grade Level" },
+                            on: { input: _vm.loadSemesters },
                             model: {
-                              value: _vm.search.ayid,
+                              value: _vm.search.grade_level,
                               callback: function ($$v) {
-                                _vm.$set(_vm.search, "ayid", $$v)
+                                _vm.$set(_vm.search, "grade_level", $$v)
                               },
-                              expression: "search.ayid",
+                              expression: "search.grade_level",
                             },
                           },
                           [
-                            _c("option", { attrs: { value: "" } }, [
-                              _vm._v("ALL"),
-                            ]),
+                            _c(
+                              "option",
+                              {
+                                domProps: {
+                                  value: {
+                                    grade_level: "",
+                                    curriculum_code: "",
+                                  },
+                                },
+                              },
+                              [_vm._v("ALL")]
+                            ),
                             _vm._v(" "),
                             _vm._l(_vm.gradeLevels, function (item, ix) {
                               return _c(
                                 "option",
                                 {
-                                  key: "ay" + ix,
+                                  key: "grade" + ix,
                                   domProps: {
                                     value: {
                                       grade_level: item.grade_level,
-                                      curriculom_code: item.curriculom_code,
+                                      curriculum_code: item.curriculum_code,
                                     },
                                   },
                                 },
@@ -68097,7 +68113,7 @@ var render = function () {
                                     "\n                                        " +
                                       _vm._s(item.grade_level) +
                                       " (" +
-                                      _vm._s(item.curriculom_code) +
+                                      _vm._s(item.curriculum_code) +
                                       ")\n                                    "
                                   ),
                                 ]
@@ -68112,6 +68128,56 @@ var render = function () {
                   ],
                   1
                 ),
+                _vm._v(" "),
+                _vm.search.grade_level.curriculum_code === "SHS"
+                  ? _c(
+                      "div",
+                      { staticClass: "column" },
+                      [
+                        _c(
+                          "b-field",
+                          { attrs: { label: "Semester", expanded: "" } },
+                          [
+                            _c(
+                              "b-select",
+                              {
+                                attrs: {
+                                  expanded: "",
+                                  placeholder: "Semester",
+                                },
+                                model: {
+                                  value: _vm.search.semester,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.search, "semester", $$v)
+                                  },
+                                  expression: "search.semester",
+                                },
+                              },
+                              _vm._l(_vm.semesters, function (item, ix) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: "sem" + ix,
+                                    domProps: { value: item.semester_id },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                        " +
+                                        _vm._s(item.semester) +
+                                        "\n                                    "
+                                    ),
+                                  ]
+                                )
+                              }),
+                              0
+                            ),
+                          ],
+                          1
+                        ),
+                      ],
+                      1
+                    )
+                  : _vm._e(),
               ]),
               _vm._v(" "),
               _c(
@@ -68328,8 +68394,12 @@ var render = function () {
                         fn: function (props) {
                           return [
                             props.row.is_enrolled == 1
-                              ? _c("span", [_vm._v("ENROLED")])
-                              : _c("span", [_vm._v("ADMITTED")]),
+                              ? _c("span", { staticClass: "enroled" }, [
+                                  _vm._v("ENROLED"),
+                                ])
+                              : _c("span", { staticClass: "admitted" }, [
+                                  _vm._v("ADMITTED"),
+                                ]),
                           ]
                         },
                       },
@@ -77148,7 +77218,7 @@ var render = function () {
               { staticClass: "box" },
               [
                 _c("div", { staticClass: "table-text" }, [
-                  _vm._v("FACULTY LIST"),
+                  _vm._v("TEACHER LIST"),
                 ]),
                 _vm._v(" "),
                 _c(
@@ -77247,16 +77317,16 @@ var render = function () {
                   },
                   [
                     _c("b-table-column", {
-                      attrs: { field: "faculty_id", label: "ID", sortable: "" },
+                      attrs: { field: "user_id", label: "ID", sortable: "" },
                       scopedSlots: _vm._u([
                         {
                           key: "default",
                           fn: function (props) {
                             return [
                               _vm._v(
-                                "\n                            " +
-                                  _vm._s(props.row.faculty_id) +
-                                  "\n                        "
+                                "\n                                " +
+                                  _vm._s(props.row.user_id) +
+                                  "\n                            "
                               ),
                             ]
                           },
@@ -77267,7 +77337,7 @@ var render = function () {
                     _c("b-table-column", {
                       attrs: {
                         field: "name",
-                        label: "Faculty Name",
+                        label: "Teacher Name",
                         sortable: "",
                       },
                       scopedSlots: _vm._u([
@@ -77276,83 +77346,13 @@ var render = function () {
                           fn: function (props) {
                             return [
                               _vm._v(
-                                "\n                            " +
+                                "\n                                " +
                                   _vm._s(props.row.lname) +
                                   ", " +
                                   _vm._s(props.row.fname) +
                                   " " +
                                   _vm._s(props.row.mname) +
-                                  "\n                        "
-                              ),
-                            ]
-                          },
-                        },
-                      ]),
-                    }),
-                    _vm._v(" "),
-                    _c("b-table-column", {
-                      attrs: { label: "Action" },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "default",
-                          fn: function (props) {
-                            return [
-                              _c(
-                                "div",
-                                { staticClass: "is-flex" },
-                                [
-                                  _c(
-                                    "b-tooltip",
-                                    {
-                                      attrs: {
-                                        label: "Edit",
-                                        type: "is-warning",
-                                      },
-                                    },
-                                    [
-                                      _c("b-button", {
-                                        staticClass: "button is-small mr-1",
-                                        attrs: {
-                                          tag: "a",
-                                          "icon-right": "pencil",
-                                        },
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.getData(
-                                              props.row.faculty_id
-                                            )
-                                          },
-                                        },
-                                      }),
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "b-tooltip",
-                                    {
-                                      attrs: {
-                                        label: "Delete",
-                                        type: "is-danger",
-                                      },
-                                    },
-                                    [
-                                      _c("b-button", {
-                                        staticClass: "button is-small mr-1",
-                                        attrs: { "icon-right": "delete" },
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.confirmDelete(
-                                              props.row.faculty_id
-                                            )
-                                          },
-                                        },
-                                      }),
-                                    ],
-                                    1
-                                  ),
-                                ],
-                                1
+                                  "\n                            "
                               ),
                             ]
                           },

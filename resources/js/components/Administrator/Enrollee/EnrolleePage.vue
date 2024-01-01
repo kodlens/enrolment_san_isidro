@@ -13,8 +13,9 @@
 
                         <div class="columns">
                             <div class="column">
-                                <b-field label="Academic Year">
+                                <b-field label="Academic Year" expanded>
                                     <b-select v-model="search.ayid" 
+                                        expanded
                                         placeholder="Academic Year"
                                         @keyup.native.enter="loadAsyncData">
                                         <option v-for="(item, ix) in academicYears" :key="`ay${ix}`" 
@@ -26,17 +27,30 @@
                                 </b-field>
                             </div>
                             <div class="column">
-                                <b-field label="Grade Level">
-                                    <b-select v-model="search.ayid" 
-                                        placeholder="Academic Year"
-                                        @keyup.native.enter="loadAsyncData">
-                                        <option value="">ALL</option>
-                                        <option v-for="(item, ix) in gradeLevels" :key="`ay${ix}`" 
-                                            :value="{ grade_level: item.grade_level, curriculom_code: item.curriculom_code }">
-                                            {{ item.grade_level }} ({{ item.curriculom_code }})
+                                <b-field label="Grade Level" expanded>
+                                    <b-select v-model="search.grade_level" 
+                                        expanded
+                                        @input="loadSemesters"
+                                        placeholder="Grade Level">
+                                        <option :value="{ grade_level: '', curriculum_code: ''}">ALL</option>
+                                        <option v-for="(item, ix) in gradeLevels" :key="`grade${ix}`" 
+                                            :value="{ grade_level: item.grade_level, curriculum_code: item.curriculum_code }">
+                                            {{ item.grade_level }} ({{ item.curriculum_code }})
                                         </option>
                                     </b-select>
-                                        
+                                </b-field>
+                            </div>
+
+                            <div class="column" v-if="search.grade_level.curriculum_code === 'SHS'">
+                                <b-field label="Semester" expanded>
+                                    <b-select v-model="search.semester" 
+                                        expanded
+                                        placeholder="Semester">
+                                        <option v-for="(item, ix) in semesters" :key="`sem${ix}`" 
+                                            :value="item.semester_id">
+                                            {{ item.semester }}
+                                        </option>
+                                    </b-select>
                                 </b-field>
                             </div>
                         </div>
@@ -90,8 +104,8 @@
                             </b-table-column>
 
                             <b-table-column field="grade_level" label="Enrollment Status" v-slot="props">
-                                <span v-if="props.row.is_enrolled == 1">ENROLED</span>
-                                <span v-else>ADMITTED</span>
+                                <span class="enroled" v-if="props.row.is_enrolled == 1">ENROLED</span>
+                                <span class="admitted" v-else>ADMITTED</span>
 
                             </b-table-column>
 
@@ -206,6 +220,8 @@ export default{
             search: {
                 ayid: '',
                 name: '',
+                grade_level: {},
+                semester: null
             },
 
             isModalCreate: false,
@@ -228,6 +244,8 @@ export default{
                 `sort_by=${this.sortField}.${this.sortOrder}`,
                 `name=${this.search.name}`,
                 `ayid=${this.search.ayid}`,
+                `grade=${this.search.grade_level.grade_level}`,
+                `semester=${this.search.semester}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
@@ -319,13 +337,21 @@ export default{
         loadGradeLevels(){
             axios.get('/load-grade-levels').then(res=>{
                 this.gradeLevels = res.data
+
+                this.search.grade_level.grade_level = ''
             })
         },
 
         loadSemesters(){
-            axios.get('/load-grade-levels').then(res=>{
-                this.gradeLevels = res.data
-            })
+
+            if(this.search.grade_level.curriculum_code === 'SHS'){
+                axios.get('/load-semesters').then(res=>{
+                    this.semesters = res.data
+                })
+            }else{
+                this.search.semester = null
+            }
+            
         }
 
 
@@ -355,6 +381,24 @@ export default{
 .table > tbody > tr:hover {
     background-color: rgb(233, 233, 233);
 
+}
+
+.enroled{
+    font-weight: bold;
+    font-size: 12px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: green;
+    color: white;
+}
+
+.admitted{
+    font-weight: bold;
+    font-size: 12px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #2335a0;
+    color: #ffffff;
 }
 
 </style>

@@ -5,7 +5,7 @@
                 <div class="column is-6">
                     <div class="box">
 
-                        <div class="table-text">FACULTY LIST</div>
+                        <div class="table-text">TEACHER LIST</div>
 
                         <b-field label="Search" label-position="on-border">
                             <b-input type="text"
@@ -40,17 +40,17 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="faculty_id" label="ID" sortable v-slot="props">
-                                {{ props.row.faculty_id }}
+                            <b-table-column field="user_id" label="ID" sortable v-slot="props">
+                                {{ props.row.user_id }}
                             </b-table-column>
 
-                            <b-table-column field="name" label="Faculty Name" sortable v-slot="props">
+                            <b-table-column field="name" label="Teacher Name" sortable v-slot="props">
                                 {{ props.row.lname }}, {{ props.row.fname }} {{ props.row.mname }}
                             </b-table-column>
 
 
                           
-
+<!-- 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
@@ -63,7 +63,7 @@
                                     </b-tooltip>
                              
                                 </div>
-                            </b-table-column>
+                            </b-table-column> -->
                         </b-table>
 
                         <div class="columns">
@@ -168,13 +168,12 @@
 <script>
 
 export default{
-    props: ['propAcademicYears'],
     data() {
         return{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'faculty_id',
+            sortField: 'user_id',
             sortOrder: 'desc',
             page: 1,
             perPage: 10,
@@ -192,6 +191,7 @@ export default{
             fields: {
                 academic_year: '', 
             },
+            
             errors: {},
 
         }
@@ -211,7 +211,7 @@ export default{
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-faculty?${params}`)
+            axios.get(`/get-teachers?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total

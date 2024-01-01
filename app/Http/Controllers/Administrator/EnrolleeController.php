@@ -14,7 +14,6 @@ class EnrolleeController extends Controller
     }
 
  
-
     public function getEnrollees(Request $req){
         
         $sort = explode('.', $req->sort_by);
@@ -27,6 +26,7 @@ class EnrolleeController extends Controller
                 $q->where('lname', 'like', '%' . $req->name . '%')
                     ->orWhere('fname', 'like', '%' . $req->name . '%');
             })
+            ->where('grade_level', 'like', $req->grade. '%')
             ->where('academic_year_id', $req->ayid)
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);

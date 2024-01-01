@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Teacher;
+use App\Models\User;
 
 
 class TeacherController extends Controller
@@ -18,8 +18,11 @@ class TeacherController extends Controller
     public function getData(Request $req){
         $sort = explode('.', $req->sort_by);
 
-        $data = Teacher::where('lname', 'like', $req->name . '%')
-            ->where('fname', 'like', $req->name . '%')
+        $data = User::where(function ($query) use ($req) {
+            $query->where('lname', 'like', $req->name . '%')
+                ->orWhere('fname', 'like', $req->name . '%');
+            })
+            ->where('role', 'TEACHER')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
 
