@@ -15019,6 +15019,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     propId: {
@@ -15063,7 +15067,7 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         _this.total = currentTotal;
-        data.data.forEach(function (item) {
+        data.forEach(function (item) {
           //item.release_date = item.release_date ? item.release_date.replace(/-/g, '/') : null
           _this.data.push(item);
         });
@@ -74487,7 +74491,7 @@ var render = function () {
                     },
                     [
                       _c("b-table-column", {
-                        attrs: { field: "lname", label: "ID", sortable: "" },
+                        attrs: { field: "billing_payment_id", label: "ID" },
                         scopedSlots: _vm._u([
                           {
                             key: "default",
@@ -74495,7 +74499,7 @@ var render = function () {
                               return [
                                 _vm._v(
                                   "\n                                " +
-                                    _vm._s(props.row.user.lname) +
+                                    _vm._s(props.row.billing_payment_id) +
                                     "\n                            "
                                 ),
                               ]
@@ -74505,11 +74509,7 @@ var render = function () {
                       }),
                       _vm._v(" "),
                       _c("b-table-column", {
-                        attrs: {
-                          field: "date_paid",
-                          label: "Date Paid",
-                          sortable: "",
-                        },
+                        attrs: { field: "date_paid", label: "Date Paid" },
                         scopedSlots: _vm._u([
                           {
                             key: "default",
@@ -74530,7 +74530,6 @@ var render = function () {
                         attrs: {
                           field: "current_balance",
                           label: "Current Balance",
-                          sortable: "",
                         },
                         scopedSlots: _vm._u([
                           {
@@ -74540,6 +74539,24 @@ var render = function () {
                                 _vm._v(
                                   "\n                                " +
                                     _vm._s(props.row.current_balance) +
+                                    "\n                            "
+                                ),
+                              ]
+                            },
+                          },
+                        ]),
+                      }),
+                      _vm._v(" "),
+                      _c("b-table-column", {
+                        attrs: { field: "payment", label: "Payment" },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function (props) {
+                              return [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(props.row.payment) +
                                     "\n                            "
                                 ),
                               ]

@@ -41,16 +41,20 @@
                                 :default-sort-direction="defaultSortDirection"
                                 @sort="onSort">
 
-                                <b-table-column field="lname" label="ID" sortable v-slot="props">
-                                    {{ props.row.user.lname }}
+                                <b-table-column field="billing_payment_id" label="ID" v-slot="props">
+                                    {{ props.row.billing_payment_id }}
                                 </b-table-column>
 
-                                <b-table-column field="date_paid" label="Date Paid" sortable v-slot="props">
+                                <b-table-column field="date_paid" label="Date Paid" v-slot="props">
                                     {{ props.row.date_paid }}
                                 </b-table-column>
 
-                                <b-table-column field="current_balance" label="Current Balance" sortable v-slot="props">
+                                <b-table-column field="current_balance" label="Current Balance" v-slot="props">
                                     {{ props.row.current_balance }}
+                                </b-table-column>
+
+                                <b-table-column field="payment" label="Payment" v-slot="props">
+                                    {{ props.row.payment }}
                                 </b-table-column>
 
                             </b-table>
@@ -120,9 +124,9 @@ export default{
                     if (data.total / this.perPage > 1000) {
                         currentTotal = this.perPage * 1000
                     }
-
+            
                     this.total = currentTotal
-                    data.data.forEach((item) => {
+                    data.forEach((item) => {
                         //item.release_date = item.release_date ? item.release_date.replace(/-/g, '/') : null
                         this.data.push(item)
                     })
