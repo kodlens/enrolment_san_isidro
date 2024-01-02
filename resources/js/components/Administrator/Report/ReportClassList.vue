@@ -49,8 +49,7 @@
                             </div>
                         </div>
                     </div>
-                    
-                   
+
                 </div>
                 
                 <div v-if="item.enrollees.length > 0" class="has-text-centered">

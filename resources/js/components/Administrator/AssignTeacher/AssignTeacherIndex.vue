@@ -5,7 +5,7 @@
                 <div class="column is-8-dekstop is-10-tablet">
                     <div class="box">
 
-                        <div class="has-text-weight-bold is-size-4">ENROLLEES</div>
+                        <div class="has-text-weight-bold is-size-4">ASSIGN TEACHER</div>
                         <div class="has-text-weight-bold mb-4 is-size-6">
                             List of enrollees of the selected Academic Year.
                         </div>
@@ -55,6 +55,21 @@
                             </div>
                         </div>
 
+                        <div class="columns">
+                            <div class="column">
+                                <b-field label="Sections" expanded>
+                                    <b-select v-model="search.sections" 
+                                        expanded
+                                        placeholder="Sections">
+                                        <option v-for="(item, ix) in sections" :key="`section${ix}`" 
+                                            :value="item.section_id">
+                                            {{ item.section }}
+                                        </option>
+                                    </b-select>
+                                </b-field>
+                            </div>
+                        </div>
+
                         <b-field label="Search">
                             <b-input type="text"
                                      v-model="search.name" placeholder="Search Lastname"
@@ -76,7 +91,6 @@
                             :data="data"
                             :loading="loading"
                             paginated
-                            detailed
                             backend-pagination
                             :total="total"
                             :pagination-rounded="true"
@@ -91,34 +105,34 @@
                             @sort="onSort">
 
 
-                            <b-table-column field="lname" label="Name" sortable v-slot="props">
-                                {{ props.row.learner.lname }}, {{ props.row.learner.fname }} {{ props.row.learner.mname }}
-                            </b-table-column>
-
-                            <b-table-column field="sex" label="Sex" v-slot="props">
-                                {{ props.row.learner.sex }}
-                            </b-table-column>
-
                             <b-table-column field="grade_level" label="Grade Level" v-slot="props">
                                 {{ props.row.grade_level }}
                             </b-table-column>
 
-                            <b-table-column field="grade_level" label="Enrollment Status" v-slot="props">
+                            <b-table-column field="subject" label="Grade Level" v-slot="props">
+                                {{ props.row.subject_code }} - {{ props.row.subject_description }}
+                            </b-table-column>
+
+                            <!-- <b-table-column field="grade_level" label="Enrollment Status" v-slot="props">
                                 <span class="enroled" v-if="props.row.is_enrolled == 1">ENROLED</span>
                                 <span class="admitted" v-else>ADMITTED</span>
 
-                            </b-table-column>
+                            </b-table-column> -->
 
                             <b-table-column field="track_strand" label="Track/Strand" v-slot="props">
                                 <span v-if="props.row.track">
-                                    {{ props.row.track.track }}
+                                    {{ props.row.track }}
                                 </span>
 
                                 <span v-if="props.row.strand">
-                                    / {{ props.row.strand.strand }}
+                                    / {{ props.row.strand }}
 
                                 </span>
 
+                            </b-table-column>
+
+                            <b-table-column field="section" label="Grade Level" v-slot="props">
+                                {{ props.row.section }}
                             </b-table-column>
 
                             <b-table-column label="Action" v-slot="props">
@@ -132,9 +146,9 @@
                                         <b-button class="button is-small mr-1" 
                                             icon-right="delete" 
                                             @click="confirmDelete(props.row.enroll_id)"></b-button>
-                                    </b-tooltip> -->
+                                    </b-tooltip> 
 
-                                    <!-- <b-tooltip label="More options">
+                                   <b-tooltip label="More options">
                                         <b-dropdown aria-role="list">
                                             <template #trigger="{ active }">
                                                 <b-button
@@ -148,67 +162,11 @@
                                             <b-dropdown-item aria-role="listitem">Another action</b-dropdown-item>
                                             <b-dropdown-item aria-role="listitem">Something else</b-dropdown-item>
                                         </b-dropdown>
-                                    </b-tooltip> -->
+                                    </b-tooltip>  -->
                                 </div>
                             </b-table-column>
 
-                            <template #detail="props">
-                                <div class="columns">
-                                    <div class="column">
-                                        <div class="has-text-weight-bold is-size-6">SECTION: {{ props.row.section.section }}</div>
-                                    </div>
-                                    <div class="column">
-                                        <div class="has-text-weight-bold is-size-6">TRACK: 
-                                            <span v-if="props.row.track">
-                                                {{ props.row.track.track }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="columns">
-                                   
-                                    <div class="column">
-                                        <div class="has-text-weight-bold is-size-6">STRAND: 
-                                            <span v-if="props.row.strand">
-                                                {{ props.row.track.strand }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="column">
-                                        <div class="has-text-weight-bold is-size-6">
-                                            SEMESTER: 
-                                            <span v-if="props.row.semester">
-                                                {{ props.row.semester.semester }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                   
-                                </div>
-                              
-                               
-                    
-
-                                <p class="has-text-weight-bold is-size-6 mb-4">SUBJECTS</p>
-                                <table class="table">
-                                    <tr>
-                                        <th>Code</th>
-                                        <th>Description</th>
-                             
-                                    </tr>
-                                    <tr v-for="(item, ix) in props.row.section_subjects" :key="`subj${ix}`">
-                                        <td>{{ item.subject.subject_code }}</td>
-                                        <td>{{ item.subject.subject_description }}</td>
-                                    </tr>
-                                </table>
-
-                                <div class="buttons">
-                                    <b-button tag="a" 
-                                        :href="`/print-coe/${props.row.learner_id}/${search.ayid}`"
-                                        class="is-small is-outlined is-info mt-2"
-                                        icon-left="printer">PRINT COE</b-button>
-                                </div>
-                            </template>
+                            
                         </b-table>
 
                         <div class="columns">
@@ -267,6 +225,7 @@ export default{
             academicYears: [],
             gradeLevels: [],
             semesters: [],
+            sections: [],
         }
 
     },
@@ -387,9 +346,17 @@ export default{
             }else{
                 this.search.semester = null
             }
-            
+
+            this.loadSections()
+        },
+
+        loadSections(){
+            axios.get('/load-section?grade=' + this.search.grade_level['grade_level']).then(res=>{
+                this.sections = res.data
+            })
         }
 
+        
 
     },
 

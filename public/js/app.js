@@ -8690,48 +8690,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -8754,7 +8712,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       errors: {},
       academicYears: [],
       gradeLevels: [],
-      semesters: []
+      semesters: [],
+      sections: []
     };
   },
   methods: {
@@ -8880,15 +8839,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.search.semester = null;
       }
+
+      this.loadSections();
+    },
+    loadSections: function loadSections() {
+      var _this7 = this;
+
+      axios.get('/load-section?grade=' + this.search.grade_level['grade_level']).then(function (res) {
+        _this7.sections = res.data;
+      });
     }
   },
   mounted: function mounted() {
-    var _this7 = this;
+    var _this8 = this;
 
     this.loadAcademicYears().then(function () {
-      _this7.loadAsyncData();
+      _this8.loadAsyncData();
 
-      _this7.loadGradeLevels();
+      _this8.loadGradeLevels();
     });
   }
 });
@@ -15548,7 +15516,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
 //
 //
 //
@@ -64762,7 +64729,7 @@ var render = function () {
             { staticClass: "box" },
             [
               _c("div", { staticClass: "has-text-weight-bold is-size-4" }, [
-                _vm._v("ENROLLEES"),
+                _vm._v("ASSIGN TEACHER"),
               ]),
               _vm._v(" "),
               _c(
@@ -64962,6 +64929,53 @@ var render = function () {
                   : _vm._e(),
               ]),
               _vm._v(" "),
+              _c("div", { staticClass: "columns" }, [
+                _c(
+                  "div",
+                  { staticClass: "column" },
+                  [
+                    _c(
+                      "b-field",
+                      { attrs: { label: "Sections", expanded: "" } },
+                      [
+                        _c(
+                          "b-select",
+                          {
+                            attrs: { expanded: "", placeholder: "Sections" },
+                            model: {
+                              value: _vm.search.sections,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.search, "sections", $$v)
+                              },
+                              expression: "search.sections",
+                            },
+                          },
+                          _vm._l(_vm.sections, function (item, ix) {
+                            return _c(
+                              "option",
+                              {
+                                key: "section" + ix,
+                                domProps: { value: item.section_id },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                        " +
+                                    _vm._s(item.section) +
+                                    "\n                                    "
+                                ),
+                              ]
+                            )
+                          }),
+                          0
+                        ),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+              ]),
+              _vm._v(" "),
               _c(
                 "b-field",
                 { attrs: { label: "Search" } },
@@ -65026,7 +65040,6 @@ var render = function () {
                     data: _vm.data,
                     loading: _vm.loading,
                     paginated: "",
-                    detailed: "",
                     "backend-pagination": "",
                     total: _vm.total,
                     "pagination-rounded": true,
@@ -65039,210 +65052,8 @@ var render = function () {
                     "default-sort-direction": _vm.defaultSortDirection,
                   },
                   on: { "page-change": _vm.onPageChange, sort: _vm.onSort },
-                  scopedSlots: _vm._u([
-                    {
-                      key: "detail",
-                      fn: function (props) {
-                        return [
-                          _c("div", { staticClass: "columns" }, [
-                            _c("div", { staticClass: "column" }, [
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "has-text-weight-bold is-size-6",
-                                },
-                                [
-                                  _vm._v(
-                                    "SECTION: " +
-                                      _vm._s(props.row.section.section)
-                                  ),
-                                ]
-                              ),
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "column" }, [
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "has-text-weight-bold is-size-6",
-                                },
-                                [
-                                  _vm._v(
-                                    "TRACK: \n                                        "
-                                  ),
-                                  props.row.track
-                                    ? _c("span", [
-                                        _vm._v(
-                                          "\n                                            " +
-                                            _vm._s(props.row.track.track) +
-                                            "\n                                        "
-                                        ),
-                                      ])
-                                    : _vm._e(),
-                                ]
-                              ),
-                            ]),
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "columns" }, [
-                            _c("div", { staticClass: "column" }, [
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "has-text-weight-bold is-size-6",
-                                },
-                                [
-                                  _vm._v(
-                                    "STRAND: \n                                        "
-                                  ),
-                                  props.row.strand
-                                    ? _c("span", [
-                                        _vm._v(
-                                          "\n                                            " +
-                                            _vm._s(props.row.track.strand) +
-                                            "\n                                        "
-                                        ),
-                                      ])
-                                    : _vm._e(),
-                                ]
-                              ),
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "column" }, [
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "has-text-weight-bold is-size-6",
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                        SEMESTER: \n                                        "
-                                  ),
-                                  props.row.semester
-                                    ? _c("span", [
-                                        _vm._v(
-                                          "\n                                            " +
-                                            _vm._s(
-                                              props.row.semester.semester
-                                            ) +
-                                            "\n                                        "
-                                        ),
-                                      ])
-                                    : _vm._e(),
-                                ]
-                              ),
-                            ]),
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "p",
-                            {
-                              staticClass:
-                                "has-text-weight-bold is-size-6 mb-4",
-                            },
-                            [_vm._v("SUBJECTS")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "table",
-                            { staticClass: "table" },
-                            [
-                              _c("tr", [
-                                _c("th", [_vm._v("Code")]),
-                                _vm._v(" "),
-                                _c("th", [_vm._v("Description")]),
-                              ]),
-                              _vm._v(" "),
-                              _vm._l(
-                                props.row.section_subjects,
-                                function (item, ix) {
-                                  return _c("tr", { key: "subj" + ix }, [
-                                    _c("td", [
-                                      _vm._v(_vm._s(item.subject.subject_code)),
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(
-                                        _vm._s(item.subject.subject_description)
-                                      ),
-                                    ]),
-                                  ])
-                                }
-                              ),
-                            ],
-                            2
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "buttons" },
-                            [
-                              _c(
-                                "b-button",
-                                {
-                                  staticClass:
-                                    "is-small is-outlined is-info mt-2",
-                                  attrs: {
-                                    tag: "a",
-                                    href:
-                                      "/print-coe/" +
-                                      props.row.learner_id +
-                                      "/" +
-                                      _vm.search.ayid,
-                                    "icon-left": "printer",
-                                  },
-                                },
-                                [_vm._v("PRINT COE")]
-                              ),
-                            ],
-                            1
-                          ),
-                        ]
-                      },
-                    },
-                  ]),
                 },
                 [
-                  _c("b-table-column", {
-                    attrs: { field: "lname", label: "Name", sortable: "" },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "default",
-                        fn: function (props) {
-                          return [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(props.row.learner.lname) +
-                                ", " +
-                                _vm._s(props.row.learner.fname) +
-                                " " +
-                                _vm._s(props.row.learner.mname) +
-                                "\n                        "
-                            ),
-                          ]
-                        },
-                      },
-                    ]),
-                  }),
-                  _vm._v(" "),
-                  _c("b-table-column", {
-                    attrs: { field: "sex", label: "Sex" },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "default",
-                        fn: function (props) {
-                          return [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(props.row.learner.sex) +
-                                "\n                        "
-                            ),
-                          ]
-                        },
-                      },
-                    ]),
-                  }),
-                  _vm._v(" "),
                   _c("b-table-column", {
                     attrs: { field: "grade_level", label: "Grade Level" },
                     scopedSlots: _vm._u([
@@ -65262,19 +65073,19 @@ var render = function () {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { field: "grade_level", label: "Enrollment Status" },
+                    attrs: { field: "subject", label: "Grade Level" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
                         fn: function (props) {
                           return [
-                            props.row.is_enrolled == 1
-                              ? _c("span", { staticClass: "enroled" }, [
-                                  _vm._v("ENROLED"),
-                                ])
-                              : _c("span", { staticClass: "admitted" }, [
-                                  _vm._v("ADMITTED"),
-                                ]),
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.subject_code) +
+                                " - " +
+                                _vm._s(props.row.subject_description) +
+                                "\n                        "
+                            ),
                           ]
                         },
                       },
@@ -65292,7 +65103,7 @@ var render = function () {
                               ? _c("span", [
                                   _vm._v(
                                     "\n                                " +
-                                      _vm._s(props.row.track.track) +
+                                      _vm._s(props.row.track) +
                                       "\n                            "
                                   ),
                                 ])
@@ -65302,11 +65113,29 @@ var render = function () {
                               ? _c("span", [
                                   _vm._v(
                                     "\n                                / " +
-                                      _vm._s(props.row.strand.strand) +
+                                      _vm._s(props.row.strand) +
                                       "\n\n                            "
                                   ),
                                 ])
                               : _vm._e(),
+                          ]
+                        },
+                      },
+                    ]),
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { field: "section", label: "Grade Level" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function (props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.section) +
+                                "\n                        "
+                            ),
                           ]
                         },
                       },
