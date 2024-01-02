@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\EnrollSubject;
-
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class AssignTeacherController extends Controller
 {
@@ -28,6 +29,7 @@ class AssignTeacherController extends Controller
             ->join('subjects as e', 'enroll_subjects.subject_id', 'e.subject_id')
             ->leftjoin('tracks as f', 'b.track_id', 'f.track_id')
             ->leftjoin('strands as g', 'b.strand_id', 'g.strand_id')
+            ->leftjoin('users', 'enroll_subjects.teacher_id', 'users.user_id')
 
             ->groupBy('b.section_id')
             ->groupBy('enroll_subjects.subject_id')
@@ -49,11 +51,60 @@ class AssignTeacherController extends Controller
                     'b.track_id',
                     'f.track',
                     'b.strand_id',
-                    'g.strand'
+                    'g.strand',
+                    'users.lname',
+                    'users.fname',
+                    'users.mname',
+                    'users.sex'
                 )
             ->paginate($req->perpage);
 
         return $data;
+    }
+
+    public function loadTeacherList(Request $req){
+
+        $sort = explode('.', $req->sort_by);
+
+        $data = User::where('lname', 'like', $req->lname . '%')
+            ->where('fname', 'like', $req->fname . '%')
+            ->where('role', 'TEACHER')
+            ->orderBy($sort[0], $sort[1])
+            ->paginate($req->perpage);
+
+        return $data;
+
+    }
+
+
+    public function saveTeacher(Request $req){
+
+        //return $req;
+
+        $req->validate([
+            'section_id' => ['required'],
+            'academic_year_id' => ['required'],
+            'user_id' => ['required'],
+            'subject_id' => ['required'],
+
+        ]);
+
+        DB::statement("
+            UPDATE enroll_subjects as a JOIN enrolls as b on a.enroll_id = b.enroll_id
+            SET a.teacher_id = :teacher_id
+            WHERE b.section_id = :section_id AND a.subject_id = :subject_id
+            AND b.academic_year_id = :academic_year_id
+        ", [
+            'academic_year_id' => $req->academic_year_id,
+            'teacher_id' => $req->user_id,
+            'section_id' => $req->section_id,
+            'subject_id' => $req->subject_id
+
+        ]);
+
+        return response()->json([
+            'status' => 'saved'
+        ], 200);
     }
 
 }

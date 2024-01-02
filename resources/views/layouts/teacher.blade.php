@@ -69,6 +69,9 @@
                     My Subjects
                 </b-navbar-item>
  
+                <b-navbar-item>
+                    {{ Auth::user()->fname }}
+                </b-navbar-item>
 
                 <b-navbar-item tag="div">
                     @auth()

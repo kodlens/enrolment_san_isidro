@@ -82,6 +82,7 @@ Route::middleware(['auth', 'teacher'])->group(function(){
 
 
     Route::get('/my-subjects', [App\Http\Controllers\Teacher\MySubjectController::class, 'index']);
+    Route::get('/get-my-subjects', [App\Http\Controllers\Teacher\MySubjectController::class, 'getData']);
 
 
 });
@@ -143,7 +144,9 @@ Route::middleware(['auth', 'admin'])->group(function(){
 
     Route::resource('/assign-teacher', App\Http\Controllers\Administrator\AssignTeacherController::class);
     Route::get('/get-enroll-section-subjects', [App\Http\Controllers\Administrator\AssignTeacherController::class, 'getData']);
-
+    Route::get('/load-teacher-lists', [App\Http\Controllers\Administrator\AssignTeacherController::class, 'loadTeacherList']);
+    Route::post('/save-teacher', [App\Http\Controllers\Administrator\AssignTeacherController::class, 'saveTeacher']);
+    
     
     
     Route::resource('/enrollment', App\Http\Controllers\Administrator\EnrollmentController::class);

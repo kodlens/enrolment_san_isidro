@@ -13,14 +13,13 @@
                                     <b-select
                                         expanded
                                         icon="account"
-                                        placeholder="Grade Level"
-                                        v-model="search.grade"
+                                        placeholder="Academic Year"
+                                        v-model="search.academic_year_id"
                                         @input="loadAsyncData"
                                         required>
-                                        <option value="">ALL</option>
-                                        <option :value="item.grade_level"
-                                                v-for="(item, ix) in gradeLevels" :key="`g${ix}`">
-                                            {{ item.grade_level }}
+                                        <option :value="item.academic_year_id"
+                                                v-for="(item, ix) in academicYears" :key="`g${ix}`">
+                                            {{ item.academic_year_code }} - {{ item.academic_year_desc }}
                                         </option>
                                     </b-select >
                                 </b-field>
@@ -65,8 +64,8 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="grade_level_subject_id" label="ID" sortable v-slot="props">
-                                {{ props.row.grade_level_subject_id }}
+                            <b-table-column field="enroll_subject_id" label="ID" sortable v-slot="props">
+                                {{ props.row.enroll_subject_id }}
                             </b-table-column>
 
                             <b-table-column field="grade_level" label="Grade Level" v-slot="props">
@@ -74,15 +73,12 @@
                             </b-table-column>
 
                             <b-table-column field="subject" label="Subject" v-slot="props">
-                                <span v-if="props.row.subject">
-                                    {{ props.row.subject.subject_code }}
-                                </span>
+                                {{ props.row.subject_code }}
                             </b-table-column>
 
                             <b-table-column field="subjec_description" label="Description" v-slot="props">
-                                <span v-if="props.row.subject">
-                                    {{ props.row.subject.subject_description }}
-                                </span>
+                                {{ props.row.subject_description }}
+
                             </b-table-column>
                             
                         
@@ -130,7 +126,7 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'grade_level_subject_id',
+            sortField: 'enroll_subject_id',
             sortOrder: 'desc',
             page: 1,
             perPage: 10,
@@ -139,11 +135,10 @@ export default{
             global_id : 0,
 
             search: {
-                subject: '',
-                grade: ''
+                academic_year_id: null,
             },
 
-            gradeLevels: [],
+            academicYears: [],
 
         }
 
@@ -156,14 +151,13 @@ export default{
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `subject=${this.search.subject}`,
-                `grade=${this.search.grade}`,
+                `academic=${this.search.academic_year_id}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-grade-level-subjects?${params}`)
+            axios.get(`/get-my-subjects?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -203,44 +197,28 @@ export default{
             this.loadAsyncData()
         },
 
-       
+  
 
+        async loadAcademicYears(){
+            await axios.get('/load-academic-years').then(res=>{
+                this.academicYears = res.data
 
-        //alert box ask for deletion
-        confirmDelete(delete_id) {
-            this.$buefy.dialog.confirm({
-                title: 'DELETE!',
-                type: 'is-danger',
-                message: 'Are you sure you want to delete this section?',
-                cancelText: 'Cancel',
-                confirmText: 'Delete',
-                onConfirm: () => this.deleteSubmit(delete_id)
-            });
-        },
-        //execute delete after confirming
-        deleteSubmit(delete_id) {
-            axios.delete('/grade-level-subjects/' + delete_id).then(res => {
-                this.loadAsyncData();
-                this.clearFields()
+                this.academicYears.forEach(item =>{
+                    if(item.is_active === 1){
+                        this.search.academic_year_id = item.academic_year_id
+                    }
+                })
             })
-        },
-
-        clearFields(){
-            this.global_id = 0;
-            this.fields.section = null
-        },
-
-        loadGradeLevels(){
-            axios.get('/load-grade-levels').then(res=>{
-                this.gradeLevels = res.data
-            })
+          
         }
 
     },
 
     mounted() {
-        this.loadAsyncData()
-        this.loadGradeLevels()
+        this.loadAcademicYears().then(()=>{
+            this.loadAsyncData()
+        })
+        
     }
 
 }

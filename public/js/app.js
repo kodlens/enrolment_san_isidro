@@ -8690,6 +8690,86 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -8699,8 +8779,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       sortField: 'enroll_subject_id',
       sortOrder: 'desc',
       page: 1,
-      perPage: 10,
+      perPage: 30,
       defaultSortDirection: 'asc',
+      //for teacher table and modal
+      dataTeacher: [],
+      totalTeacher: 0,
+      loadingTeacher: false,
+      sortFieldTeacher: 'user_id',
+      sortOrderTeacher: 'desc',
+      pageTeacher: 1,
+      perPageTeacher: 10,
+      defaultSortDirectionTeacher: 'asc',
       global_id: 0,
       search: {
         ayid: '',
@@ -8708,12 +8797,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         grade_level: {},
         semester: null
       },
-      isModalCreate: false,
+      fields: {},
       errors: {},
       academicYears: [],
       gradeLevels: [],
       semesters: [],
-      sections: []
+      sections: [],
+      modalTeacher: false,
+      section_id: null,
+      academic_year_id: null,
+      subject_id: null
     };
   },
   methods: {
@@ -8763,37 +8856,103 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setPerPage: function setPerPage() {
       this.loadAsyncData();
     },
-    //alert box ask for deletion
-    confirmDelete: function confirmDelete(dataId) {
+    //for teacher load
+    loadAsyncDataTeacher: function loadAsyncDataTeacher() {
       var _this2 = this;
 
-      this.$buefy.dialog.confirm({
-        title: 'DELETE!',
-        type: 'is-danger',
-        message: 'Are you sure you want to delete this data?',
-        cancelText: 'Cancel',
-        confirmText: 'Delete',
-        onConfirm: function onConfirm() {
-          return _this2.deleteSubmit(dataId);
+      var params = ["sort_by=".concat(this.sortFieldTeacher, ".").concat(this.sortOrderTeacher), "name=".concat(this.search.teacher_name), "perpage=".concat(this.perPageTeacher), "page=".concat(this.pageTeacher)].join('&');
+      this.loadingTeacher = true;
+      axios.get("/load-teacher-lists?".concat(params)).then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.dataTeacher = [];
+        var currentTotal = data.total;
+
+        if (data.total / _this2.perPageTeacher > 1000) {
+          currentTotal = _this2.perPageTeacher * 1000;
         }
+
+        _this2.totalTeacher = currentTotal;
+        data.data.forEach(function (item) {
+          //item.release_date = item.release_date ? item.release_date.replace(/-/g, '/') : null
+          _this2.dataTeacher.push(item);
+        });
+        _this2.loadingTeacher = false;
+      })["catch"](function (error) {
+        _this2.dataTeacher = [];
+        _this2.totalTeacher = 0;
+        _this2.loadingTeacher = false;
+        throw error;
       });
     },
-    //execute delete after confirming
-    deleteSubmit: function deleteSubmit(dataId) {
+
+    /*
+    * Handle page-change event
+    */
+    onPageChangeTeacher: function onPageChangeTeacher(page) {
+      this.pageTeacher = page;
+      this.loadAsyncDataTeacher();
+    },
+    onSortTeacher: function onSortTeacher(field, order) {
+      this.sortFieldTeacher = field;
+      this.sortOrderTeacher = order;
+      this.loadAsyncDataTeacher();
+    },
+    setPerPageTeacher: function setPerPageTeacher() {
+      this.loadAsyncDataTeacher();
+    },
+    openModalTeacher: function openModalTeacher(row) {
+      this.loadAsyncDataTeacher();
+      console.log(row);
+      this.academic_year_id = row.academic_year_id;
+      this.section_id = row.section_id;
+      this.subject_id = row.subject_id;
+      this.modalTeacher = true;
+    },
+    assignTeacher: function assignTeacher(row) {
       var _this3 = this;
 
-      axios["delete"]('/enrollee/' + dataId).then(function (res) {
-        _this3.loadAsyncData();
-      })["catch"](function (err) {
-        if (err.response.status === 422) {
-          _this3.errors = err.response.data.errors;
+      console.log(row);
+      axios.post('/save-teacher', {
+        'section_id': this.section_id,
+        'academic_year_id': this.academic_year_id,
+        'user_id': row.user_id,
+        'subject_id': this.subject_id
+      }).then(function (res) {
+        if (res.data.status === 'saved') {
+          _this3.loadAsyncData();
+
+          _this3.modalTeacher = false;
+          _this3.section_id = null;
+          _this3.academic_year_id = null;
+          _this3.subject_id = null;
         }
       });
     },
-    //update code here
-    getData: function getData(data_id) {
-      window.location = '/payment-history/' + data_id;
-    },
+    //alert box ask for deletion
+    // confirmDelete(dataId) {
+    //     this.$buefy.dialog.confirm({
+    //         title: 'DELETE!',
+    //         type: 'is-danger',
+    //         message: 'Are you sure you want to delete this data?',
+    //         cancelText: 'Cancel',
+    //         confirmText: 'Delete',
+    //         onConfirm: () => this.deleteSubmit(dataId)
+    //     });
+    // },
+    // //execute delete after confirming
+    // deleteSubmit(dataId) {
+    //     axios.delete('/enrollee/' + dataId).then(res => {
+    //         this.loadAsyncData();
+    //     }).catch(err => {
+    //         if (err.response.status === 422) {
+    //             this.errors = err.response.data.errors;
+    //         }
+    //     });
+    // },
+    // //update code here
+    // getData: function(data_id){
+    //     window.location = '/payment-history/' + data_id
+    // },
     loadAcademicYears: function loadAcademicYears() {
       var _this4 = this;
 
@@ -20751,10 +20910,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -20880,17 +21043,16 @@ __webpack_require__.r(__webpack_exports__);
       data: [],
       total: 0,
       loading: false,
-      sortField: 'grade_level_subject_id',
+      sortField: 'enroll_subject_id',
       sortOrder: 'desc',
       page: 1,
       perPage: 10,
       defaultSortDirection: 'asc',
       global_id: 0,
       search: {
-        subject: '',
-        grade: ''
+        academic_year_id: null
       },
-      gradeLevels: []
+      academicYears: []
     };
   },
   methods: {
@@ -20900,9 +21062,9 @@ __webpack_require__.r(__webpack_exports__);
     loadAsyncData: function loadAsyncData() {
       var _this = this;
 
-      var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "subject=".concat(this.search.subject), "grade=".concat(this.search.grade), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
+      var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "academic=".concat(this.search.academic_year_id), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("/get-grade-level-subjects?".concat(params)).then(function (_ref) {
+      axios.get("/get-my-subjects?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.data = [];
         var currentTotal = data.total;
@@ -20940,46 +21102,40 @@ __webpack_require__.r(__webpack_exports__);
     setPerPage: function setPerPage() {
       this.loadAsyncData();
     },
-    //alert box ask for deletion
-    confirmDelete: function confirmDelete(delete_id) {
+    loadAcademicYears: function loadAcademicYears() {
       var _this2 = this;
 
-      this.$buefy.dialog.confirm({
-        title: 'DELETE!',
-        type: 'is-danger',
-        message: 'Are you sure you want to delete this section?',
-        cancelText: 'Cancel',
-        confirmText: 'Delete',
-        onConfirm: function onConfirm() {
-          return _this2.deleteSubmit(delete_id);
-        }
-      });
-    },
-    //execute delete after confirming
-    deleteSubmit: function deleteSubmit(delete_id) {
-      var _this3 = this;
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get('/load-academic-years').then(function (res) {
+                  _this2.academicYears = res.data;
 
-      axios["delete"]('/grade-level-subjects/' + delete_id).then(function (res) {
-        _this3.loadAsyncData();
+                  _this2.academicYears.forEach(function (item) {
+                    if (item.is_active === 1) {
+                      _this2.search.academic_year_id = item.academic_year_id;
+                    }
+                  });
+                });
 
-        _this3.clearFields();
-      });
-    },
-    clearFields: function clearFields() {
-      this.global_id = 0;
-      this.fields.section = null;
-    },
-    loadGradeLevels: function loadGradeLevels() {
-      var _this4 = this;
-
-      axios.get('/load-grade-levels').then(function (res) {
-        _this4.gradeLevels = res.data;
-      });
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   },
   mounted: function mounted() {
-    this.loadAsyncData();
-    this.loadGradeLevels();
+    var _this3 = this;
+
+    this.loadAcademicYears().then(function () {
+      _this3.loadAsyncData();
+    });
   }
 });
 
@@ -64720,308 +64876,835 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "section" }, [
-      _c("div", { staticClass: "columns is-centered" }, [
-        _c("div", { staticClass: "column is-8-dekstop is-10-tablet" }, [
-          _c(
-            "div",
-            { staticClass: "box" },
-            [
-              _c("div", { staticClass: "has-text-weight-bold is-size-4" }, [
-                _vm._v("ASSIGN TEACHER"),
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "has-text-weight-bold mb-4 is-size-6" },
-                [
-                  _vm._v(
-                    "\n                        List of enrollees of the selected Academic Year.\n                    "
-                  ),
-                ]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "columns" }, [
-                _c(
-                  "div",
-                  { staticClass: "column" },
-                  [
-                    _c(
-                      "b-field",
-                      { attrs: { label: "Academic Year", expanded: "" } },
-                      [
-                        _c(
-                          "b-select",
-                          {
-                            attrs: {
-                              expanded: "",
-                              placeholder: "Academic Year",
-                            },
-                            nativeOn: {
-                              keyup: function ($event) {
-                                if (
-                                  !$event.type.indexOf("key") &&
-                                  _vm._k(
-                                    $event.keyCode,
-                                    "enter",
-                                    13,
-                                    $event.key,
-                                    "Enter"
-                                  )
-                                ) {
-                                  return null
-                                }
-                                return _vm.loadAsyncData.apply(null, arguments)
-                              },
-                            },
-                            model: {
-                              value: _vm.search.ayid,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.search, "ayid", $$v)
-                              },
-                              expression: "search.ayid",
-                            },
-                          },
-                          _vm._l(_vm.academicYears, function (item, ix) {
-                            return _c(
-                              "option",
-                              {
-                                key: "ay" + ix,
-                                domProps: { value: item.academic_year_id },
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                        " +
-                                    _vm._s(item.academic_year_code) +
-                                    " - " +
-                                    _vm._s(item.academic_year_desc) +
-                                    "\n                                    "
-                                ),
-                              ]
-                            )
-                          }),
-                          0
-                        ),
-                      ],
-                      1
-                    ),
-                  ],
-                  1
-                ),
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "section" }, [
+        _c("div", { staticClass: "columns is-centered" }, [
+          _c("div", { staticClass: "column is-8-dekstop is-10-tablet" }, [
+            _c(
+              "div",
+              { staticClass: "box" },
+              [
+                _c("div", { staticClass: "has-text-weight-bold is-size-4" }, [
+                  _vm._v("ASSIGN TEACHER"),
+                ]),
                 _vm._v(" "),
                 _c(
                   "div",
-                  { staticClass: "column" },
+                  { staticClass: "has-text-weight-bold mb-4 is-size-6" },
                   [
-                    _c(
-                      "b-field",
-                      { attrs: { label: "Grade Level", expanded: "" } },
-                      [
-                        _c(
-                          "b-select",
-                          {
-                            attrs: { expanded: "", placeholder: "Grade Level" },
-                            on: { input: _vm.loadSemesters },
-                            model: {
-                              value: _vm.search.grade_level,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.search, "grade_level", $$v)
+                    _vm._v(
+                      "\n                        List of subjects of the selected Academic Year.\n                    "
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Academic Year", expanded: "" } },
+                        [
+                          _c(
+                            "b-select",
+                            {
+                              attrs: {
+                                expanded: "",
+                                placeholder: "Academic Year",
                               },
-                              expression: "search.grade_level",
-                            },
-                          },
-                          [
-                            _c(
-                              "option",
-                              {
-                                domProps: {
-                                  value: {
-                                    grade_level: "",
-                                    curriculum_code: "",
-                                  },
+                              nativeOn: {
+                                keyup: function ($event) {
+                                  if (
+                                    !$event.type.indexOf("key") &&
+                                    _vm._k(
+                                      $event.keyCode,
+                                      "enter",
+                                      13,
+                                      $event.key,
+                                      "Enter"
+                                    )
+                                  ) {
+                                    return null
+                                  }
+                                  return _vm.loadAsyncData.apply(
+                                    null,
+                                    arguments
+                                  )
                                 },
                               },
-                              [_vm._v("ALL")]
-                            ),
-                            _vm._v(" "),
-                            _vm._l(_vm.gradeLevels, function (item, ix) {
+                              model: {
+                                value: _vm.search.ayid,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.search, "ayid", $$v)
+                                },
+                                expression: "search.ayid",
+                              },
+                            },
+                            _vm._l(_vm.academicYears, function (item, ix) {
                               return _c(
                                 "option",
                                 {
-                                  key: "grade" + ix,
-                                  domProps: {
-                                    value: {
-                                      grade_level: item.grade_level,
-                                      curriculum_code: item.curriculum_code,
-                                    },
-                                  },
+                                  key: "ay" + ix,
+                                  domProps: { value: item.academic_year_id },
                                 },
                                 [
                                   _vm._v(
                                     "\n                                        " +
-                                      _vm._s(item.grade_level) +
-                                      " (" +
-                                      _vm._s(item.curriculum_code) +
-                                      ")\n                                    "
+                                      _vm._s(item.academic_year_code) +
+                                      " - " +
+                                      _vm._s(item.academic_year_desc) +
+                                      "\n                                    "
                                   ),
                                 ]
                               )
                             }),
-                          ],
-                          2
-                        ),
-                      ],
-                      1
-                    ),
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _vm.search.grade_level.curriculum_code === "SHS"
-                  ? _c(
-                      "div",
-                      { staticClass: "column" },
-                      [
-                        _c(
-                          "b-field",
-                          { attrs: { label: "Semester", expanded: "" } },
-                          [
-                            _c(
-                              "b-select",
-                              {
-                                attrs: {
-                                  expanded: "",
-                                  placeholder: "Semester",
-                                },
-                                model: {
-                                  value: _vm.search.semester,
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.search, "semester", $$v)
-                                  },
-                                  expression: "search.semester",
-                                },
+                            0
+                          ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Grade Level", expanded: "" } },
+                        [
+                          _c(
+                            "b-select",
+                            {
+                              attrs: {
+                                expanded: "",
+                                placeholder: "Grade Level",
                               },
-                              _vm._l(_vm.semesters, function (item, ix) {
+                              on: { input: _vm.loadSemesters },
+                              model: {
+                                value: _vm.search.grade_level,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.search, "grade_level", $$v)
+                                },
+                                expression: "search.grade_level",
+                              },
+                            },
+                            [
+                              _c(
+                                "option",
+                                {
+                                  domProps: {
+                                    value: {
+                                      grade_level: "",
+                                      curriculum_code: "",
+                                    },
+                                  },
+                                },
+                                [_vm._v("ALL")]
+                              ),
+                              _vm._v(" "),
+                              _vm._l(_vm.gradeLevels, function (item, ix) {
                                 return _c(
                                   "option",
                                   {
-                                    key: "sem" + ix,
-                                    domProps: { value: item.semester_id },
+                                    key: "grade" + ix,
+                                    domProps: {
+                                      value: {
+                                        grade_level: item.grade_level,
+                                        curriculum_code: item.curriculum_code,
+                                      },
+                                    },
                                   },
                                   [
                                     _vm._v(
                                       "\n                                        " +
-                                        _vm._s(item.semester) +
-                                        "\n                                    "
+                                        _vm._s(item.grade_level) +
+                                        " (" +
+                                        _vm._s(item.curriculum_code) +
+                                        ")\n                                    "
                                     ),
                                   ]
                                 )
                               }),
-                              0
-                            ),
+                            ],
+                            2
+                          ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm.search.grade_level.curriculum_code === "SHS"
+                    ? _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            { attrs: { label: "Semester", expanded: "" } },
+                            [
+                              _c(
+                                "b-select",
+                                {
+                                  attrs: {
+                                    expanded: "",
+                                    placeholder: "Semester",
+                                  },
+                                  model: {
+                                    value: _vm.search.semester,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.search, "semester", $$v)
+                                    },
+                                    expression: "search.semester",
+                                  },
+                                },
+                                _vm._l(_vm.semesters, function (item, ix) {
+                                  return _c(
+                                    "option",
+                                    {
+                                      key: "sem" + ix,
+                                      domProps: { value: item.semester_id },
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                        " +
+                                          _vm._s(item.semester) +
+                                          "\n                                    "
+                                      ),
+                                    ]
+                                  )
+                                }),
+                                0
+                              ),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Sections", expanded: "" } },
+                        [
+                          _c(
+                            "b-select",
+                            {
+                              attrs: { expanded: "", placeholder: "Sections" },
+                              model: {
+                                value: _vm.search.sections,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.search, "sections", $$v)
+                                },
+                                expression: "search.sections",
+                              },
+                            },
+                            _vm._l(_vm.sections, function (item, ix) {
+                              return _c(
+                                "option",
+                                {
+                                  key: "section" + ix,
+                                  domProps: { value: item.section_id },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                        " +
+                                      _vm._s(item.section) +
+                                      "\n                                    "
+                                  ),
+                                ]
+                              )
+                            }),
+                            0
+                          ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "b-field",
+                  { attrs: { label: "Search" } },
+                  [
+                    _c("b-input", {
+                      attrs: { type: "text", placeholder: "Search Subject" },
+                      nativeOn: {
+                        keyup: function ($event) {
+                          if (
+                            !$event.type.indexOf("key") &&
+                            _vm._k(
+                              $event.keyCode,
+                              "enter",
+                              13,
+                              $event.key,
+                              "Enter"
+                            )
+                          ) {
+                            return null
+                          }
+                          return _vm.loadAsyncData.apply(null, arguments)
+                        },
+                      },
+                      model: {
+                        value: _vm.search.subject,
+                        callback: function ($$v) {
+                          _vm.$set(_vm.search, "subject", $$v)
+                        },
+                        expression: "search.subject",
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "p",
+                      { staticClass: "control" },
+                      [
+                        _c(
+                          "b-tooltip",
+                          { attrs: { label: "Search", type: "is-success" } },
+                          [
+                            _c("b-button", {
+                              attrs: {
+                                type: "is-primary",
+                                "icon-right": "magnify",
+                              },
+                              on: { click: _vm.loadAsyncData },
+                            }),
                           ],
                           1
                         ),
                       ],
                       1
-                    )
-                  : _vm._e(),
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "columns" }, [
-                _c(
-                  "div",
-                  { staticClass: "column" },
-                  [
-                    _c(
-                      "b-field",
-                      { attrs: { label: "Sections", expanded: "" } },
-                      [
-                        _c(
-                          "b-select",
-                          {
-                            attrs: { expanded: "", placeholder: "Sections" },
-                            model: {
-                              value: _vm.search.sections,
-                              callback: function ($$v) {
-                                _vm.$set(_vm.search, "sections", $$v)
-                              },
-                              expression: "search.sections",
-                            },
-                          },
-                          _vm._l(_vm.sections, function (item, ix) {
-                            return _c(
-                              "option",
-                              {
-                                key: "section" + ix,
-                                domProps: { value: item.section_id },
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                        " +
-                                    _vm._s(item.section) +
-                                    "\n                                    "
-                                ),
-                              ]
-                            )
-                          }),
-                          0
-                        ),
-                      ],
-                      1
                     ),
                   ],
                   1
                 ),
-              ]),
-              _vm._v(" "),
-              _c(
-                "b-field",
-                { attrs: { label: "Search" } },
-                [
-                  _c("b-input", {
-                    attrs: { type: "text", placeholder: "Search Lastname" },
-                    nativeOn: {
-                      keyup: function ($event) {
-                        if (
-                          !$event.type.indexOf("key") &&
-                          _vm._k(
-                            $event.keyCode,
-                            "enter",
-                            13,
-                            $event.key,
-                            "Enter"
-                          )
-                        ) {
-                          return null
-                        }
-                        return _vm.loadAsyncData.apply(null, arguments)
-                      },
+                _vm._v(" "),
+                _c(
+                  "b-table",
+                  {
+                    attrs: {
+                      data: _vm.data,
+                      loading: _vm.loading,
+                      paginated: "",
+                      "backend-pagination": "",
+                      total: _vm.total,
+                      "pagination-rounded": true,
+                      "per-page": _vm.perPage,
+                      "aria-next-label": "Next page",
+                      "aria-previous-label": "Previous page",
+                      "aria-page-label": "Page",
+                      "aria-current-label": "Current page",
+                      "backend-sorting": "",
+                      "default-sort-direction": _vm.defaultSortDirection,
                     },
-                    model: {
-                      value: _vm.search.name,
-                      callback: function ($$v) {
-                        _vm.$set(_vm.search, "name", $$v)
-                      },
-                      expression: "search.name",
-                    },
-                  }),
-                  _vm._v(" "),
+                    on: { "page-change": _vm.onPageChange, sort: _vm.onSort },
+                  },
+                  [
+                    _c("b-table-column", {
+                      attrs: { field: "grade_level", label: "Grade Level" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(props.row.grade_level) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: { field: "section", label: "Section" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(props.row.section) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: { field: "subject", label: "Grade Level" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(props.row.subject_code) +
+                                  " - " +
+                                  _vm._s(props.row.subject_description) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: { field: "track_strand", label: "Track/Strand" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              props.row.track
+                                ? _c("span", [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(props.row.track) +
+                                        "\n                            "
+                                    ),
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              props.row.strand
+                                ? _c("span", [
+                                    _vm._v(
+                                      "\n                                / " +
+                                        _vm._s(props.row.strand) +
+                                        "\n                            "
+                                    ),
+                                  ])
+                                : _vm._e(),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: { field: "section", label: "Grade Level" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(props.row.section) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: { field: "teacher", label: "Teacher" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              props.row.lname
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(props.row.lname) +
+                                        ", " +
+                                        _vm._s(props.row.fname) +
+                                        " " +
+                                        _vm._s(props.row.mname)
+                                    ),
+                                  ])
+                                : _vm._e(),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: { label: "Action" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _c(
+                                "div",
+                                { staticClass: "is-flex" },
+                                [
+                                  _c(
+                                    "b-tooltip",
+                                    {
+                                      attrs: {
+                                        label: "Assign Faculty",
+                                        type: "is-warning",
+                                      },
+                                    },
+                                    [
+                                      _c("b-button", {
+                                        staticClass: "button is-small mr-1",
+                                        attrs: { "icon-right": "account" },
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.openModalTeacher(
+                                              props.row
+                                            )
+                                          },
+                                        },
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                ],
+                                1
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
                   _c(
-                    "p",
-                    { staticClass: "control" },
+                    "div",
+                    { staticClass: "column" },
                     [
                       _c(
-                        "b-tooltip",
-                        { attrs: { label: "Search", type: "is-success" } },
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Page",
+                            "label-position": "on-border",
+                          },
+                        },
+                        [
+                          _c(
+                            "b-select",
+                            {
+                              staticClass: "is-small",
+                              on: { input: _vm.setPerPage },
+                              model: {
+                                value: _vm.perPage,
+                                callback: function ($$v) {
+                                  _vm.perPage = $$v
+                                },
+                                expression: "perPage",
+                              },
+                            },
+                            [
+                              _c("option", { attrs: { value: "5" } }, [
+                                _vm._v("5 per page"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "10" } }, [
+                                _vm._v("10 per page"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "15" } }, [
+                                _vm._v("15 per page"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "20" } }, [
+                                _vm._v("20 per page"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "30" } }, [
+                                _vm._v("30 per page"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "40" } }, [
+                                _vm._v("40 per page"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "50" } }, [
+                                _vm._v("50 per page"),
+                              ]),
+                            ]
+                          ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+              ],
+              1
+            ),
+          ]),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            "has-modal-card": "",
+            "trap-focus": "",
+            scroll: "keep",
+            "aria-role": "dialog",
+            "aria-modal": "",
+          },
+          model: {
+            value: _vm.modalTeacher,
+            callback: function ($$v) {
+              _vm.modalTeacher = $$v
+            },
+            expression: "modalTeacher",
+          },
+        },
+        [
+          _c("div", { staticClass: "modal-card card-width" }, [
+            _c("header", { staticClass: "modal-card-head" }, [
+              _c(
+                "p",
+                {
+                  staticClass:
+                    "modal-card-title has-text-weight-bold is-size-6",
+                },
+                [_vm._v("SELECT TEACHER")]
+              ),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "delete",
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    _vm.modalTeacher = false
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("section", { staticClass: "modal-card-body" }, [
+              _c(
+                "div",
+                [
+                  _c(
+                    "b-field",
+                    {
+                      attrs: { label: "Search", "label-position": "on-border" },
+                    },
+                    [
+                      _c("b-input", {
+                        attrs: {
+                          type: "text",
+                          placeholder: "Search Lastname...",
+                          expanded: "",
+                          "auto-focus": "",
+                        },
+                        model: {
+                          value: _vm.search.lname,
+                          callback: function ($$v) {
+                            _vm.$set(_vm.search, "lname", $$v)
+                          },
+                          expression: "search.lname",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("b-input", {
+                        attrs: {
+                          type: "text",
+                          placeholder: "Search Firstname...",
+                          expanded: "",
+                          "auto-focus": "",
+                        },
+                        model: {
+                          value: _vm.search.fname,
+                          callback: function ($$v) {
+                            _vm.$set(_vm.search, "fname", $$v)
+                          },
+                          expression: "search.fname",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "p",
+                        { staticClass: "control" },
                         [
                           _c("b-button", {
-                            attrs: {
-                              type: "is-primary",
-                              "icon-right": "account-filter",
-                            },
-                            on: { click: _vm.loadAsyncData },
+                            staticClass: "is-primary",
+                            attrs: { "icon-left": "magnify" },
+                            on: { click: _vm.loadAsyncDataTeacher },
+                          }),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "table-container" },
+                    [
+                      _c(
+                        "b-table",
+                        {
+                          attrs: {
+                            data: _vm.dataTeacher,
+                            loading: _vm.loadingTeacher,
+                            paginated: "",
+                            "backend-pagination": "",
+                            total: _vm.totalTeacher,
+                            "pagination-rounded": true,
+                            "per-page": _vm.perPageTeacher,
+                            "aria-next-label": "Next page",
+                            "aria-previous-label": "Previous page",
+                            "aria-page-label": "Page",
+                            "aria-current-label": "Current page",
+                            "backend-sorting": "",
+                            "default-sort-direction":
+                              _vm.defaultSortDirectionTeacher,
+                          },
+                          on: {
+                            "page-change": _vm.onPageChangeTeacher,
+                            sort: _vm.onSortTeacher,
+                          },
+                        },
+                        [
+                          _c("b-table-column", {
+                            attrs: { field: "user_id", label: "Id" },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function (props) {
+                                  return [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(props.row.user_id) +
+                                        "\n                            "
+                                    ),
+                                  ]
+                                },
+                              },
+                            ]),
+                          }),
+                          _vm._v(" "),
+                          _c("b-table-column", {
+                            attrs: { field: "lname", label: "Lastname" },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function (props) {
+                                  return [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(props.row.lname) +
+                                        "\n                            "
+                                    ),
+                                  ]
+                                },
+                              },
+                            ]),
+                          }),
+                          _vm._v(" "),
+                          _c("b-table-column", {
+                            attrs: { field: "fname", label: "Firstname" },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function (props) {
+                                  return [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(props.row.fname) +
+                                        "\n                            "
+                                    ),
+                                  ]
+                                },
+                              },
+                            ]),
+                          }),
+                          _vm._v(" "),
+                          _c("b-table-column", {
+                            attrs: { field: "mname", label: "Middlename" },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function (props) {
+                                  return [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(props.row.mname) +
+                                        "\n                            "
+                                    ),
+                                  ]
+                                },
+                              },
+                            ]),
+                          }),
+                          _vm._v(" "),
+                          _c("b-table-column", {
+                            attrs: { field: "", label: "Action" },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function (props) {
+                                  return [
+                                    _c(
+                                      "div",
+                                      { staticClass: "buttons" },
+                                      [
+                                        _c(
+                                          "b-button",
+                                          {
+                                            staticClass:
+                                              "is-small is-rounded is-primary",
+                                            attrs: {
+                                              "icon-left": "arrow-right",
+                                            },
+                                            on: {
+                                              click: function ($event) {
+                                                return _vm.assignTeacher(
+                                                  props.row
+                                                )
+                                              },
+                                            },
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                        SELECT\n                                    "
+                                            ),
+                                          ]
+                                        ),
+                                      ],
+                                      1
+                                    ),
+                                  ]
+                                },
+                              },
+                            ]),
                           }),
                         ],
                         1
@@ -65032,221 +65715,29 @@ var render = function () {
                 ],
                 1
               ),
-              _vm._v(" "),
-              _c(
-                "b-table",
-                {
-                  attrs: {
-                    data: _vm.data,
-                    loading: _vm.loading,
-                    paginated: "",
-                    "backend-pagination": "",
-                    total: _vm.total,
-                    "pagination-rounded": true,
-                    "per-page": _vm.perPage,
-                    "aria-next-label": "Next page",
-                    "aria-previous-label": "Previous page",
-                    "aria-page-label": "Page",
-                    "aria-current-label": "Current page",
-                    "backend-sorting": "",
-                    "default-sort-direction": _vm.defaultSortDirection,
+            ]),
+            _vm._v(" "),
+            _c(
+              "footer",
+              { staticClass: "modal-card-foot" },
+              [
+                _c("b-button", {
+                  attrs: { label: "Close" },
+                  on: {
+                    click: function ($event) {
+                      _vm.modalTeacher = false
+                    },
                   },
-                  on: { "page-change": _vm.onPageChange, sort: _vm.onSort },
-                },
-                [
-                  _c("b-table-column", {
-                    attrs: { field: "grade_level", label: "Grade Level" },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "default",
-                        fn: function (props) {
-                          return [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(props.row.grade_level) +
-                                "\n                        "
-                            ),
-                          ]
-                        },
-                      },
-                    ]),
-                  }),
-                  _vm._v(" "),
-                  _c("b-table-column", {
-                    attrs: { field: "subject", label: "Grade Level" },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "default",
-                        fn: function (props) {
-                          return [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(props.row.subject_code) +
-                                " - " +
-                                _vm._s(props.row.subject_description) +
-                                "\n                        "
-                            ),
-                          ]
-                        },
-                      },
-                    ]),
-                  }),
-                  _vm._v(" "),
-                  _c("b-table-column", {
-                    attrs: { field: "track_strand", label: "Track/Strand" },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "default",
-                        fn: function (props) {
-                          return [
-                            props.row.track
-                              ? _c("span", [
-                                  _vm._v(
-                                    "\n                                " +
-                                      _vm._s(props.row.track) +
-                                      "\n                            "
-                                  ),
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            props.row.strand
-                              ? _c("span", [
-                                  _vm._v(
-                                    "\n                                / " +
-                                      _vm._s(props.row.strand) +
-                                      "\n\n                            "
-                                  ),
-                                ])
-                              : _vm._e(),
-                          ]
-                        },
-                      },
-                    ]),
-                  }),
-                  _vm._v(" "),
-                  _c("b-table-column", {
-                    attrs: { field: "section", label: "Grade Level" },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "default",
-                        fn: function (props) {
-                          return [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(props.row.section) +
-                                "\n                        "
-                            ),
-                          ]
-                        },
-                      },
-                    ]),
-                  }),
-                  _vm._v(" "),
-                  _c("b-table-column", {
-                    attrs: { label: "Action" },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "default",
-                        fn: function (props) {
-                          return [
-                            _c(
-                              "div",
-                              { staticClass: "is-flex" },
-                              [
-                                _c(
-                                  "b-tooltip",
-                                  {
-                                    attrs: {
-                                      label: "Payment History",
-                                      type: "is-warning",
-                                    },
-                                  },
-                                  [
-                                    _c("b-button", {
-                                      staticClass: "button is-small mr-1",
-                                      attrs: {
-                                        tag: "a",
-                                        "icon-right": "history",
-                                      },
-                                      on: {
-                                        click: function ($event) {
-                                          return _vm.getData(
-                                            props.row.learner_id
-                                          )
-                                        },
-                                      },
-                                    }),
-                                  ],
-                                  1
-                                ),
-                              ],
-                              1
-                            ),
-                          ]
-                        },
-                      },
-                    ]),
-                  }),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "columns" }, [
-                _c(
-                  "div",
-                  { staticClass: "column" },
-                  [
-                    _c(
-                      "b-field",
-                      {
-                        attrs: { label: "Page", "label-position": "on-border" },
-                      },
-                      [
-                        _c(
-                          "b-select",
-                          {
-                            staticClass: "is-small",
-                            on: { input: _vm.setPerPage },
-                            model: {
-                              value: _vm.perPage,
-                              callback: function ($$v) {
-                                _vm.perPage = $$v
-                              },
-                              expression: "perPage",
-                            },
-                          },
-                          [
-                            _c("option", { attrs: { value: "5" } }, [
-                              _vm._v("5 per page"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "10" } }, [
-                              _vm._v("10 per page"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "15" } }, [
-                              _vm._v("15 per page"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "20" } }, [
-                              _vm._v("20 per page"),
-                            ]),
-                          ]
-                        ),
-                      ],
-                      1
-                    ),
-                  ],
-                  1
-                ),
-              ]),
-            ],
-            1
-          ),
-        ]),
-      ]),
-    ]),
-  ])
+                }),
+              ],
+              1
+            ),
+          ]),
+        ]
+      ),
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -84829,41 +85320,37 @@ var render = function () {
                             attrs: {
                               expanded: "",
                               icon: "account",
-                              placeholder: "Grade Level",
+                              placeholder: "Academic Year",
                               required: "",
                             },
                             on: { input: _vm.loadAsyncData },
                             model: {
-                              value: _vm.search.grade,
+                              value: _vm.search.academic_year_id,
                               callback: function ($$v) {
-                                _vm.$set(_vm.search, "grade", $$v)
+                                _vm.$set(_vm.search, "academic_year_id", $$v)
                               },
-                              expression: "search.grade",
+                              expression: "search.academic_year_id",
                             },
                           },
-                          [
-                            _c("option", { attrs: { value: "" } }, [
-                              _vm._v("ALL"),
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(_vm.gradeLevels, function (item, ix) {
-                              return _c(
-                                "option",
-                                {
-                                  key: "g" + ix,
-                                  domProps: { value: item.grade_level },
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                        " +
-                                      _vm._s(item.grade_level) +
-                                      "\n                                    "
-                                  ),
-                                ]
-                              )
-                            }),
-                          ],
-                          2
+                          _vm._l(_vm.academicYears, function (item, ix) {
+                            return _c(
+                              "option",
+                              {
+                                key: "g" + ix,
+                                domProps: { value: item.academic_year_id },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                        " +
+                                    _vm._s(item.academic_year_code) +
+                                    " - " +
+                                    _vm._s(item.academic_year_desc) +
+                                    "\n                                    "
+                                ),
+                              ]
+                            )
+                          }),
+                          0
                         ),
                       ],
                       1
@@ -84985,7 +85472,7 @@ var render = function () {
                 [
                   _c("b-table-column", {
                     attrs: {
-                      field: "grade_level_subject_id",
+                      field: "enroll_subject_id",
                       label: "ID",
                       sortable: "",
                     },
@@ -84996,7 +85483,7 @@ var render = function () {
                           return [
                             _vm._v(
                               "\n                            " +
-                                _vm._s(props.row.grade_level_subject_id) +
+                                _vm._s(props.row.enroll_subject_id) +
                                 "\n                        "
                             ),
                           ]
@@ -85030,15 +85517,11 @@ var render = function () {
                         key: "default",
                         fn: function (props) {
                           return [
-                            props.row.subject
-                              ? _c("span", [
-                                  _vm._v(
-                                    "\n                                " +
-                                      _vm._s(props.row.subject.subject_code) +
-                                      "\n                            "
-                                  ),
-                                ])
-                              : _vm._e(),
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.subject_code) +
+                                "\n                        "
+                            ),
                           ]
                         },
                       },
@@ -85055,17 +85538,11 @@ var render = function () {
                         key: "default",
                         fn: function (props) {
                           return [
-                            props.row.subject
-                              ? _c("span", [
-                                  _vm._v(
-                                    "\n                                " +
-                                      _vm._s(
-                                        props.row.subject.subject_description
-                                      ) +
-                                      "\n                            "
-                                  ),
-                                ])
-                              : _vm._e(),
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.subject_description) +
+                                "\n\n                        "
+                            ),
                           ]
                         },
                       },

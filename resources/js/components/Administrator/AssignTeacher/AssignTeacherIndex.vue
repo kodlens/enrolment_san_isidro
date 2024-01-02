@@ -7,7 +7,7 @@
 
                         <div class="has-text-weight-bold is-size-4">ASSIGN TEACHER</div>
                         <div class="has-text-weight-bold mb-4 is-size-6">
-                            List of enrollees of the selected Academic Year.
+                            List of subjects of the selected Academic Year.
                         </div>
 
 
@@ -72,20 +72,14 @@
 
                         <b-field label="Search">
                             <b-input type="text"
-                                     v-model="search.name" placeholder="Search Lastname"
+                                     v-model="search.subject" placeholder="Search Subject"
                                      @keyup.native.enter="loadAsyncData"/>
                             <p class="control">
                                 <b-tooltip label="Search" type="is-success">
-                                    <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
+                                    <b-button type="is-primary" icon-right="magnify" @click="loadAsyncData"/>
                                 </b-tooltip>
                             </p>
                         </b-field>
-
-                        <!-- <div class="buttons is-right mt-3">
-                            <b-button tag="a" href="/enrollee/create"
-                                  icon-left="plus"
-                                  class="is-primary is-small">ADD LEARNER</b-button>
-                        </div> -->
 
                         <b-table
                             :data="data"
@@ -109,6 +103,10 @@
                                 {{ props.row.grade_level }}
                             </b-table-column>
 
+                            <b-table-column field="section" label="Section" v-slot="props">
+                                {{ props.row.section }}
+                            </b-table-column>
+
                             <b-table-column field="subject" label="Grade Level" v-slot="props">
                                 {{ props.row.subject_code }} - {{ props.row.subject_description }}
                             </b-table-column>
@@ -126,7 +124,6 @@
 
                                 <span v-if="props.row.strand">
                                     / {{ props.row.strand }}
-
                                 </span>
 
                             </b-table-column>
@@ -135,34 +132,16 @@
                                 {{ props.row.section }}
                             </b-table-column>
 
+                            <b-table-column field="teacher" label="Teacher" v-slot="props">
+                                 <span v-if="props.row.lname">{{ props.row.lname }}, {{ props.row.fname }} {{ props.row.mname }}</span>
+                            </b-table-column>
+
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
-                                    <b-tooltip label="Payment History" type="is-warning">
-                                        <b-button class="button is-small mr-1" 
-                                            tag="a" icon-right="history" 
-                                            @click="getData(props.row.learner_id)"></b-button>
+                                    <b-tooltip label="Assign Faculty" type="is-warning">
+                                        <b-button class="button is-small mr-1" icon-right="account" 
+                                            @click="openModalTeacher(props.row)"></b-button>
                                     </b-tooltip>
-                                    <!-- <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small mr-1" 
-                                            icon-right="delete" 
-                                            @click="confirmDelete(props.row.enroll_id)"></b-button>
-                                    </b-tooltip> 
-
-                                   <b-tooltip label="More options">
-                                        <b-dropdown aria-role="list">
-                                            <template #trigger="{ active }">
-                                                <b-button
-                                                    label=""
-                                                    size="is-small"
-                                                    type="is-primary"
-                                                    :icon-right="active ? 'menu-up' : 'menu-down'" />
-                                            </template>
-
-                                            <b-dropdown-item aria-role="listitem">Action</b-dropdown-item>
-                                            <b-dropdown-item aria-role="listitem">Another action</b-dropdown-item>
-                                            <b-dropdown-item aria-role="listitem">Something else</b-dropdown-item>
-                                        </b-dropdown>
-                                    </b-tooltip>  -->
                                 </div>
                             </b-table-column>
 
@@ -177,6 +156,9 @@
                                         <option value="10">10 per page</option>
                                         <option value="15">15 per page</option>
                                         <option value="20">20 per page</option>
+                                        <option value="30">30 per page</option>
+                                        <option value="40">40 per page</option>
+                                        <option value="50">50 per page</option>
                                     </b-select>
                                 </b-field>
                             </div>
@@ -186,6 +168,104 @@
                 </div><!--col -->
             </div><!-- cols -->
         </div><!--section div-->
+
+
+
+
+
+
+
+
+        
+        <b-modal v-model="modalTeacher" has-modal-card
+                 trap-focus scroll="keep" aria-role="dialog" aria-modal>
+            <div class="modal-card card-width">
+                <header class="modal-card-head">
+                    <p class="modal-card-title has-text-weight-bold is-size-6">SELECT TEACHER</p>
+                    <button type="button" class="delete"
+                        @click="modalTeacher = false"/>
+                </header>
+
+                <section class="modal-card-body">
+                    <div>
+
+                        <!-- <b-field label="Academic Year" label-position="on-border" expanded>
+                            <b-select v-model="search.academic_year_id" 
+                                expanded
+                                placeholder="Select Academic Year"
+                                @input="loadAsyncData">
+                                <option v-for="(item, index) in academicYears"
+                                    :key="index" 
+                                    :value="item.academic_year_id">{{ item.academic_year_code }} - {{ item.academic_year_desc }}</option>
+                            </b-select>
+                        </b-field> -->
+
+                 
+
+                        <b-field label="Search" label-position="on-border" >
+                            <b-input type="text" v-model="search.lname" placeholder="Search Lastname..." expanded auto-focus></b-input>
+                            <b-input type="text" v-model="search.fname" placeholder="Search Firstname..." expanded auto-focus></b-input>
+                            <p class="control">
+                                <b-button class="is-primary" icon-left="magnify" @click="loadAsyncDataTeacher"></b-button>
+                            </p>
+                        </b-field>
+
+                        <div class="table-container">
+                            <b-table
+                                :data="dataTeacher"
+                                :loading="loadingTeacher"
+                                paginated
+                                backend-pagination
+                                :total="totalTeacher"
+                                :pagination-rounded="true"
+                                :per-page="perPageTeacher"
+                                @page-change="onPageChangeTeacher"
+                                aria-next-label="Next page"
+                                aria-previous-label="Previous page"
+                                aria-page-label="Page"
+                                aria-current-label="Current page"
+                                backend-sorting
+                                :default-sort-direction="defaultSortDirectionTeacher"
+                                @sort="onSortTeacher">
+
+                                <b-table-column field="user_id" label="Id" v-slot="props">
+                                    {{props.row.user_id}}
+                                </b-table-column>
+
+                                <b-table-column field="lname" label="Lastname" v-slot="props">
+                                    {{props.row.lname}}
+                                </b-table-column>
+
+                                <b-table-column field="fname" label="Firstname" v-slot="props">
+                                    {{props.row.fname}}
+                                </b-table-column>
+
+                                <b-table-column field="mname" label="Middlename" v-slot="props">
+                                    {{props.row.mname}}
+                                </b-table-column>
+
+                                <b-table-column field="" label="Action" v-slot="props">
+                                    <div class="buttons">
+                                        <b-button class="is-small is-rounded is-primary" 
+                                            icon-left="arrow-right"
+                                            @click="assignTeacher(props.row)">
+                                            SELECT
+                                        </b-button>
+                                    </div>
+                                </b-table-column>
+                            </b-table>
+                        </div>
+
+                    </div>
+                </section>
+
+                <footer class="modal-card-foot">
+                    <b-button
+                        label="Close"
+                        @click="modalTeacher=false"></b-button>
+                </footer>
+            </div>
+        </b-modal>
 
 
 
@@ -206,8 +286,18 @@ export default{
             sortField: 'enroll_subject_id',
             sortOrder: 'desc',
             page: 1,
-            perPage: 10,
+            perPage: 30,
             defaultSortDirection: 'asc',
+
+            //for teacher table and modal
+            dataTeacher: [],
+            totalTeacher: 0,
+            loadingTeacher: false,
+            sortFieldTeacher: 'user_id',
+            sortOrderTeacher: 'desc',
+            pageTeacher: 1,
+            perPageTeacher: 10,
+            defaultSortDirectionTeacher: 'asc',
 
             global_id : 0,
 
@@ -218,14 +308,19 @@ export default{
                 semester: null
             },
 
-            isModalCreate: false,
-     
+            fields: {},
             errors: {},
 
             academicYears: [],
             gradeLevels: [],
             semesters: [],
             sections: [],
+
+
+            modalTeacher: false,
+            section_id: null,
+            academic_year_id: null,
+            subject_id: null,
         }
 
     },
@@ -287,32 +382,116 @@ export default{
         },
 
 
-        //alert box ask for deletion
-        confirmDelete(dataId) {
-            this.$buefy.dialog.confirm({
-                title: 'DELETE!',
-                type: 'is-danger',
-                message: 'Are you sure you want to delete this data?',
-                cancelText: 'Cancel',
-                confirmText: 'Delete',
-                onConfirm: () => this.deleteSubmit(dataId)
-            });
+
+        //for teacher load
+        loadAsyncDataTeacher() {
+            const params = [
+                `sort_by=${this.sortFieldTeacher}.${this.sortOrderTeacher}`,
+                `name=${this.search.teacher_name}`,
+                `perpage=${this.perPageTeacher}`,
+                `page=${this.pageTeacher}`
+            ].join('&')
+
+            this.loadingTeacher = true
+            axios.get(`/load-teacher-lists?${params}`)
+                .then(({ data }) => {
+                    
+                    this.dataTeacher = [];
+
+                    let currentTotal = data.total
+
+                    if (data.total / this.perPageTeacher > 1000) {
+                        currentTotal = this.perPageTeacher * 1000
+                    }
+
+                    this.totalTeacher = currentTotal
+                    data.data.forEach((item) => {
+                        //item.release_date = item.release_date ? item.release_date.replace(/-/g, '/') : null
+                        this.dataTeacher.push(item)
+                    })
+                    this.loadingTeacher = false
+                })
+                .catch((error) => {
+                    this.dataTeacher = []
+                    this.totalTeacher = 0
+                    this.loadingTeacher = false
+                    throw error
+                })
         },
-        //execute delete after confirming
-        deleteSubmit(dataId) {
-            axios.delete('/enrollee/' + dataId).then(res => {
-                this.loadAsyncData();
-            }).catch(err => {
-                if (err.response.status === 422) {
-                    this.errors = err.response.data.errors;
-                }
-            });
+        /*
+        * Handle page-change event
+        */
+        onPageChangeTeacher(page) {
+            this.pageTeacher = page
+            this.loadAsyncDataTeacher()
         },
 
-        //update code here
-        getData: function(data_id){
-            window.location = '/payment-history/' + data_id
+        onSortTeacher(field, order) {
+            this.sortFieldTeacher = field
+            this.sortOrderTeacher = order
+            this.loadAsyncDataTeacher()
         },
+
+        setPerPageTeacher(){
+            this.loadAsyncDataTeacher()
+        },
+        openModalTeacher(row){
+            this.loadAsyncDataTeacher()
+            console.log(row);
+            this.academic_year_id = row.academic_year_id
+            this.section_id = row.section_id
+            this.subject_id = row.subject_id
+
+            this.modalTeacher = true
+        },
+
+        assignTeacher(row){
+            console.log(row);
+            axios.post('/save-teacher', {
+                'section_id': this.section_id,
+                'academic_year_id': this.academic_year_id,
+                'user_id': row.user_id,
+                'subject_id': this.subject_id
+
+            }).then(res=>{
+                if(res.data.status === 'saved'){
+                    this.loadAsyncData()
+                    this.modalTeacher = false
+                    this.section_id = null
+                    this.academic_year_id = null
+                    this.subject_id = null
+                }
+            })
+        },
+
+        //alert box ask for deletion
+        // confirmDelete(dataId) {
+        //     this.$buefy.dialog.confirm({
+        //         title: 'DELETE!',
+        //         type: 'is-danger',
+        //         message: 'Are you sure you want to delete this data?',
+        //         cancelText: 'Cancel',
+        //         confirmText: 'Delete',
+        //         onConfirm: () => this.deleteSubmit(dataId)
+        //     });
+        // },
+        // //execute delete after confirming
+        // deleteSubmit(dataId) {
+        //     axios.delete('/enrollee/' + dataId).then(res => {
+        //         this.loadAsyncData();
+        //     }).catch(err => {
+        //         if (err.response.status === 422) {
+        //             this.errors = err.response.data.errors;
+        //         }
+        //     });
+        // },
+
+        // //update code here
+        // getData: function(data_id){
+        //     window.location = '/payment-history/' + data_id
+        // },
+
+    
 
 
         async loadAcademicYears(){
