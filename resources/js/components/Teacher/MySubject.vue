@@ -78,15 +78,16 @@
 
                             <b-table-column field="subjec_description" label="Description" v-slot="props">
                                 {{ props.row.subject_description }}
-
                             </b-table-column>
                             
                         
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                  
-                                    <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small mr-1" icon-right="delete" @click="confirmDelete(props.row.grade_level_subject_id)"></b-button>
+                                    <b-tooltip label="Grade Entry" type="is-danger">
+                                        <b-button class="button is-small mr-1" 
+                                            icon-right="arrow-right" 
+                                            @click="gradeEntry(props.row)"></b-button>
                                     </b-tooltip>
 
                                 </div>
@@ -210,6 +211,11 @@ export default{
                 })
             })
           
+        },
+
+        gradeEntry(row){
+            console.log(row);
+            window.location = '/grade-entry?ay='+ row.academic_year_id +'&section=' + row.section_id + '&enroll=' + row.enroll_id + '&subject=' + row.subject_id
         }
 
     },

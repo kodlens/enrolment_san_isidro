@@ -25,6 +25,8 @@ class MySubjectController extends Controller
             ->join('subjects', 'enroll_subjects.subject_id', 'subjects.subject_id')
             ->where('teacher_id', $user->user_id)
             ->where('academic_year_id', $req->academic)
+            ->groupBy('enrolls.section_id')
+            ->groupBy('enroll_subjects.subject_id')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
 

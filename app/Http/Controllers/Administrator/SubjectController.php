@@ -22,6 +22,7 @@ class SubjectController extends Controller
         $sort = explode('.', $req->sort_by);
 
         $data = Subject::where('subject_description', 'like', $req->subject . '%')
+            ->orWhere('subject_code', 'like', $req->subject . '%')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
 

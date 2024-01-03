@@ -42,7 +42,7 @@
                         <th>Description</th>
                         <th>Time</th>
                         <th>Day</th>
-                        <th>Instructor</th>
+                        <th>Teacher</th>
                     </tr>
                     <tr v-for="(item, index) in learner.section_subjects" :key="`sub${index}`">
                         <td>{{ item.subject.subject_code }}</td>

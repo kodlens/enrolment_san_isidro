@@ -55,16 +55,22 @@
                             </div>
                         </div>
 
-                        <b-field label="Search">
-                            <b-input type="text"
-                                     v-model="search.name" placeholder="Search Lastname"
-                                     @keyup.native.enter="loadAsyncData"/>
-                            <p class="control">
-                                <b-tooltip label="Search" type="is-success">
-                                    <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
-                                </b-tooltip>
-                            </p>
-                        </b-field>
+                        <div class="columns">
+                            <div class="column">
+                                <b-field label="Search">
+                                    <b-input type="text"
+                                        v-model="search.name" placeholder="Search Lastname"
+                                        @keyup.native.enter="loadAsyncData"/>
+                                </b-field>
+                            </div>
+                        </div>
+
+
+                        <div class="buttons">
+                            <b-button type="is-primary" 
+                                label="SEARCH"
+                                icon-right="account-filter" @click="loadAsyncData"/>
+                        </div>
 
                         <!-- <div class="buttons is-right mt-3">
                             <b-button tag="a" href="/enrollee/create"

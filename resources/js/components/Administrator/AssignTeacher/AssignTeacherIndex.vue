@@ -68,18 +68,23 @@
                                     </b-select>
                                 </b-field>
                             </div>
+                            <div class="column">
+                                <b-field label="Search">
+                                    <b-input type="text"
+                                        v-model="search.subject" 
+                                        placeholder="Search Subject"
+                                        @keyup.native.enter="loadAsyncData"/>
+                                </b-field>
+                            </div>
                         </div>
 
-                        <b-field label="Search">
-                            <b-input type="text"
-                                     v-model="search.subject" placeholder="Search Subject"
-                                     @keyup.native.enter="loadAsyncData"/>
-                            <p class="control">
-                                <b-tooltip label="Search" type="is-success">
-                                    <b-button type="is-primary" icon-right="magnify" @click="loadAsyncData"/>
-                                </b-tooltip>
-                            </p>
-                        </b-field>
+                        <div class="buttons">
+                            <b-button type="is-primary" 
+                                icon-right="magnify" label="SEARCH" @click="loadAsyncData">
+                            </b-button>
+                        </div>
+
+                        
 
                         <b-table
                             :data="data"
@@ -107,7 +112,7 @@
                                 {{ props.row.section }}
                             </b-table-column>
 
-                            <b-table-column field="subject" label="Grade Level" v-slot="props">
+                            <b-table-column field="subject" label="Subject Description" v-slot="props">
                                 {{ props.row.subject_code }} - {{ props.row.subject_description }}
                             </b-table-column>
 
@@ -119,18 +124,18 @@
 
                             <b-table-column field="track_strand" label="Track/Strand" v-slot="props">
                                 <span v-if="props.row.track">
-                                    {{ props.row.track }}
+                                    {{ props.row.track }}  / {{ props.row.strand }}
                                 </span>
 
-                                <span v-if="props.row.strand">
-                                    / {{ props.row.strand }}
+                                <span v-else>
+                                   N/A
                                 </span>
 
                             </b-table-column>
 
-                            <b-table-column field="section" label="Grade Level" v-slot="props">
+                            <!-- <b-table-column field="section" label="Grade Level" v-slot="props">
                                 {{ props.row.section }}
-                            </b-table-column>
+                            </b-table-column> -->
 
                             <b-table-column field="teacher" label="Teacher" v-slot="props">
                                  <span v-if="props.row.lname">{{ props.row.lname }}, {{ props.row.fname }} {{ props.row.mname }}</span>

@@ -84,6 +84,9 @@ Route::middleware(['auth', 'teacher'])->group(function(){
     Route::get('/my-subjects', [App\Http\Controllers\Teacher\MySubjectController::class, 'index']);
     Route::get('/get-my-subjects', [App\Http\Controllers\Teacher\MySubjectController::class, 'getData']);
 
+    Route::get('/grade-entry', [App\Http\Controllers\Teacher\GradeEntryController::class, 'index']);
+    Route::get('/get-my-learners', [App\Http\Controllers\Teacher\GradeEntryController::class, 'getMyLearners']);
+    
 
 });
 
