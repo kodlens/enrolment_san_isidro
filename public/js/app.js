@@ -61585,6 +61585,40 @@ component.options.__file = "resources/js/components/Administrator/NavbarComponen
 
 /***/ }),
 
+/***/ "./resources/js/components/Administrator/OtherFee/OtherFeeIndex.vue":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/Administrator/OtherFee/OtherFeeIndex.vue ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+var render, staticRenderFns
+var script = {}
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
+  script,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+component.options.__file = "resources/js/components/Administrator/OtherFee/OtherFeeIndex.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Administrator/PaymentHistory/PaymentHistoryIndex.vue":
 /*!**************************************************************************************!*\
   !*** ./resources/js/components/Administrator/PaymentHistory/PaymentHistoryIndex.vue ***!
@@ -110667,6 +110701,7 @@ var map = {
 	"./components/Administrator/ManageLearner/ManageLearner.vue": "./resources/js/components/Administrator/ManageLearner/ManageLearner.vue",
 	"./components/Administrator/ManageLearner/ManageLearnerCreateEdit.vue": "./resources/js/components/Administrator/ManageLearner/ManageLearnerCreateEdit.vue",
 	"./components/Administrator/NavbarComponent.vue": "./resources/js/components/Administrator/NavbarComponent.vue",
+	"./components/Administrator/OtherFee/OtherFeeIndex.vue": "./resources/js/components/Administrator/OtherFee/OtherFeeIndex.vue",
 	"./components/Administrator/PaymentHistory/PaymentHistoryIndex.vue": "./resources/js/components/Administrator/PaymentHistory/PaymentHistoryIndex.vue",
 	"./components/Administrator/Report/OldReportClassList.vue": "./resources/js/components/Administrator/Report/OldReportClassList.vue",
 	"./components/Administrator/Report/ReportClassList.vue": "./resources/js/components/Administrator/Report/ReportClassList.vue",

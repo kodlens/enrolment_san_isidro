@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
             SectionSeeder::class,
             CurriculumSeeder::class,
             GradeLevelSubjectSeeder::class,
-
-            LearnerSeeder::class
+            LearnerSeeder::class,
+            OtherFeeSeeder::class
         ]);
     }
 }

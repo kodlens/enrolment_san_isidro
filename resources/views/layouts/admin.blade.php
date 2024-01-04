@@ -133,6 +133,12 @@
 
 
                 <b-navbar-dropdown label="Cashier">
+
+                    <b-navbar-item href="/other-fees">
+                        Other Fees
+                    </b-navbar-item>
+
+
                     <b-navbar-item href="/billing-subjects">
                         Billing Subject
                     </b-navbar-item>
