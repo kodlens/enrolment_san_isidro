@@ -38,7 +38,7 @@ class ReportClassListController extends Controller
             ->join('academic_years', 'b.academic_year_id', 'academic_years.academic_year_id')
             ->join('sections', 'b.section_id', 'sections.section_id')
 
-            //->leftJoin('users', 'enroll_subjects.teacher_id', 'users.user_id')
+            ->leftJoin('users', 'enroll_subjects.teacher_id', 'users.user_id')
             ->leftJoin('tracks', 'b.track_id', 'tracks.track_id')
             ->leftJoin('strands', 'b.strand_id', 'strands.strand_id')
 

@@ -15868,6 +15868,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     propAcademicYearId: {
@@ -15928,10 +15945,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolStudent.vue?vue&type=script&lang=js&":
-/*!**********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolStudent.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -15997,6 +16014,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     propAcademicYearId: {
@@ -16020,7 +16050,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       console.log(this.academicYear);
-      axios.get('/get-report-class-list-by-subject?ayid=' + this.academicYear.academic_year_id).then(function (res) {
+      axios.get('/get-report-enrolment-list?ayid=' + this.academicYear.academic_year_id).then(function (res) {
         _this.classLists = res.data;
       });
     },
@@ -40478,6 +40508,54 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.info-header[data-v-7c20f450]{\r\n  
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=style&index=0&id=003de718&scoped=true&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=style&index=0&id=003de718&scoped=true&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.header[data-v-003de718]{\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\n}\n.header-img[data-v-003de718]{\r\n    height: 60px;\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=style&index=0&id=f61c5240&scoped=true&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=style&index=0&id=f61c5240&scoped=true&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.header[data-v-f61c5240]{\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\n}\n.header-img[data-v-f61c5240]{\r\n    height: 60px;\n}\n.enrolment-table[data-v-f61c5240]{\r\n    border: 1px solid gray;\r\n    font-size: 12px;\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Section/SectionPage.vue?vue&type=style&index=0&id=0b3ccb8d&scoped=true&lang=css&":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Section/SectionPage.vue?vue&type=style&index=0&id=0b3ccb8d&scoped=true&lang=css& ***!
@@ -59769,6 +59847,66 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=style&index=0&id=003de718&scoped=true&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=style&index=0&id=003de718&scoped=true&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportClassList_vue_vue_type_style_index_0_id_003de718_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ReportClassList.vue?vue&type=style&index=0&id=003de718&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=style&index=0&id=003de718&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportClassList_vue_vue_type_style_index_0_id_003de718_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportClassList_vue_vue_type_style_index_0_id_003de718_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=style&index=0&id=f61c5240&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=style&index=0&id=f61c5240&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportEnrolmentList_vue_vue_type_style_index_0_id_f61c5240_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ReportEnrolmentList.vue?vue&type=style&index=0&id=f61c5240&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=style&index=0&id=f61c5240&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportEnrolmentList_vue_vue_type_style_index_0_id_f61c5240_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportEnrolmentList_vue_vue_type_style_index_0_id_f61c5240_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Section/SectionPage.vue?vue&type=style&index=0&id=0b3ccb8d&scoped=true&lang=css&":
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Section/SectionPage.vue?vue&type=style&index=0&id=0b3ccb8d&scoped=true&lang=css& ***!
@@ -61538,23 +61676,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ReportClassList_vue_vue_type_template_id_003de718___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ReportClassList.vue?vue&type=template&id=003de718& */ "./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=template&id=003de718&");
+/* harmony import */ var _ReportClassList_vue_vue_type_template_id_003de718_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ReportClassList.vue?vue&type=template&id=003de718&scoped=true& */ "./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=template&id=003de718&scoped=true&");
 /* harmony import */ var _ReportClassList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReportClassList.vue?vue&type=script&lang=js& */ "./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _ReportClassList_vue_vue_type_style_index_0_id_003de718_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ReportClassList.vue?vue&type=style&index=0&id=003de718&scoped=true&lang=css& */ "./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=style&index=0&id=003de718&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _ReportClassList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ReportClassList_vue_vue_type_template_id_003de718___WEBPACK_IMPORTED_MODULE_0__.render,
-  _ReportClassList_vue_vue_type_template_id_003de718___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _ReportClassList_vue_vue_type_template_id_003de718_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ReportClassList_vue_vue_type_template_id_003de718_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  null,
+  "003de718",
   null
   
 )
@@ -61566,10 +61706,10 @@ component.options.__file = "resources/js/components/Administrator/Report/ReportC
 
 /***/ }),
 
-/***/ "./resources/js/components/Administrator/Report/ReportEnrolStudent.vue":
-/*!*****************************************************************************!*\
-  !*** ./resources/js/components/Administrator/Report/ReportEnrolStudent.vue ***!
-  \*****************************************************************************/
+/***/ "./resources/js/components/Administrator/Report/ReportEnrolmentList.vue":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/Administrator/Report/ReportEnrolmentList.vue ***!
+  \******************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -61577,30 +61717,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ReportEnrolStudent_vue_vue_type_template_id_005efa87___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ReportEnrolStudent.vue?vue&type=template&id=005efa87& */ "./resources/js/components/Administrator/Report/ReportEnrolStudent.vue?vue&type=template&id=005efa87&");
-/* harmony import */ var _ReportEnrolStudent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReportEnrolStudent.vue?vue&type=script&lang=js& */ "./resources/js/components/Administrator/Report/ReportEnrolStudent.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _ReportEnrolmentList_vue_vue_type_template_id_f61c5240_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ReportEnrolmentList.vue?vue&type=template&id=f61c5240&scoped=true& */ "./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=template&id=f61c5240&scoped=true&");
+/* harmony import */ var _ReportEnrolmentList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReportEnrolmentList.vue?vue&type=script&lang=js& */ "./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=script&lang=js&");
+/* harmony import */ var _ReportEnrolmentList_vue_vue_type_style_index_0_id_f61c5240_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ReportEnrolmentList.vue?vue&type=style&index=0&id=f61c5240&scoped=true&lang=css& */ "./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=style&index=0&id=f61c5240&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ReportEnrolStudent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ReportEnrolStudent_vue_vue_type_template_id_005efa87___WEBPACK_IMPORTED_MODULE_0__.render,
-  _ReportEnrolStudent_vue_vue_type_template_id_005efa87___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _ReportEnrolmentList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ReportEnrolmentList_vue_vue_type_template_id_f61c5240_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ReportEnrolmentList_vue_vue_type_template_id_f61c5240_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  null,
+  "f61c5240",
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/Administrator/Report/ReportEnrolStudent.vue"
+component.options.__file = "resources/js/components/Administrator/Report/ReportEnrolmentList.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -62799,10 +62941,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Administrator/Report/ReportEnrolStudent.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************************!*\
-  !*** ./resources/js/components/Administrator/Report/ReportEnrolStudent.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************************/
+/***/ "./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -62810,8 +62952,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportEnrolStudent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ReportEnrolStudent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolStudent.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportEnrolStudent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportEnrolmentList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ReportEnrolmentList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportEnrolmentList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -63385,6 +63527,32 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentHistoryIndex_vue_vue_type_style_index_0_id_7c20f450_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PaymentHistoryIndex.vue?vue&type=style&index=0&id=7c20f450&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/PaymentHistory/PaymentHistoryIndex.vue?vue&type=style&index=0&id=7c20f450&scoped=true&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=style&index=0&id=003de718&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************!*\
+  !*** ./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=style&index=0&id=003de718&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportClassList_vue_vue_type_style_index_0_id_003de718_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ReportClassList.vue?vue&type=style&index=0&id=003de718&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=style&index=0&id=003de718&scoped=true&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=style&index=0&id=f61c5240&scoped=true&lang=css&":
+/*!***************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=style&index=0&id=f61c5240&scoped=true&lang=css& ***!
+  \***************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportEnrolmentList_vue_vue_type_style_index_0_id_f61c5240_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ReportEnrolmentList.vue?vue&type=style&index=0&id=f61c5240&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=style&index=0&id=f61c5240&scoped=true&lang=css&");
 
 
 /***/ }),
@@ -63988,36 +64156,36 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=template&id=003de718&":
-/*!*********************************************************************************************************!*\
-  !*** ./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=template&id=003de718& ***!
-  \*********************************************************************************************************/
+/***/ "./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=template&id=003de718&scoped=true&":
+/*!*********************************************************************************************************************!*\
+  !*** ./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=template&id=003de718&scoped=true& ***!
+  \*********************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportClassList_vue_vue_type_template_id_003de718___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportClassList_vue_vue_type_template_id_003de718___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportClassList_vue_vue_type_template_id_003de718_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportClassList_vue_vue_type_template_id_003de718_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportClassList_vue_vue_type_template_id_003de718___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ReportClassList.vue?vue&type=template&id=003de718& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=template&id=003de718&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportClassList_vue_vue_type_template_id_003de718_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ReportClassList.vue?vue&type=template&id=003de718&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=template&id=003de718&scoped=true&");
 
 
 /***/ }),
 
-/***/ "./resources/js/components/Administrator/Report/ReportEnrolStudent.vue?vue&type=template&id=005efa87&":
-/*!************************************************************************************************************!*\
-  !*** ./resources/js/components/Administrator/Report/ReportEnrolStudent.vue?vue&type=template&id=005efa87& ***!
-  \************************************************************************************************************/
+/***/ "./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=template&id=f61c5240&scoped=true&":
+/*!*************************************************************************************************************************!*\
+  !*** ./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=template&id=f61c5240&scoped=true& ***!
+  \*************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportEnrolStudent_vue_vue_type_template_id_005efa87___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportEnrolStudent_vue_vue_type_template_id_005efa87___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportEnrolmentList_vue_vue_type_template_id_f61c5240_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportEnrolmentList_vue_vue_type_template_id_f61c5240_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportEnrolStudent_vue_vue_type_template_id_005efa87___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ReportEnrolStudent.vue?vue&type=template&id=005efa87& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolStudent.vue?vue&type=template&id=005efa87&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportEnrolmentList_vue_vue_type_template_id_f61c5240_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ReportEnrolmentList.vue?vue&type=template&id=f61c5240&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=template&id=f61c5240&scoped=true&");
 
 
 /***/ }),
@@ -77076,10 +77244,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=template&id=003de718&":
-/*!************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=template&id=003de718& ***!
-  \************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=template&id=003de718&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportClassList.vue?vue&type=template&id=003de718&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -77094,36 +77262,42 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "print-area" }, [
-      _c(
-        "div",
-        { staticClass: "has-text-weight-bold has-text-centered is-size-5" },
-        [_vm._v("\n            CLASS LIST\n        ")]
-      ),
-      _vm._v(" "),
-      _vm.academicYear
-        ? _c(
+      _c("div", { staticClass: "header" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", [
+          _c(
             "div",
-            {
-              staticClass:
-                "has-text-weight-bold has-text-centered mb-4 is-size-6",
-            },
-            [
-              _vm._v(
-                "\n            " +
-                  _vm._s(_vm.academicYear.academic_year_code) +
-                  " - " +
-                  _vm._s(_vm.academicYear.academic_year_desc) +
-                  "\n        "
-              ),
-            ]
-          )
-        : _vm._e(),
+            { staticClass: "has-text-weight-bold has-text-centered is-size-5" },
+            [_vm._v("\n                    CLASS LIST\n                ")]
+          ),
+          _vm._v(" "),
+          _vm.academicYear
+            ? _c(
+                "div",
+                {
+                  staticClass:
+                    "has-text-weight-bold has-text-centered mb-4 is-size-6",
+                },
+                [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.academicYear.academic_year_code) +
+                      " - " +
+                      _vm._s(_vm.academicYear.academic_year_desc) +
+                      "\n                "
+                  ),
+                ]
+              )
+            : _vm._e(),
+        ]),
+      ]),
       _vm._v(" "),
       _c(
         "table",
         { staticClass: "table is-narrow", staticStyle: { margin: "auto" } },
         [
-          _vm._m(0),
+          _vm._m(1),
           _vm._v(" "),
           _vm._l(_vm.classLists, function (item, index) {
             return _c("tr", { key: index }, [
@@ -77164,12 +77338,29 @@ var render = function () {
                     "\n                "
                 ),
               ]),
+              _vm._v(" "),
               _c("td", [
                 _vm._v(
                   "\n                    " +
                     _vm._s(item.subject_description) +
                     "\n                "
                 ),
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                item.teacher_id
+                  ? _c("span", [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(item.lname) +
+                          ", " +
+                          _vm._s(item.fname) +
+                          " " +
+                          _vm._s(item.mname) +
+                          "\n                    "
+                      ),
+                    ])
+                  : _vm._e(),
               ]),
             ])
           }),
@@ -77180,6 +77371,17 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("img", {
+        staticClass: "header-img",
+        attrs: { src: "/img/tudela_logo.png" },
+      }),
+    ])
+  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -77196,6 +77398,8 @@ var staticRenderFns = [
       _c("th", [_vm._v("SUBJECT CODE")]),
       _vm._v(" "),
       _c("th", [_vm._v("SUBJECT DESCRIPTION")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("TEACHER")]),
     ])
   },
 ]
@@ -77205,10 +77409,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolStudent.vue?vue&type=template&id=005efa87&":
-/*!***************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolStudent.vue?vue&type=template&id=005efa87& ***!
-  \***************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=template&id=f61c5240&scoped=true&":
+/*!****************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportEnrolmentList.vue?vue&type=template&id=f61c5240&scoped=true& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -77223,40 +77427,66 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "print-area" }, [
-      _c(
-        "div",
-        { staticClass: "has-text-weight-bold has-text-centered is-size-5" },
-        [_vm._v("\n            CLASS LIST\n        ")]
-      ),
-      _vm._v(" "),
-      _vm.academicYear
-        ? _c(
+      _c("div", { staticClass: "header" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", [
+          _c(
             "div",
-            {
-              staticClass:
-                "has-text-weight-bold has-text-centered mb-4 is-size-6",
-            },
-            [
-              _vm._v(
-                "\n            " +
-                  _vm._s(_vm.academicYear.academic_year_code) +
-                  " - " +
-                  _vm._s(_vm.academicYear.academic_year_desc) +
-                  "\n        "
-              ),
-            ]
-          )
-        : _vm._e(),
+            { staticClass: "has-text-weight-bold has-text-centered is-size-5" },
+            [_vm._v("\n                    CLASS LIST\n                ")]
+          ),
+          _vm._v(" "),
+          _vm.academicYear
+            ? _c(
+                "div",
+                {
+                  staticClass:
+                    "has-text-weight-bold has-text-centered mb-4 is-size-6",
+                },
+                [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.academicYear.academic_year_code) +
+                      " - " +
+                      _vm._s(_vm.academicYear.academic_year_desc) +
+                      "\n                "
+                  ),
+                ]
+              )
+            : _vm._e(),
+        ]),
+      ]),
       _vm._v(" "),
       _c(
         "table",
-        { staticClass: "table is-narrow", staticStyle: { margin: "auto" } },
+        { staticClass: "enrolment-table", staticStyle: { margin: "auto" } },
         [
-          _vm._m(0),
+          _vm._m(1),
           _vm._v(" "),
           _vm._l(_vm.classLists, function (item, index) {
             return _c("tr", { key: index }, [
-              _c("td", [_vm._v(_vm._s(index + 1))]),
+              _c("td", [_vm._v(_vm._s(item.learner.lrn))]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(item.learner.lname) +
+                    ", " +
+                    _vm._s(item.learner.fname) +
+                    " " +
+                    _vm._s(item.learner.mname) +
+                    "\n                "
+                ),
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(item.learner.sex) +
+                    "\n                "
+                ),
+              ]),
               _vm._v(" "),
               _c("td", [
                 _vm._v(
@@ -77269,36 +77499,21 @@ var render = function () {
               _c("td", [
                 _vm._v(
                   "\n                    " +
-                    _vm._s(item.section) +
+                    _vm._s(item.section.section) +
                     "\n                "
                 ),
               ]),
               _vm._v(" "),
               _c("td", [
-                item.track
+                item.learner.track
                   ? _c("span", [
                       _vm._v(
                         "\n                        " +
-                          _vm._s(item.track) +
+                          _vm._s(item.learner.track.track) +
                           "\n                    "
                       ),
                     ])
                   : _c("span", [_vm._v("N/A")]),
-              ]),
-              _vm._v(" "),
-              _c("td", [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(item.subject_code) +
-                    "\n                "
-                ),
-              ]),
-              _c("td", [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(item.subject_description) +
-                    "\n                "
-                ),
               ]),
             ])
           }),
@@ -77313,18 +77528,29 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("img", {
+        staticClass: "header-img",
+        attrs: { src: "/img/tudela_logo.png" },
+      }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("th", [_vm._v("#")]),
+      _c("th", [_vm._v("LRN")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("NAME")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("SEX")]),
       _vm._v(" "),
       _c("th", [_vm._v("GRADE LEVEL")]),
       _vm._v(" "),
       _c("th", [_vm._v("SECTION")]),
       _vm._v(" "),
       _c("th", [_vm._v("TRACK/STRAND")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("SUBJECT CODE")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("SUBJECT DESCRIPTION")]),
     ])
   },
 ]
@@ -110444,7 +110670,7 @@ var map = {
 	"./components/Administrator/PaymentHistory/PaymentHistoryIndex.vue": "./resources/js/components/Administrator/PaymentHistory/PaymentHistoryIndex.vue",
 	"./components/Administrator/Report/OldReportClassList.vue": "./resources/js/components/Administrator/Report/OldReportClassList.vue",
 	"./components/Administrator/Report/ReportClassList.vue": "./resources/js/components/Administrator/Report/ReportClassList.vue",
-	"./components/Administrator/Report/ReportEnrolStudent.vue": "./resources/js/components/Administrator/Report/ReportEnrolStudent.vue",
+	"./components/Administrator/Report/ReportEnrolmentList.vue": "./resources/js/components/Administrator/Report/ReportEnrolmentList.vue",
 	"./components/Administrator/Section/SectionPage.vue": "./resources/js/components/Administrator/Section/SectionPage.vue",
 	"./components/Administrator/Section/xxSectionPage.vue": "./resources/js/components/Administrator/Section/xxSectionPage.vue",
 	"./components/Administrator/Strand/StrandPage.vue": "./resources/js/components/Administrator/Strand/StrandPage.vue",

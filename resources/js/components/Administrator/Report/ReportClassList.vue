@@ -2,12 +2,24 @@
     <div>
         <div class="print-area">
 
-            <div class="has-text-weight-bold has-text-centered is-size-5">
-                CLASS LIST
+            <div class="header">
+                <div>
+                    <img src="/img/tudela_logo.png" class="header-img" />
+                </div>
+                <div>
+                    <div class="has-text-weight-bold has-text-centered is-size-5">
+                        CLASS LIST
+                    </div>
+                    <div class="has-text-weight-bold has-text-centered mb-4 is-size-6" v-if="academicYear">
+                        {{ academicYear.academic_year_code }} - {{ academicYear.academic_year_desc }}
+                    </div>
+                </div>
+               
+                
             </div>
-            <div class="has-text-weight-bold has-text-centered mb-4 is-size-6" v-if="academicYear">
-                {{ academicYear.academic_year_code }} - {{ academicYear.academic_year_desc }}
-            </div>
+
+           
+           
 
 
             <table class="table is-narrow" style="margin: auto;">
@@ -18,6 +30,7 @@
                     <th>TRACK/STRAND</th>
                     <th>SUBJECT CODE</th>
                     <th>SUBJECT DESCRIPTION</th>
+                    <th>TEACHER</th>
                 </tr>
                 <tr v-for="(item, index) in classLists" :key="index">
                     <td>{{ index + 1 }}</td>
@@ -35,15 +48,19 @@
                     </td>
                     <td>
                         {{ item.subject_code }}
-                    </td><td>
+                    </td>
+                    <td>
                         {{ item.subject_description }}
+                    </td>
+                    <td>
+                        <span v-if="item.teacher_id">
+                            {{ item.lname }}, {{ item.fname }} {{ item.mname }}
+                        </span>
+                        
                     </td>
                 </tr>
             </table>
        
-
-            </div><!--loop-->
-
         </div>
     </div>
 </template>
@@ -94,3 +111,15 @@ export default{
     }
 }
 </script>
+
+<style scoped>
+
+.header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.header-img{
+    height: 60px;
+}
+</style>
