@@ -9,53 +9,39 @@
                 {{ academicYear.academic_year_code }} - {{ academicYear.academic_year_desc }}
             </div>
 
-          
-            
-            <div class="mt-5" v-for="(item, index) in classLists" :key="index">
 
-                <div v-if="item.enrollees.academic_year">
-                    
-                    <div class="has-text-centered has-text-weight-bold">
-                        {{ item.grade_level }} - {{ item.section }}
-                    </div>
-                    <div class="mb-4 has-text-centered">
-                        {{ item.academic_year[0].academic_year_code }}
-                        -
-                        {{ item.academic_year[0].academic_year_desc  }}
-                    </div>
-                </div>
+            <table class="table is-narrow" style="margin: auto;">
+                <tr>
+                    <th>#</th>
+                    <th>GRADE LEVEL</th>
+                    <th>SECTION</th>
+                    <th>TRACK/STRAND</th>
+                    <th>SUBJECT CODE</th>
+                    <th>SUBJECT DESCRIPTION</th>
+                </tr>
+                <tr v-for="(item, index) in classLists" :key="index">
+                    <td>{{ index + 1 }}</td>
+                    <td>
+                        {{ item.grade_level }}
+                    </td>
+                    <td>
+                        {{ item.section }}
+                    </td>
+                    <td>
+                        <span v-if="item.track">
+                            {{ item.track }}
+                        </span>
+                        <span v-else>N/A</span>
+                    </td>
+                    <td>
+                        {{ item.subject_code }}
+                    </td><td>
+                        {{ item.subject_description }}
+                    </td>
+                </tr>
+            </table>
+       
 
-                
-                
-                <div v-if="item.enrollees.length > 0">
-                    
-                    <div class="columns">
-                        
-                        <div class="column">
-                            <div class="has-text-weight-bold">MALE</div>
-                            <div v-for="(enroll, index) in item.enrollees" :key="`$enrolleesMale${index}`">
-                                <div v-if="enroll.learner.sex === 'MALE'">
-                                    {{ enroll.learner.lname }},  {{ enroll.learner.fname }} {{ enroll.learner.mname }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="column">
-                            <div class="has-text-weight-bold">FEMALE</div>
-                            <div v-for="(enroll, index) in item.enrollees" :key="`$enrolleesFemale${index}`">
-                                <div v-if="enroll.learner.sex === 'FEMALE'">
-                                    {{ enroll.learner.lname }},  {{ enroll.learner.fname }} {{ enroll.learner.mname }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                
-                <div v-if="item.enrollees.length > 0" class="has-text-centered">
-                    <hr>
-                    **END SECTION**
-                </div>
             </div><!--loop-->
 
         </div>
@@ -87,13 +73,14 @@ export default{
 
     methods: {
         loadReportLearner(){
-            axios.get('/get-report-class-list').then(res=>{
+            console.log(this.academicYear);
+            axios.get('/get-report-class-list-by-subject?ayid=' + this.academicYear.academic_year_id).then(res=>{
                 this.classLists = res.data
             })
         },
 
-        loadActiveAcademicYear(){
-            axios.get('/load-academic-year').then(res=>{
+        async loadActiveAcademicYear(){
+            await axios.get('/load-academic-year').then(res=>{
                 this.academicYear = res.data
             })
    
@@ -101,8 +88,9 @@ export default{
     },
 
     mounted(){
-        this.loadActiveAcademicYear()
-        this.loadReportLearner()
+        this.loadActiveAcademicYear().then(()=>{
+            this.loadReportLearner()
+        })
     }
 }
 </script>

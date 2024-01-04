@@ -194,7 +194,9 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/report-class-list', [App\Http\Controllers\Administrator\ReportClassListController::class, 'index']);
     Route::get('/get-report-class-list', [App\Http\Controllers\Administrator\ReportClassListController::class, 'getReportClassList']);
 
+    Route::get('/get-report-class-list-by-subject', [App\Http\Controllers\Administrator\ReportClassListController::class, 'getReportClassListBySubject']);
 
+    
 
 });
 
