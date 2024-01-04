@@ -146,9 +146,9 @@
 
                 <b-navbar-dropdown label="Records">
 
-                    <b-navbar-item href="/enrollee-grades">
+                    {{-- <b-navbar-item href="/enrollee-grades">
                         Learner Grades
-                    </b-navbar-item>
+                    </b-navbar-item> --}}
 
                     <b-navbar-item href="/enrollee-credentials">
                         Credentials
@@ -164,6 +164,9 @@
                 <b-navbar-dropdown label="Report">
                     <b-navbar-item href="/report-class-list">
                         Class List
+                    </b-navbar-item>
+                    <b-navbar-item href="/report-enrolment-list">
+                        Enrolment List
                     </b-navbar-item>
                 </b-navbar-dropdown>
 

@@ -74,6 +74,9 @@ class EnrolleeController extends Controller
 
 
 
+
+    
+
     public function coeIndex($learnerId, $ayId){
         return view('administrator.enrollee.report.coe-index')
             ->with('learnerId', $learnerId)

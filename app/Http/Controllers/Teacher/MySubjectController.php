@@ -23,6 +23,9 @@ class MySubjectController extends Controller
 
         $data = EnrollSubject::join('enrolls', 'enroll_subjects.enroll_id', 'enrolls.enroll_id')
             ->join('subjects', 'enroll_subjects.subject_id', 'subjects.subject_id')
+            ->join('sections', 'enrolls.section_id', 'sections.section_id')
+            ->leftJoin('tracks', 'enrolls.track_id', 'tracks.track_id')
+            ->leftJoin('strands', 'enrolls.strand_id', 'strands.strand_id')
             ->where('teacher_id', $user->user_id)
             ->where('academic_year_id', $req->academic)
             ->groupBy('enrolls.section_id')

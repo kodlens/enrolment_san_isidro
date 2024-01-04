@@ -57,7 +57,8 @@ class Enroll extends Model
     }
 
     public function section_subjects(){
-        return $this->hasMany(EnrollSubject::class, 'enroll_id', 'enroll_id');
+        return $this->hasMany(EnrollSubject::class, 'enroll_id', 'enroll_id')
+        ->with(['teacher']);
     }
 
     

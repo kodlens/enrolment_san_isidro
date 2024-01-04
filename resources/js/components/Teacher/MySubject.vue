@@ -72,6 +72,17 @@
                                 {{ props.row.grade_level }}
                             </b-table-column>
 
+                            <b-table-column field="section" label="Section" v-slot="props">
+                                {{ props.row.section }}
+                            </b-table-column>
+
+                            <b-table-column field="track_strand" label="Track/Strand" v-slot="props">
+                                <span v-if="props.row.track_id">
+                                    {{ props.row.track }} / {{ props.row.strand }}
+                                </span>
+                                <span v-else>N/A</span>
+                            </b-table-column>
+
                             <b-table-column field="subject" label="Subject" v-slot="props">
                                 {{ props.row.subject_code }}
                             </b-table-column>

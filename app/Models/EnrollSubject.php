@@ -26,7 +26,7 @@ class EnrollSubject extends Model
     }
 
     public function teacher(){
-        return $this->hasOne(User::class, 'user_id', 'user_id');
+        return $this->hasOne(User::class, 'user_id', 'teacher_id');
     }
 
 }

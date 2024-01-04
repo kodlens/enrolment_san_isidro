@@ -32,6 +32,7 @@
                         <span v-if="learner.track">
                             {{ learner.track.track }} - {{ learner.strand.strand }}
                         </span>
+                        <span v-else>N/A</span>
                     </td>
                 </tr>
             </table>
@@ -49,7 +50,14 @@
                         <td>{{ item.subject.subject_description }}</td>
                         <td>____________________</td>
                         <td>____________________</td>
-                        <td>____________________</td>
+                        <td>
+                            <span v-if="item.teacher">
+                                {{ item.teacher.lname }}, {{ item.teacher.fname }} {{ item.teacher.mname }}
+                            </span>
+                            <span v-else>
+                                ____________________
+                            </span>
+                        </td>
                     </tr>
                 </table>
           
@@ -84,6 +92,7 @@ export default{
         loadReportLearner(){
             axios.get('/get-report-learner/' + this.propLearnerId + '/' + this.propAcademicYearId).then(res=>{
                 this.learner = res.data
+                console.log(this.learner);
             })
         }
     },

@@ -87,6 +87,8 @@ Route::middleware(['auth', 'teacher'])->group(function(){
     Route::get('/grade-entry', [App\Http\Controllers\Teacher\GradeEntryController::class, 'index']);
     Route::get('/get-my-learners', [App\Http\Controllers\Teacher\GradeEntryController::class, 'getMyLearners']);
     
+    Route::post('/save-grade', [App\Http\Controllers\Teacher\GradeEntryController::class, 'store']);
+    
 
 });
 

@@ -103,7 +103,7 @@
                         <div class="buttons mt-4 is-right">
                             <b-button class="is-primary has-text-weight-bold"
                                 @click="submit"
-                                label="SAVE GRADE lEVEL SUBJECTS" icon-right="arrow-right"></b-button>
+                                label="SAVE GRADE LEVEL SUBJECTS" icon-right="arrow-right"></b-button>
                         </div>
                         
                     </div> <!--panel-->
