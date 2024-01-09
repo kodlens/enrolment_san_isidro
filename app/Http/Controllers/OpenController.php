@@ -10,7 +10,7 @@ use App\Models\Track;
 use App\Models\Strand;
 use App\Models\GradeLevel;
 use App\Models\Section;
-use App\Models\Miscellaneous;
+use App\Models\OtherFee;
 use App\Models\Curriculum;
 use App\Models\GradeLevelSubject;
 

@@ -176,6 +176,8 @@
                                 <div>{{ item.description }} - {{ item.amount }}</div>
                             </div>
                             <div>TOTAL SUBJECT FEE: <span>{{ totalFee }}</span></div>
+                           
+
                             <div class="has-text-weight-bold">TOTAL FEE: <span>{{ finalTotalFee }}</span></div>
                           
                         </div>
@@ -332,6 +334,8 @@ export default{
             })
         },
 
+    
+
 
         clearFields(){
             this.enrollee = {
@@ -364,6 +368,7 @@ export default{
         this.loadSemesters()
         this.loadTracks()
         this.loadGradeLevels()
+        this.loadOtherFees()
     },
 
 
