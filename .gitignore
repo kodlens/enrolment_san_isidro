@@ -5,6 +5,7 @@
 /storage/framework/*
 /vendor
 /storage/framework/views
+/storage/logs/*
 .env
 .env.backup
 .phpunit.result.cache
