@@ -8,7 +8,7 @@
                 </div>
                 <div>
                     <div class="has-text-weight-bold has-text-centered is-size-5">
-                        CLASS LIST
+                        School Form 1 (SF 1) School Registrar
                     </div>
                     <div class="has-text-weight-bold has-text-centered mb-4 is-size-6" v-if="academicYear">
                         {{ academicYear.academic_year_code }} - {{ academicYear.academic_year_desc }}
@@ -19,16 +19,45 @@
             </div>
 
 
-            <table class="enrolment-table" style="margin: auto;">
+            <table class="enrolment-table" border="1" style="margin: auto;">
                 <tr>
                     <th>LRN</th>
                     <th>NAME</th>
                     <th>SEX</th>
-                    <th>GRADE LEVEL</th>
-                    <th>SECTION</th>
-                    <th>TRACK/STRAND</th>
+                    <th>BIRTHDATE</th>
+                    <th>AGE</th>
+                    <th>MOTHER TONGUE</th>
+                    <th>IP</th>
+                    <th>RELIGION</th>
+                    <th colspan="4">ADDRESS</th>
+                    <th colspan="2">PARENTS</th>
+                    <th colspan="2">GUARDIAN</th>
+                    <th rowspan="2">Contact Number</th>
+                    <th>Remarks</th>
+                
                 </tr>
-                <tr v-for="(item, index) in classLists" :key="index">
+
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>House St. Purok</th>
+                    <th>Barangay</th>
+                    <th>Municipality/City</th>
+                    <th>Province</th>
+                    <th>Father's Name</th>
+                    <th>Mother Maiden Name</th>
+                    <th>Name</th>
+                    <th>Relationship</th>
+
+                </tr>
+
+                <tr v-for="(item, index) in enrollees" :key="index">
                     <td>{{ item.learner.lrn }}</td>
                     <td>
                         {{ item.learner.lname }}, {{ item.learner.fname }} {{ item.learner.mname }}
@@ -79,7 +108,7 @@ export default{
         return {
             learner: {},
 
-            classLists: [],
+            enrollees: [],
             academicYear: {},
         }
     },
@@ -88,7 +117,7 @@ export default{
         loadReportLearner(){
             console.log(this.academicYear);
             axios.get('/get-report-enrolment-list?ayid=' + this.academicYear.academic_year_id).then(res=>{
-                this.classLists = res.data
+                this.enrollees = res.data
             })
         },
 
@@ -123,5 +152,10 @@ export default{
 .enrolment-table{
     border: 1px solid gray;
     font-size: 12px;
+}
+
+.enrolment-table > tr > th {
+    text-align: center;
+    font-size: 10px;
 }
 </style>

@@ -17,7 +17,12 @@ class EnrollSubject extends Model
         'enroll_id',
         'subject_id',
         'grade',
-        'teacher_id'
+        'teacher_id',
+        'first_grading',
+        'second_grading',
+        'third_grading',
+        'fourth_grading',
+        'remarks'
     ];
 
 

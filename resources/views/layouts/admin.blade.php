@@ -164,7 +164,6 @@
                         Credential List
                     </b-navbar-item>
 
-
                 </b-navbar-dropdown>
 
                 <b-navbar-dropdown label="Report">

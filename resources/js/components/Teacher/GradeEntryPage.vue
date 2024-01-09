@@ -17,7 +17,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Name</th>
-                                <th>Grade</th>
+                                <th>1st Grading</th>
                             </tr>
                             <tr v-for="(item, index) in data" :key="`student${index}`">
                                 <td>{{ item.enroll_subject_id }}</td>
