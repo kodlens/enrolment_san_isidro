@@ -28,7 +28,7 @@ class Learner extends Model
         'birthplace',
         'age',
         'last_school_attended',
-
+        
         'country',
         'province',
         'city',
@@ -36,9 +36,14 @@ class Learner extends Model
         'street',
         'zipcode',
 
+        
 
         'email',
         'contact_no',
+        'religion',
+
+        'mother_tongue',
+        'ip',
 
         'father_lname',
         'father_fname',
@@ -61,6 +66,8 @@ class Learner extends Model
         'guardian_mname',
         'guardian_extension',
         'guardian_contact_no',
+        'guardian_relationship',
+
 
         // 'last_grade_level_completed',
         // 'last_school_year_completed',
@@ -111,6 +118,9 @@ class Learner extends Model
     public function credentials(){
         return $this->hasMany(EnrolleeCredential::class, 'learner_id', 'learner_id');
     }
+
+
+
 
 
 }

@@ -160,7 +160,29 @@
                                 </div> <!--col--> 
                             </div> <!--cols-->
 
-
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Religion"
+                                        :type="errors.religion ? 'is-danger':''"
+                                        :message="errors.religion ? errors.religion[0] : ''">
+                                        <b-input type="text" v-model="fields.religion" placeholder="Religion"></b-input>
+                                    </b-field>
+                                </div> <!--col--> 
+                                <div class="column">
+                                    <b-field label="Contact No."
+                                        :type="errors.contact_no ? 'is-danger':''"
+                                        :message="errors.contact_no ? errors.contact_no[0] : ''">
+                                        <b-input type="text" v-model="fields.contact_no" placeholder="Contact No."></b-input>
+                                    </b-field>
+                                </div> <!--col--> 
+                                <div class="column">
+                                    <b-field label="Email"
+                                        :type="errors.email ? 'is-danger':''"
+                                        :message="errors.email ? errors.email[0] : ''">
+                                        <b-input type="text" v-model="fields.email" placeholder="Email"></b-input>
+                                    </b-field>
+                                </div> <!--col--> 
+                            </div> <!--cols-->
 
                             <!-- Current Address -->
 
@@ -362,10 +384,6 @@
                                         <b-input icon="account" v-model="fields.guardian_fname" placeholder="Guardian First Name" type="text"></b-input>
                                     </b-field>
                                 </div>
-                            </div>
-
-
-                            <div class="columns">
                                 <div class="column">
                                     <b-field label="Guardian Middle Name">
                                         <b-input v-model="fields.guardian_mname"
@@ -373,14 +391,16 @@
                                             type="text" placeholder="Guardian Middle Name"></b-input>
                                     </b-field>
                                 </div>
+                            </div>
 
+
+                            <div class="columns">
                                 <div class="column">
                                     <b-field label="Guardian Extension">
                                         <b-input v-model="fields.guardian_extension"
                                             icon="account" type="text" placeholder="Guardian Extension"></b-input>
                                     </b-field>
                                 </div>
-
 
 
                                 <div class="column">
@@ -393,6 +413,15 @@
                                             placeholder="Guardian Contact No."></b-input>
                                     </b-field>
                                 </div>
+
+                                <div class="column">
+                                    <b-field label="Guardian Relationship">
+                                        <b-input v-model="fields.guardian_extension"
+                                            icon="account" type="text" placeholder="Guardian Relationship"></b-input>
+                                    </b-field>
+                                </div>
+
+                               
                             </div>
 
 

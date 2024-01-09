@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="print-area">
+        <div class="p-area">
 
             <div class="header">
                 <div>
@@ -19,16 +19,16 @@
             </div>
 
 
-            <table class="enrolment-table" border="1" style="margin: auto;">
+            <table class="enrolment-table" border="1">
                 <tr>
-                    <th>LRN</th>
-                    <th>NAME</th>
-                    <th>SEX</th>
-                    <th>BIRTHDATE</th>
-                    <th>AGE</th>
-                    <th>MOTHER TONGUE</th>
-                    <th>IP</th>
-                    <th>RELIGION</th>
+                    <th rowspan="2">LRN</th>
+                    <th rowspan="2">NAME</th>
+                    <th rowspan="2">SEX</th>
+                    <th rowspan="2">BIRTHDATE</th>
+                    <th rowspan="2">AGE</th>
+                    <!-- <th rowspan="2">MOTHER TONGUE</th>
+                    <th rowspan="2">IP</th> -->
+                    <th rowspan="2">RELIGION</th>
                     <th colspan="4">ADDRESS</th>
                     <th colspan="2">PARENTS</th>
                     <th colspan="2">GUARDIAN</th>
@@ -38,14 +38,7 @@
                 </tr>
 
                 <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    
                     <th>House St. Purok</th>
                     <th>Barangay</th>
                     <th>Municipality/City</th>
@@ -62,30 +55,35 @@
                     <td>
                         {{ item.learner.lname }}, {{ item.learner.fname }} {{ item.learner.mname }}
                     </td>
-                    <td>
-                        {{ item.learner.sex }}
-                    </td>
-                    <td>
-                        {{ item.grade_level }}
-                    </td>
+                    <td>{{ item.learner.sex }}</td>
+                    <td>{{ item.learner.birthdate }}</td>
+                    <td>{{ item.learner.age }}</td>
+
+                   <td>{{ item.learner.religion }}</td>
                    
+                   <td>{{ item.learner.street }}</td>
+                   <td>{{ item.learner.barangay.brgyDesc }}</td>
+                   <td>{{ item.learner.city.citymunDesc }}</td>
+                   <td>{{ item.learner.province.provDesc }}</td>
                    
-                    <td>
-                        {{ item.section.section }}
-                    </td>
-                    <td>
-                        <span v-if="item.learner.track">
-                            {{ item.learner.track.track }}
+                   <td>
+                    <span v-if="item.learner.father_lname">
+                        {{ item.learner.father_lname }}, {{ item.learner.father_fname }} {{ item.learner.father_mname }}
+                    </span>
+                </td>
+                   <td>
+                        <span v-if="item.learner.father_lname">
+                            {{ item.learner.mother_maiden_lname }}, {{ item.learner.mother_maiden_fname }} {{ item.learner.mother_maiden_mname }}
                         </span>
-                        <span v-else>N/A</span>
-                    </td>
-                   
+                   </td>
+
+                   <td>{{ item.learner.guardian_lname }}, {{ item.learner.guardian_fname }} {{ item.learner.guardian_mname }}</td>
+                   <td></td>
+                   <td>{{ item.learner.contact_no }}</td>
+                   <td></td>
                 </tr>
             </table>
        
-
-            </div><!--loop-->
-
         </div>
     </div>
 </template>
@@ -158,4 +156,10 @@ export default{
     text-align: center;
     font-size: 10px;
 }
+.enrolment-table > tr > td{
+    padding: 0 15px;
+    font-size: 10px;
+}
+
+@media print{@page {size: landscape}}
 </style>

@@ -127,6 +127,9 @@ class ManageLearnerController extends Controller
             'barangay' => $req->barangay,
             'street' => strtoupper($req->street),
             'zipcode' => $req->zipcode,
+            'religion' => $req->religion,
+            'email' => $req->email,
+            'contact_no' => $req->contact_no,
 
             'father_lname' => strtoupper($req->father_lname),
             'father_fname' => strtoupper($req->father_fname),
@@ -149,6 +152,7 @@ class ManageLearnerController extends Controller
             'guardian_mname' => strtoupper($req->guardian_mname),
             'guardian_extension' => strtoupper($req->guardian_mname),
             'guardian_contact_no' => $req->guardian_contact_no,
+            'guardian_relationship' => $req->guardian_relationship,
 
             'semester_id' => $req->grade_level['curriculum_code'] == 'SHS' ? $req->semester_id : null,
             'track_id' => $req->grade_level['curriculum_code'] == 'SHS' ? $req->track_id : null,
