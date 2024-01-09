@@ -174,6 +174,9 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/get-payment-history', [App\Http\Controllers\Administrator\PaymentHistoryController::class, 'getData']);
     
 
+    Route::resource('/other-fees', App\Http\Controllers\Administrator\OtherFeeController::class);
+    Route::get('/get-other-fees', [App\Http\Controllers\Administrator\OtherFeeController::class, 'getData']);
+
     Route::resource('/enrollee-grades', App\Http\Controllers\Administrator\EnrolleeGradeController::class);
     Route::get('/get-enrollee-grades', [App\Http\Controllers\Administrator\EnrolleeGradeController::class, 'getData']);
     Route::get('/get-enrollee-grades-by-learner', [App\Http\Controllers\Administrator\EnrolleeGradeController::class, 'getEnrolleeGradeByLearner']);

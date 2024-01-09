@@ -17,6 +17,7 @@ class OtherFee extends Model
     protected $fillable = [
         'description',
         'amount',
+        'is_active'
     ];
     
 

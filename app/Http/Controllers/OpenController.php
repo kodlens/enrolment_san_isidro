@@ -63,7 +63,7 @@ class OpenController extends Controller
     }
 
     public function loadOtherFees(){
-        return Miscellaneous::orderBy('description', 'asc')
+        return OtherFee::orderBy('description', 'asc')
             ->get();
     }
 
