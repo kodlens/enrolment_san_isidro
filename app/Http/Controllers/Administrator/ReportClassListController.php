@@ -60,12 +60,15 @@ class ReportClassListController extends Controller
             ->join('academic_years', 'enrolls.academic_year_id', 'academic_years.academic_year_id')
             ->leftJoin('tracks', 'enrolls.track_id', 'tracks.track_id')
             ->leftJoin('strands', 'enrolls.strand_id', 'strands.strand_id')
+            ->leftJoin('users', 'enroll_subjects.teacher_id', 'users.user_id')
+
             ->where('enrolls.academic_year_id', $ayId)
             ->get(['enrolls.academic_year_id', 'academic_years.academic_year_code', 'academic_years.academic_year_desc', 
                 'enroll_subjects.subject_id', 'subjects.subject_code', 'subjects.subject_description',
                 'enrolls.section_id', 'sections.section', 
                 'enrolls.grade_level', 'enrolls.track_id', 'tracks.track', 
-                'enrolls.strand_id', 'strands.strand'
+                'enrolls.strand_id', 'strands.strand',
+                'users.lname as teacher_lname', 'users.fname as teacher_fname', 'users.mname as teacher_mname', 'users.sex as teacher_sex'
                 ]);
 
      
@@ -84,7 +87,10 @@ class ReportClassListController extends Controller
                 'grade_level' => $subject['grade_level'],
                 'track' => $subject['track'],
                 'strand' => $subject['strand'],
-
+                'teacher_lname' => $subject['teacher_lname'],
+                'teacher_fname' => $subject['teacher_fname'],
+                'teacher_mname' => $subject['teacher_mname'],
+                'teacher_sex' => $subject['teacher_sex'],
             ]);
         }
 
@@ -122,7 +128,12 @@ class ReportClassListController extends Controller
                     'grade_level' => $res['grade_level'],
                     'track' => $res['track'],
                     'strand' => $res['strand'],
-                    'students' => $data
+                    'teacher_lname' => $res['teacher_lname'],
+                    'teacher_fname' => $res['teacher_fname'],
+                    'teacher_mname' => $res['teacher_mname'],
+                    'teacher_sex' => $res['teacher_sex'],
+                    'students' => $data,
+                    
                 ]
             );
         }

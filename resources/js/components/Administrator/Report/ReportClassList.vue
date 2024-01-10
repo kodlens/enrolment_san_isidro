@@ -23,6 +23,9 @@
                     <div class="has-text-weight-bold" v-if="item.track">
                        TRACK / STRAND: {{ item.track }} - {{ item.strand }}
                     </div>
+                    <div class="has-text-weight-bold" v-if="item.teacher_lname">
+                       TEACHER: {{ item.teacher_lname }}, {{ item.teacher_fname }} {{ item.teacher_mname }}
+                    </div>
                     <!--div class="mb-4 has-text-centered">
                         {{ item.academic_year[0].academic_year_code }}
                         -
