@@ -58,7 +58,6 @@ class ManageLearnerController extends Controller
 
 
     public function store(Request $req){
-       
   
         $req->validate([
 
@@ -76,6 +75,8 @@ class ManageLearnerController extends Controller
             'city' => ['required'],
             'barangay' => ['required'],
             'zipcode' => ['max:15'],
+
+            'contact_no' => ['required'],
 
             'guardian_lname' => ['required'],
             'guardian_fname' => ['required'],
@@ -127,8 +128,8 @@ class ManageLearnerController extends Controller
             'barangay' => $req->barangay,
             'street' => strtoupper($req->street),
             'zipcode' => $req->zipcode,
-            'religion' => $req->religion,
-            'email' => $req->email,
+            'religion' => strtoupper($req->religion),
+            //'email' => $req->email,
             'contact_no' => $req->contact_no,
 
             'father_lname' => strtoupper($req->father_lname),
@@ -150,9 +151,9 @@ class ManageLearnerController extends Controller
             'guardian_lname' => strtoupper($req->guardian_lname),
             'guardian_fname' => strtoupper($req->guardian_fname),
             'guardian_mname' => strtoupper($req->guardian_mname),
-            'guardian_extension' => strtoupper($req->guardian_mname),
+            'guardian_extension' => strtoupper($req->guardian_extension),
             'guardian_contact_no' => $req->guardian_contact_no,
-            'guardian_relationship' => $req->guardian_relationship,
+            'guardian_relationship' => strtoupper($req->guardian_relationship),
 
             'semester_id' => $req->grade_level['curriculum_code'] == 'SHS' ? $req->semester_id : null,
             'track_id' => $req->grade_level['curriculum_code'] == 'SHS' ? $req->track_id : null,
@@ -189,6 +190,7 @@ class ManageLearnerController extends Controller
             'city' => ['required'],
             'barangay' => ['required'],
             'zipcode' => ['max:15'],
+            'contact_no' => ['required'],
 
             'guardian_lname' => ['required'],
             'guardian_fname' => ['required'],
@@ -232,12 +234,13 @@ class ManageLearnerController extends Controller
                 'age' => $req->age,
                 'birthplace' => strtoupper($req->birthplace),
 
-   
                 'province' => $req->province,
                 'city' => $req->city,
                 'barangay' => $req->barangay,
                 'street' => strtoupper($req->street),
                 'zipcode' => $req->zipcode,
+                'contact_no' => $req->contact_no,
+                'religion' => strtoupper($req->religion),
 
                 // 'permanent_province' => $req->permanent_province,
                 // 'permanent_city' => $req->permanent_city,
@@ -262,8 +265,9 @@ class ManageLearnerController extends Controller
                 'guardian_lname' => strtoupper($req->guardian_lname),
                 'guardian_fname' => strtoupper($req->guardian_fname),
                 'guardian_mname' => strtoupper($req->guardian_mname),
-                'guardian_extension' => strtoupper($req->guardian_mname),
+                'guardian_extension' => strtoupper($req->guardian_extension),
                 'guardian_contact_no' => $req->guardian_contact_no,
+                'guardian_relationship' => strtoupper($req->guardian_relationship),
 
                 // 'last_grade_level_completed' => $lastGradeLevelCompleted,
                 // 'last_school_year_completed' => $lastSchoolYearCompleted,

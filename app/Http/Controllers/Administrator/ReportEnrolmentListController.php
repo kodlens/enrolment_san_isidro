@@ -16,9 +16,14 @@ class ReportEnrolmentListController extends Controller
 
 
     public function getReportEnrolmentList(Request $req){
-        $ayId =$req->ayid;
+        $ayId =$req->academic;
+        $gradeLevel =$req->grade;
+        $sectionId =$req->section;
 
         $enrols = Enroll::with(['academic_year', 'section', 'track', 'strand', 'learner', 'learner.province', 'learner.city', 'learner.barangay'])
+            ->where('academic_year_id', $ayId)
+            ->where('grade_level', $gradeLevel)
+            ->where('section_id', $sectionId)
             ->get();
 
         return $enrols;
